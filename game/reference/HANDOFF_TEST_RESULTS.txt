@@ -1,0 +1,36 @@
+PASS fresh game, exact initial cash and empty holdings
+PASS half buy uses half cash including fee and full sell conserves accounting
+PASS all-in includes fees; partial cost basis reconciles after final sale
+PASS one share cannot half-sell; invalid and empty orders are rejected
+PASS pause freezes money, time, prices and jobs
+PASS work earns exactly 500 and simulates exactly 20 ticks
+PASS exactly 600 seconds ends day 30; all actions remain blocked
+PASS 30 full work days finish cleanly, wages not skipped
+PASS hitting target wins immediately
+PASS news appears, decays, and learning points appear only once
+PASS restart resets all state, tips, effects and histories
+PASS 100 randomized complete games preserve monetary and stock invariants
+PASS simplified UI starts with half selected and all three main actions
+PASS fraction selection, full buy, half sell, full sell and double-click protection
+PASS switching stock updates single chart and selected-position summary
+PASS keyboard tabs change selection and focus
+PASS paused state freezes gameplay and automatic background pause never auto-resumes
+PASS single-share half sell is disabled and all selection allows sale
+PASS work feedback, one-day advance, and click cooldown
+PASS educational hint is temporary and each event appears once
+PASS 30-day result and restart clear UI state without a second timer
+PASS blocked local storage does not stop game or results
+PASS normal flow layout has separate learning and start screen outside chart
+PASS every candle exactly aggregates five ticks into true OHLC, continuous opens
+PASS current candle grows live; trade and news markers have correct boundary indices
+PASS history scrubber and live view show actual events and reset per stock and game
+PASS candle geometry remains finite for flat, extreme and out-of-range cost cases
+PASS positive news is not a guarantee; stocks have independent directions
+  stock 0: 63 losing runs, 0 target wins / 100
+  stock 1: 52 losing runs, 3 target wins / 100
+  stock 2: 53 losing runs, 0 target wins / 100
+PASS no guaranteed rising stock across seeded buy-and-hold runs
+PASS zoom shows fewer recent bars, preserves historical selection and resets
+PASS knowledge tips occupy their own row and restore the legend after expiration
+
+31 checks passed. DOM simulation only; real browser rendering unverified.

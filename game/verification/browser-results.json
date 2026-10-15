@@ -1,0 +1,43 @@
+{
+  "browser": "154.0.8037.57",
+  "checks": 21,
+  "results": [
+    "desktop — no overlap, clipping or blocked chart/trade controls",
+    "desktop — original-map pin aligned at both sizes; map dialog keyboard close",
+    "desktop — news/trade markers, touch-sized controls, history, zoom and pause",
+    "desktop — full 30-day timer, result, best-score storage, restart and work double-click protection",
+    "wide — no overlap, clipping or blocked chart/trade controls",
+    "wide — original-map pin aligned at both sizes; map dialog keyboard close",
+    "wide — news/trade markers, touch-sized controls, history, zoom and pause",
+    "mobile — no overlap, clipping or blocked chart/trade controls",
+    "mobile — original-map pin aligned at both sizes; map dialog keyboard close",
+    "mobile — news/trade markers, touch-sized controls, history, zoom and pause",
+    "small-phone — no overlap, clipping or blocked chart/trade controls",
+    "small-phone — original-map pin aligned at both sizes; map dialog keyboard close",
+    "small-phone — news/trade markers, touch-sized controls, history, zoom and pause",
+    "small-window — no overlap, clipping or blocked chart/trade controls",
+    "small-window — original-map pin aligned at both sizes; map dialog keyboard close",
+    "small-window — news/trade markers, touch-sized controls, history, zoom and pause",
+    "native browser 200% — no overlap, clipping or blocked chart/trade controls",
+    "native-200-percent — original-map pin aligned at both sizes; map dialog keyboard close",
+    "native browser 200% — confirmed 1366×768 screen / 683×384 CSS viewport / DPR 2",
+    "network-off gameplay after asset load — original assets, immediate win and blocked storage",
+    "all browser scenarios — no uncaught JavaScript errors"
+  ],
+  "errors": [],
+  "limitations": [
+    "This managed Chromium blocks file:// URLs (ERR_BLOCKED_BY_ADMINISTRATOR); direct-file loading was not validated."
+  ],
+  "nativeZoom": {
+    "screen": [
+      1366,
+      768
+    ],
+    "cssViewport": [
+      683,
+      384
+    ],
+    "devicePixelRatio": 2
+  },
+  "note": "Chromium desktop rendering with mobile viewport/touch emulation; not physical iOS/Android testing."
+}
