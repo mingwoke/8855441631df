@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#100d0e"><meta name="description" content="驻守零号大坝的阿萨拉卫队小兵，拿着一万哈夫币积蓄偷偷炒股。三十天，试试能否离开哨所。纯前端虚构股票小游戏。">
+<meta name="theme-color" content="#0d0b0c"><meta name="description" content="驻守零号大坝的阿萨拉卫队小兵，拿着一万哈夫币积蓄偷偷炒股。三十天，试试能否离开哨所。纯前端虚构股票小游戏。">
 <title>阿萨拉小兵的炒股梦</title><link rel="icon" href="data:,"><link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <main class="app" id="app" hidden>
-<div class="identity"><h1>阿萨拉小兵的炒股梦</h1><span class="identity-note">阿萨拉卫队 · 值守中</span></div>
+<div class="identity"><div class="identity-brand"><img class="faction-emblem" src="assets/asara-emblem.png" alt="阿萨拉卫队徽记" width="70" height="70"><h1>阿萨拉小兵的炒股梦</h1></div><span class="identity-note">阿萨拉卫队 · 值守中</span></div>
 <header class="topbar">
 <div><div class="label">总资产 · 哈夫币</div><div class="assets currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="totalValue">10,000</span></div></div>
 <div><div class="label">可用现金</div><div class="cash currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="cashValue">10,000</span></div></div>
@@ -26,7 +26,7 @@
 <div class="ohlc" id="ohlc">开 20.00　高 20.00　低 20.00　收 20.00</div>
 <div class="plot" id="plot"><svg class="chart" id="chart" viewBox="0 0 800 260" role="img" aria-label="股票蜡烛K线"></svg></div>
 <div class="chart-bottom"><div class="history"><label for="historyRange">回看</label><input id="historyRange" type="range" min="0" max="0" value="0" aria-label="回看本局K线"><button class="live" id="liveButton">● 实时</button></div><div class="zoom" role="group" aria-label="K线缩放"><button id="zoomOut" aria-label="缩小K线，查看更多日期">−</button><span id="zoomLabel">近6天</span><button id="zoomIn" aria-label="放大K线，查看近期变化">＋</button></div></div>
-<div class="chart-meta"><span id="connectionState">等待接入</span><span class="cost-legend" id="costLegend">每根5秒 · 涨红跌青</span></div>
+<div class="chart-meta"><span id="connectionState">等待接入</span><span class="cost-legend" id="costLegend">每根5秒 · 涨绿跌红</span></div>
 <div class="inspect" id="inspectText">点击 K 线查看成交与新闻。</div>
 </section>
 <aside class="field-panel" aria-label="零号大坝地图与广播">
@@ -40,7 +40,7 @@
 <div class="learning"><span class="learning-label">随身笔记</span><span id="learningDefault">买 / 卖 = 成交，! = 新闻。点 K 线或拖动回看。</span><span class="tip" id="tip" role="status" hidden></span></div>
 <div class="trade-panel"><div class="wallet"><div class="wallet-item"><div class="wallet-label" id="positionLabel">哈夫克股份 · 持仓</div><div class="wallet-value" id="shareValue">0 股</div></div><div class="wallet-item"><div class="wallet-label">平均成本 · 含买入费</div><div class="wallet-value currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="averageValue">—</span></div></div><div class="wallet-item"><div class="wallet-label">持仓盈亏</div><div class="wallet-value currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="positionPnl">—</span></div><div class="wallet-sub">未扣卖出费用</div></div><span class="sr-only" id="positionDetails"></span></div>
 <div class="dock"><div class="dock-top"><div class="size-group"><span class="size-label">仓位</span><div class="fraction" role="group" aria-label="买卖数量"><button id="halfButton" aria-pressed="true">半仓</button><button id="allButton" aria-pressed="false">全部</button></div></div><span class="fee-label">买入用现金 · 卖出按持股</span></div>
-<div class="actions"><button class="action buy" id="buyButton" disabled>买入</button><button class="action sell" id="sellButton" disabled>卖出</button><button class="action work" id="workButton" disabled><span id="workTitle">打工</span><small class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="workHelp">+1,000 · 半天（10秒）</span></small></button></div>
+<div class="actions"><button class="action buy" id="buyButton" disabled>买入</button><button class="action sell" id="sellButton" disabled>卖出</button><button class="action work" id="workButton" disabled><span id="workTitle">打工</span><small class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="workHelp">报酬随工作变化 · 半天</span></small></button></div>
 <div class="order-preview"><span id="buyPreview"></span><span id="sellPreview"></span><span id="jobPreview"></span></div>
 <p class="work-summary" id="workSummary" role="status" hidden></p>
 <div class="feedback" role="status" aria-live="polite"><span class="feedback-main flat" id="feedbackText">只有积蓄，没有内部消息。</span><span class="feedback-fee" id="feeText">买卖各收 0.1%</span></div>
@@ -49,13 +49,13 @@
 </main>
 <div class="chart-cover" id="chartCover" role="dialog" aria-modal="true" aria-labelledby="coverTitle">
 <div class="cover-map"><div class="map-caption">零号大坝 / 你的值守地点</div><svg class="map-surface" viewBox="250 0 1300 873" role="img" aria-label="用户提供的零号大坝局部地图"><image href="assets/zero-dam.png" width="1910" height="873"/></svg><p>阿萨拉卫队控制 · 赛伊德驻守<br>广播里正在骂哈夫克，你却能买它的股票。</p></div>
-<div class="cover-content"><div class="eyebrow">阿萨拉卫队 · 换班前的十分钟</div><h2 id="coverTitle">阿萨拉小兵的<br><em>炒股梦</em></h2><p id="coverText">一万哈夫币，是你全部的积蓄。<br>三十天值守，偷空看消息、买卖股票、打工。<br>如果赚到一百万，就离开这座哨所。</p><div class="cover-rules"><span class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span>10,000 开局</span><span>20秒 = 1天</span><span>100 万离开哨所</span><span>打工 +1,000 / 半天</span></div><button class="start" id="startButton">进入哨所 →</button><p class="cover-disclaimer" id="coverDisclaimer">目标极难，股票不会保证上涨。<br>股票上市、企业「阿萨拉基建」与新闻事件均为二次创作。<br>行情为虚构且波动夸张，100 万是游戏挑战，不代表现实投资回报。</p></div></div>
+<div class="cover-content"><div class="faction-signature"><img class="faction-emblem" src="assets/asara-emblem.png" alt="阿萨拉卫队徽记" width="70" height="70"><div><span>阿萨拉卫队</span><small>零号大坝 · 值守终端</small></div></div><div class="eyebrow">换班前的十分钟</div><h2 id="coverTitle">阿萨拉小兵的<br><em>炒股梦</em></h2><p id="coverText">一万哈夫币，是你全部的积蓄。<br>三十天值守，偷空看消息、买卖股票、打工。<br>如果赚到一百万，就离开这座哨所。</p><div class="cover-rules"><span class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span>10,000 开局</span><span>20秒 = 1天</span><span>100 万离开哨所</span><span>打工 500～2,000 / 半天</span></div><button class="start" id="startButton">进入哨所 →</button><p class="cover-disclaimer" id="coverDisclaimer">目标极难，股票不会保证上涨。<br>股票上市、企业「阿萨拉基建」与新闻事件均为二次创作。<br>行情为虚构且波动夸张，100 万是游戏挑战，不代表现实投资回报。</p><details class="cover-lore"><summary>卫队档案</summary><p>卫队由阿萨拉本地多方势力联合组建，反对哈夫克对国家的控制。推翻国王后，尤瑟夫单方面宣布继位，各方随之陷入内讧。</p><p>本局驻守零号大坝。卫队与哈夫克敌对，GTI 也不是卫队盟友。股票、打工安排与具体事件均为游戏二次创作。</p></details></div></div>
 <div class="modal" id="endOverlay" role="dialog" aria-modal="true" aria-labelledby="endTitle" hidden><div class="result"><div class="result-heading"><span>阿萨拉 / 值守结算</span><span id="endDay">30天 · 收盘</span></div><h2 id="endTitle">换班了。</h2><p class="short-help" id="resultTitle"></p><div class="result-assets currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endAssets">10,000</span></div><div class="result-growth"><span id="endReturn">+0.00%</span> <small>较开局，含打工收入</small></div><div class="result-list"><div class="result-row"><span>交易与持仓净收益</span><b id="endTrading">0</b></div><div class="result-row"><span>打工赚了</span><b class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endWages">0</span></b></div><div class="result-row"><span>已付手续费 · 已计入净收益</span><b class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endFees">0.00</span></b></div><div class="result-row"><span>本机最高资产</span><b class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endBest">10,000</span></b></div></div><div class="result-stocks" id="resultStocks"></div><p class="result-note">资产 = 本金 + 工资 + 交易与持仓净收益。持仓按收盘价计，尚未扣卖出费。</p><button class="start" id="restartButton">再值守三十天 →</button><p class="result-note" id="recordNote"></p></div></div>
 <noscript><p>请启用浏览器的 JavaScript，然后重新打开游戏。</p></noscript>
 <script id="engine">
 'use strict';
 (() => {
- const START = 1000000, TARGET = 100000000, LIMIT = 600, DAY = 20, WORK_TICKS = 10, WAGE = 100000;
+ const START = 1000000, TARGET = 100000000, LIMIT = 600, DAY = 20, WORK_TICKS = 10;
  const SPECS = [
   {id:'haavk',name:'哈夫克股份',trait:'大型项目 / 调查风险',price:2000,vol:.004,trend:.0045},
   {id:'hudson',name:'哈德逊工业',trait:'订单 / 生产与交付',price:5000,vol:.005,trend:.0055},
@@ -158,6 +158,21 @@
   {id:'road',heading:'桥头绕行，车队慢了下来',title:'卫队通报水泥厂外桥头部分路面受损，车辆暂时绕行。工业交付与本地施工可能放慢，修复进展等待后续广播。',location:'road',changes:{road:'limited'}},
   {id:'power',heading:'交班时，厂区还在限电',title:'卫队通报主变电站供电不稳，厂区轮流用电。哈德逊生产和阿萨拉基建施工受扰，卫队正在安排检修。',location:'power',changes:{power:'limited'}}
  ];
+ // Wages are quoted before accepting a job. Work never draws from the market RNG.
+ const JOBS=[
+  {id:'supplies',title:'搬运补给',location:'barracks',wages:[900,1100,1300],description:'后勤班招人协助搬运，按本批工作量结算。',result:'最后一批补给已经交接，后勤班结清了工钱。'},
+  {id:'roster',title:'整理值班记录',location:'barracks',wages:[600,800,900],description:'把交班记录按日期整理，补齐遗漏的签名。',result:'交班记录终于对上了，文书把这笔工钱记进账。'},
+  {id:'cleanup',title:'清扫营房',location:'barracks',wages:[500,700,800],description:'趁换班清理公共营房，这一班报酬不高。',result:'营房清理完了，工钱不多，至少不用猜涨跌。'},
+  {id:'broadcast',title:'抄录广播记录',location:'admin',wages:[700,900,1100],description:'将卫队广播归档，标清已确认消息与传闻。',result:'广播抄完并分好来源，未经核实的消息单独标注。'},
+  {id:'accounts',title:'核对旧项目账目',location:'admin',wages:[1000,1300,1600],description:'协助文书核对旧项目记录，报酬按账目数量列明。',result:'这一批旧账核对完毕，工程款仍按原流程审核。'},
+  {id:'inspection',title:'协助工程验收',location:'cement',wages:[1000,1200,1500],description:'帮忙登记已完成路段，不代替工程人员作判断。',result:'路段记录已交给验收人员，你的协助工钱先到账。',when:g=>g.regions.cement==='normal'},
+  {id:'roadwork',title:'协助道路抢修',location:'road',wages:[1400,1700,1900],description:'道路受阻，抢修班临时招人清理受损路段。',result:'抢修班收下了这段工作记录；道路是否恢复仍等广播。',when:g=>g.regions.road!=='clear'},
+  {id:'traffic',title:'登记绕行车队',location:'road',wages:[1000,1300,1500],description:'记录绕行车辆与交接时间，协助桥头维持通行。',result:'这一批车队登记完了，运输限制仍以卫队通报为准。',when:g=>g.regions.road!=='clear'},
+  {id:'powerwork',title:'协助线路检修',location:'power',wages:[1500,1800,2000],description:'限电期间，协助检修班搬运和登记，含临时补贴。',result:'检修班完成了你负责的交接，补贴与工钱一并结清。',when:g=>g.regions.power==='limited'},
+  {id:'construction',title:'核对抢修工时',location:'cement',wages:[1100,1400,1700],description:'施工进度有变，工程班需要补齐各组工时记录。',result:'各组工时重新核对完毕，工程延期风险没有因此消失。',when:g=>g.regions.cement!=='normal'},
+  {id:'delivery',title:'清点交付货物',location:'barracks',wages:[1200,1500,1800],description:'军营订单待交付，帮后勤核对已到场的交接单。',result:'到场货物已登记；你拿到的是工钱，不是公司的订单收入。',when:g=>g.regions.barracks==='orders'},
+  {id:'guardlog',title:'补录警戒记录',location:'admin',wages:[1200,1600,1900],description:'行政辖区提高警戒，协助值班室整理出入记录。',result:'值班室收齐出入记录，额外文书工作的报酬已结清。',when:g=>g.regions.admin==='alert'}
+ ];
  const fee = amount => Math.round(amount / 1000);
  const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
  class Game {
@@ -166,6 +181,7 @@
    this.status='ready';this.cash=START;this.ticks=0;this.wages=0;this.fees=0;this.trades=0;this.realized=0;this.won=false;this.workCount=0;
    this.seen=new Set();this.tips=[];this.events=[];this.chain=null;this.lastChain=null;this.recentChains=[];this.nextNewsTick=20;this.mapState=null;
    this.regions={road:'clear',power:'stable',cement:'normal',admin:'normal',barracks:'routine'};this.opening=null;this.reached=[];this.lastWork=null;
+   this.workOffer=null;this.jobSeed=0;this.recentJobs=[];this.inJob=false;
    this.news={heading:'到岗。先看好你的积蓄。',title:'零号大坝由阿萨拉卫队控制，赛伊德驻守。哈夫克是敌对方，GTI 也不是我们的盟友。',day:1,source:'卫队广播',sign:0,location:null,state:'日常值守',effects:[0,0,0],impact:[]};
    this.stocks=SPECS.map(s=>({...s,shares:0,cost:0,realized:0,open:s.price,initial:s.price,history:[s.price],candles:[{t:0,o:s.price,h:s.price,l:s.price,c:s.price,n:0}],drift:0,desired:0,regime:0,effect:0,effectTicks:0,eventDay:false}));
   }
@@ -174,7 +190,7 @@
   get remaining(){return LIMIT-this.ticks;}
   start(){
    if(this.status!=='ready')return false;this.status='running';
-   const o=OPENINGS[Math.floor(this.random()*OPENINGS.length)];this.opening=o.id;Object.assign(this.regions,o.changes);
+   const openingDraw=this.random(),o=OPENINGS[Math.floor(openingDraw*OPENINGS.length)];this.opening=o.id;Object.assign(this.regions,o.changes);this.jobSeed=Math.floor(openingDraw*4294967296);this.pickJob(true);
    this.news={...this.news,heading:o.heading,title:o.title,location:o.location,state:o.location?SITE_LABELS[o.location][this.regions[o.location]]:'日常值守',tick:0};
    if(o.location)this.mapState={location:o.location,state:this.news.state,tick:0,eventId:'opening-'+o.id};return true;
   }
@@ -224,6 +240,7 @@
     while(index<n.length-1&&draw>=weights[index])draw-=weights[index++];n=n[index];
    }
    Object.assign(this.regions,n.changes||{});
+   if(!this.inJob)this.pickJob();
    const index=n.effects.reduce((best,v,i)=>Math.abs(v)>Math.abs(n.effects[best])?i:best,0);
    this.news={...n,effects:[...n.effects],impact:[...n.impact],day:this.day,index,sign:Math.sign(n.effects[index]),tick:this.ticks,candle:Math.floor(this.ticks/5),chain:chain.id,stage:step+1,stages:chain.stages.length,regions:{...this.regions}};
    this.events.push({type:'news',...this.news});
@@ -237,7 +254,15 @@
    const road=this.regions.road==='blocked'?1:this.regions.road==='limited'?.35:0,power=this.regions.power==='limited'?1:0;
    return [-power*.00008-(this.regions.admin==='alert'?.0001:0),-road*.00025-power*.0003,-road*.00035-power*.0003-(this.regions.cement==='delay'?.00015:0)];
   }
-  get job(){return this.regions.road!=='clear'?'协助道路抢修':this.regions.power==='limited'?'协助线路检修':this.regions.barracks==='orders'?'清点交付货物':'搬运补给';}
+  jobRandom(){let t=this.jobSeed+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;}
+  pickJob(force=false){
+   const current=JOBS.find(j=>j.id===this.workOffer?.id);
+   if(!force&&current&&(!current.when||current.when(this)))return;
+   const eligible=JOBS.filter(j=>!j.when||j.when(this));let pool=eligible.filter(j=>!this.recentJobs.includes(j.id));if(!pool.length)pool=eligible;
+   const job=pool[Math.floor(this.jobRandom()*pool.length)],wage=job.wages[Math.floor(this.jobRandom()*job.wages.length)]*100;
+   this.workOffer={id:job.id,title:job.title,location:job.location,description:job.description,result:job.result,wage,ticks:WORK_TICKS,offeredAt:this.ticks};
+  }
+  get job(){return this.workOffer?.title||'等待值班安排';}
   get tradingPnl(){return this.total-START-this.wages;}
   tick(){
    if(this.status!=='running')return false;
@@ -260,21 +285,22 @@
    this.ticks++;this.checkEnd();return true;
   }
   work(){
-   if(this.status!=='running'||this.remaining<WORK_TICKS)return null;
-   const before=this.total,job=this.job,eventStart=this.events.length;
-   this.cash+=WAGE;this.wages+=WAGE;this.workCount++;
+   if(this.status!=='running'||this.remaining<WORK_TICKS||this.inJob||!this.workOffer)return null;
+   const before=this.total,offer={...this.workOffer},eventStart=this.events.length;this.inJob=true;
+   this.cash+=offer.wage;this.wages+=offer.wage;this.workCount++;
    this.checkEnd();let elapsed=0;
    while(elapsed<WORK_TICKS&&this.status==='running'){this.tick();elapsed++;}
-   this.lastWork={wage:WAGE,elapsed,job,holdingChange:this.total-before-WAGE,news:this.events.slice(eventStart).filter(e=>e.type==='news')};return this.lastWork;
+   this.lastWork={...offer,elapsed,job:offer.title,holdingChange:this.total-before-offer.wage,news:this.events.slice(eventStart).filter(e=>e.type==='news')};
+   this.inJob=false;this.recentJobs.push(offer.id);this.recentJobs=this.recentJobs.slice(-2);if(this.status==='running')this.pickJob(true);return this.lastWork;
   }
   checkEnd(){for(const m of MILESTONES)if(this.total>=m.amount&&!this.reached.includes(m.amount))this.reached.push(m.amount);if(this.total>=TARGET){this.won=true;this.status='ended';}else if(this.ticks>=LIMIT){this.status='ended';}}
  }
- globalThis.AsaraGame={Game,SPECS,START,TARGET,LIMIT,DAY,WORK_TICKS,WAGE,fee,LOCATIONS,CHAINS,SITE_LABELS,MILESTONES,OPENINGS};
+ globalThis.AsaraGame={Game,SPECS,START,TARGET,LIMIT,DAY,WORK_TICKS,JOBS,fee,LOCATIONS,CHAINS,SITE_LABELS,MILESTONES,OPENINGS};
 })();
 </script>
 <script id="ui">'use strict';
 (() => {
- const {Game,SPECS,START,DAY,WORK_TICKS,WAGE,fee,LOCATIONS,SITE_LABELS,MILESTONES}=AsaraGame,$=id=>document.getElementById(id),game=new Game();
+ const {Game,SPECS,START,DAY,WORK_TICKS,fee,LOCATIONS,SITE_LABELS,MILESTONES}=AsaraGame,$=id=>document.getElementById(id),game=new Game();
  const digits=c=>(Math.abs(c)/100).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
  const money=c=>digits(c)+' 哈夫币';
  const whole=c=>Math.floor(Math.abs(c)/100).toLocaleString('zh-CN');
@@ -297,19 +323,19 @@
   for(let i=start;i<end;i++){if(i===start||i%Math.max(4,Math.ceil(count/20)*4)===0){const label='第'+(Math.floor(all[i].t/20)+1)+'天';svg+=`<path d="M${x(i)} ${top}V${bottom}" stroke="#3d2b31" stroke-dasharray="2 5"/><text x="${x(i)}" y="${H-6}" text-anchor="${i===start?'start':'middle'}" fill="#b8a5ac" ${font}>${label}</text>`;}}
   $('zoomLabel').textContent='近'+(count/4)+'天';$('zoomIn').disabled=zoom<=.5;$('zoomOut').disabled=zoom>=3;
   for(let k=0;k<4;k++){const yy=top+(bottom-top)*k/3,v=hi-(hi-lo)*k/3;svg+=`<path d="M${left} ${yy}H${right}" stroke="#413338" stroke-dasharray="2 5"/><text x="${right+7}" y="${yy+3}" fill="#b8a7ad" ${font}>${esc(compact(v))}</text>`;}
-  if(showCost)svg+=`<path id="costLine" d="M${left} ${y(avg)}H${right}" stroke="#e9525c" stroke-dasharray="5 4"/><text x="${left+3}" y="${Math.max(12,y(avg)-5)}" fill="#e9525c" ${font}>成本</text>`;
+  if(showCost)svg+=`<path id="costLine" d="M${left} ${y(avg)}H${right}" stroke="#cdbd9f" stroke-dasharray="5 4"/><text x="${left+3}" y="${Math.max(12,y(avg)-5)}" fill="#cdbd9f" ${font}>成本</text>`;
   if(inspect!==null)svg+=`<rect x="${x(idx)-space/2}" y="${top-5}" width="${space}" height="${bottom-top+10}" fill="#ffffff0c"/><path d="M${x(idx)} ${top}V${bottom}" stroke="#a6959b" stroke-dasharray="2 3"/>`;
-  bars.forEach((c,k)=>{const i=start+k,xx=x(i),up=c.c>=c.o,fill=up?'#e9525c':'#87c9c3',bodyY=Math.min(y(c.o),y(c.c)),bodyH=Math.max(1.6,Math.abs(y(c.o)-y(c.c))),bw=Math.max(3,space*.62);
+  bars.forEach((c,k)=>{const i=start+k,xx=x(i),up=c.c>=c.o,fill=up?'var(--up)':'var(--down)',bodyY=Math.min(y(c.o),y(c.c)),bodyH=Math.max(1.6,Math.abs(y(c.o)-y(c.c))),bw=Math.max(3,space*.62);
    svg+=`<g data-index="${i}"><title>第${Math.floor(c.t/20)+1}天 / 开${money(c.o)} 高${money(c.h)} 低${money(c.l)} 收${money(c.c)}</title><path d="M${xx} ${y(c.h)}V${y(c.l)}" stroke="${fill}" stroke-width="1.2"/><rect x="${xx-bw/2}" y="${bodyY}" width="${bw}" height="${bodyH}" fill="${fill}"/><rect x="${xx-space/2}" y="${top}" width="${space}" height="${bottom-top}" fill="transparent"/></g>`;
   });
   const ev=game.events.filter(e=>(e.type==='news'?e.effects[selected]!==0:e.index===selected)&&e.candle>=start&&e.candle<end),group=new Map();
   for(const e of ev){if(!group.has(e.candle))group.set(e.candle,[]);group.get(e.candle).push(e);}
-  for(const [i,events] of group){let n=events.some(e=>e.type==='news'),b=events.some(e=>e.side==='buy'),s=events.some(e=>e.side==='sell'),xx=x(i);const mark=(text,yy,fill)=>`<g data-index="${i}"><rect x="${xx-11}" y="${yy-10}" width="22" height="20" rx="2" fill="#24171c" stroke="${fill}"/><text x="${xx}" y="${yy}" text-anchor="middle" fill="${fill}" ${font}>${text}</text></g>`;if(n)svg+=mark('!',14,'#e9525c');if(b||s)svg+=mark(b&&s?'↕':b?'买':'卖',bottom+17,b?'#e9525c':'#87c9c3');}
+  for(const [i,events] of group){let n=events.some(e=>e.type==='news'),b=events.some(e=>e.side==='buy'),s=events.some(e=>e.side==='sell'),xx=x(i);const mark=(text,yy,fill)=>`<g data-index="${i}"><rect x="${xx-11}" y="${yy-10}" width="22" height="20" rx="2" fill="#24171c" stroke="${fill}"/><text x="${xx}" y="${yy}" text-anchor="middle" fill="${fill}" ${font}>${text}</text></g>`;if(n)svg+=mark('!',14,'var(--accent-ink)');if(b||s)svg+=mark(b&&s?'↕':b?'买':'卖',bottom+17,b?'var(--up)':'var(--down)');}
   const last=all.at(-1);if(inspect===null)svg+=`<path d="M${left} ${y(last.c)}H${right}" stroke="#d1bfc6" stroke-opacity=".35" stroke-dasharray="2 3"/>`;
   $('chart').setAttribute('viewBox',`0 0 ${W} ${H}`);$('chart').innerHTML=svg;chartLayout={left,right,space,start,end,count};
   const c=all[idx];$('ohlc').textContent=`开 ${(c.o/100).toFixed(2)}   高 ${(c.h/100).toFixed(2)}   低 ${(c.l/100).toFixed(2)}   收 ${(c.c/100).toFixed(2)}`;
   $('chart').setAttribute('aria-label',`${s.name}，5秒蜡烛K线。当前价格${money(s.price)}。${s.shares?'平均成本'+money(avg)+'。':''}开${money(c.o)}，高${money(c.h)}，低${money(c.l)}，收${money(c.c)}。可用下方回看滑块查看历史。`);
-  $('costLegend').textContent=s.shares?(showCost?'成本 '+compact(avg):'成本在图外 · '+compact(avg)):'每根5秒 · 涨红跌青';
+  $('costLegend').textContent=s.shares?(showCost?'成本 '+compact(avg):'成本在图外 · '+compact(avg)):'每根5秒 · 涨绿跌红';
   $('historyRange').max=all.length-1;$('historyRange').value=idx;$('historyRange').disabled=all.length<2;$('liveButton').textContent=inspect===null?'● 实时':'回到实时';
   const selectedEvents=game.events.filter(e=>(e.type==='news'?e.effects[selected]!==0:e.index===selected)&&e.candle===idx),news=selectedEvents.filter(e=>e.type==='news'),trades=selectedEvents.filter(e=>e.type==='trade');
   let detail=`第${Math.floor(c.t/20)+1}天 · ${c.t%20}–${c.t%20+5}秒`+(c.n<5?' · 形成中':'');
@@ -341,11 +367,13 @@
  function renderActions(){const running=game.status==='running',s=game.stocks[selected],working=performance.now()<workUnlock;
   $('buyButton').disabled=!running||game.maxBuy(selected,fraction)<1;$('sellButton').disabled=!running||Math.floor(s.shares*fraction)<1;
   $('buyButton').title='使用'+(fraction===.5?'一半':'全部')+'可用现金，含0.1%手续费';$('sellButton').title=s.shares===1&&fraction===.5?'只剩1股，选择「全部」卖出':'按持股数量卖出，扣除0.1%手续费';
-  $('workButton').disabled=!running||game.remaining<WORK_TICKS||working;$('workTitle').textContent=working?'收工 +1,000':'打工';$('workHelp').textContent=game.remaining<WORK_TICKS?'剩余不足半天':'+1,000 · 半天（10秒）';
+  $('workButton').disabled=!running||game.remaining<WORK_TICKS||working;
+  $('workTitle').textContent=working?'收工 +'+whole(game.lastWork.wage):'打工';
+  $('workHelp').textContent=game.remaining<WORK_TICKS?'剩余不足半天':working?'报酬已到账':game.workOffer?'+'+whole(game.workOffer.wage)+' · 半天（10秒）':'报酬随工作变化';
   const buy=game.maxBuy(selected,fraction),sell=Math.floor(s.shares*fraction),buyCost=buy*s.price,sellValue=sell*s.price;
   $('buyPreview').textContent=buy?'买 '+buy.toLocaleString('zh-CN')+' 股 · 支出 '+compact(buyCost+fee(buyCost))+'\n含费 '+compact(fee(buyCost)):'现金不足以买入 1 股';
   $('sellPreview').textContent=sell?'卖 '+sell.toLocaleString('zh-CN')+' 股 · 到账 '+compact(sellValue-fee(sellValue))+'\n扣费 '+compact(fee(sellValue)):s.shares?'仅 1 股，选全部卖出':'暂无可卖持仓';
-  $('jobPreview').textContent=game.job+'\n期间行情继续';
+  $('jobPreview').textContent=game.workOffer?game.job+' · '+LOCATIONS[game.workOffer.location].name+'\n'+game.workOffer.description:'每次报酬提前列出，期间行情继续';
   $('halfButton').disabled=!running;$('allButton').disabled=!running;$('halfButton').setAttribute('aria-pressed',String(fraction===.5));$('allButton').setAttribute('aria-pressed',String(fraction===1));
  }
  function updateKnowledge(now){if(game.status==='running'&&now>=tipGap&&$('tip').hidden&&tipIndex<game.tips.length){$('tip').textContent=game.tips[tipIndex++].text;$('tip').hidden=false;$('learningDefault').hidden=true;tipUntil=now+5200;tipGap=now+7000;}}
@@ -369,8 +397,8 @@
   if(side==='buy')feedback('买入 '+r.qty.toLocaleString('zh-CN')+'股 · '+money(r.price)+'/股','费用 '+money(r.fee));
   else feedback('卖出 '+r.qty.toLocaleString('zh-CN')+'股，'+(r.pnl>0?'净赚 ':r.pnl<0?'净亏 ':'盈亏持平')+(r.pnl?money(r.pnl):''),'费用 '+money(r.fee),color(r.pnl));render();}
  function work(){const now=performance.now();if(now<workUnlock)return;const r=game.work();if(!r)return;workUnlock=now+650;lastTime=now;inspect=null;
-  feedback(r.job+' · 工钱到账 +1,000 哈夫币','推进 '+r.elapsed+' 秒','up');
-  $('workSummary').textContent='期间持仓 '+signed(r.holdingChange)+' 哈夫币 · '+(r.news.length?'收到 '+r.news.length+' 条广播：'+r.news.at(-1).heading:'没有新广播')+(r.elapsed<WORK_TICKS?' · 已提前达成目标':'');$('workSummary').hidden=false;render();}
+  feedback(r.job+' · 工钱到账 +'+whole(r.wage)+' 哈夫币','推进 '+r.elapsed+' 秒','up');
+  $('workSummary').textContent=r.result+' 期间持仓 '+signed(r.holdingChange)+' 哈夫币 · '+(r.news.length?'收到 '+r.news.length+' 条广播：'+r.news.at(-1).heading:'没有新广播')+(r.elapsed<WORK_TICKS?' · 已提前达成目标':'');$('workSummary').hidden=false;render();}
  function togglePause(background=false){if(game.status==='running'){game.pause();if(background)feedback('终端离开视线，已自动暂停。');}else if(game.status==='paused'&&!background&&!document.hidden){game.resume();lastTime=performance.now();}render();}
  function finish(){finished=true;const assets=game.total,growth=(assets/START-1)*100,isNew=assets>best;best=Math.max(best,assets);try{localStorage.setItem(STORAGE_KEY,String(best));}catch{storageOK=false;}
   const title=game.won?'辞职信已写好':assets>=30000000?'离开有望':assets>=10000000?'小有积蓄':assets>=3000000?'积蓄渐厚':game.workCount>=10&&assets>=START?'营地搬运骨干':assets>START?'加鸡腿的小兵':assets===START?'积蓄守住了':'继续站岗';
