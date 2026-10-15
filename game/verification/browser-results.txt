@@ -1,21 +1,26 @@
+PASS desktop — packaged Guard emblem, deep burgundy UI, green gains and red losses
 PASS desktop — no overlap, clipping or blocked chart/trade controls
 PASS desktop — original-map pin aligned; mobile map folds without a modal
 PASS desktop — news/trade markers, touch-sized controls, history, zoom and pause
 PASS desktop — full 30-day timer, result, best-score storage, restart and work double-click protection
 PASS desktop — half-day job report separates wages, holdings and intervening news
 PASS desktop expanded broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS wide — packaged Guard emblem, deep burgundy UI, green gains and red losses
 PASS wide — no overlap, clipping or blocked chart/trade controls
 PASS wide — original-map pin aligned; mobile map folds without a modal
 PASS wide — news/trade markers, touch-sized controls, history, zoom and pause
 PASS wide expanded broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS mobile — packaged Guard emblem, deep burgundy UI, green gains and red losses
 PASS mobile — no overlap, clipping or blocked chart/trade controls
 PASS mobile — original-map pin aligned; mobile map folds without a modal
 PASS mobile — news/trade markers, touch-sized controls, history, zoom and pause
 PASS mobile expanded broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS small-phone — packaged Guard emblem, deep burgundy UI, green gains and red losses
 PASS small-phone — no overlap, clipping or blocked chart/trade controls
 PASS small-phone — original-map pin aligned; mobile map folds without a modal
 PASS small-phone — news/trade markers, touch-sized controls, history, zoom and pause
 PASS small-phone expanded broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS small-window — packaged Guard emblem, deep burgundy UI, green gains and red losses
 PASS small-window — no overlap, clipping or blocked chart/trade controls
 PASS small-window — original-map pin aligned; mobile map folds without a modal
 PASS small-window — news/trade markers, touch-sized controls, history, zoom and pause
@@ -27,4 +32,4 @@ LIMITATION file:// navigation blocked by managed browser policy; checking networ
 PASS network-off gameplay after asset load — original assets, immediate win and blocked storage
 PASS all browser scenarios — no uncaught JavaScript errors
 
-27 real-browser checks passed.
+32 real-browser checks passed.

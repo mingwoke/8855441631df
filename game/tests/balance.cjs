@@ -37,7 +37,7 @@ function strategy(name,count,fn){
 const report={date:new Date().toISOString(),target:api.TARGET/100,market:volatility(api,1000,true),strategies:[]};
 if(process.env.ASARA_BASELINE)report.previousMarket=volatility(engine(process.env.ASARA_BASELINE),1000,false);
 for(let i=0;i<3;i++)report.strategies.push(strategy('开局全仓持有 '+api.SPECS[i].name,300,g=>{g.trade(i,'buy',1);while(g.status==='running')g.tick();}));
-report.strategies.push(strategy('只打工',1,g=>{while(g.status==='running')g.work();}));
+report.strategies.push(strategy('只打工',300,g=>{while(g.status==='running')g.work();}));
 report.strategies.push(strategy('每半天看过去涨幅，持仓配合打工',300,g=>{
  while(g.status==='running'){
   const scores=g.stocks.map(s=>s.history.length>10?s.price/s.history.at(-11)-1:0),best=scores.indexOf(Math.max(...scores)),selected=scores[best]>.006?best:-1;
@@ -53,7 +53,7 @@ report.strategies.push(strategy('每次广播按其方向参数换仓，其余�
   }g.tick();
  }
 }));
-assert.equal(report.market.eventGroupsSeen,12);assert.equal(Object.keys(report.market.openingCounts).length,3);assert.equal(report.strategies.find(s=>s.name==='只打工').endingAssets.min,70000);
+assert.equal(report.market.eventGroupsSeen,12);assert.equal(Object.keys(report.market.openingCounts).length,3);const wagesOnly=report.strategies.find(s=>s.name==='只打工');assert(wagesOnly.endingAssets.min>=40000&&wagesOnly.endingAssets.max<=130000);assert(wagesOnly.endingAssets.min<wagesOnly.endingAssets.max);
 report.notes=['固定种子样本用于比较与回归，不代表玩家胜率或未来表现。','消息策略直接读取新闻方向参数，是测试用启发式；玩家看到的是业务说明，不是精确数值。','100 万仍是极难目标。样本没有达标不证明不可达，也不能据此宣称一般玩家能够通关。','所有持仓按最后市场价计算，未假设结算强制卖出。'];
 fs.writeFileSync(path.join(root,'verification/balance-results.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));

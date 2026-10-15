@@ -94,6 +94,12 @@ async function mapAlignment(page,label){
    await capture(page,{path:path.join(output,label+'-start.png'),fullPage:true});
    await page.locator('#startButton').click();assert.match(await page.locator('#buyPreview').innerText(),/249 股.*4,984.98/);await page.locator('#buyButton').click();assert.match(await page.locator('#feeText').innerText(),/4.98 哈夫币/);
    await page.clock.runFor(61000);assert(await page.evaluate(()=>__game.events.filter(e=>e.type==='news').length===2),JSON.stringify(await page.evaluate(()=>({ticks:__game.ticks,status:__game.status,events:__game.events,feedback:document.getElementById('feedbackText').textContent})))+' errors: '+errors.join('; '));
+   const appearance=await page.evaluate(()=>{
+    const style=getComputedStyle(document.documentElement),up=style.getPropertyValue('--up').trim(),down=style.getPropertyValue('--down').trim();
+    return {up,down,accent:style.getPropertyValue('--accent').trim(),candles:[...document.querySelectorAll('#chart g[data-index]>rect[fill^="var(--"]')].map(e=>e.getAttribute('fill')),emblem:[...document.querySelectorAll('.faction-emblem')].every(e=>e.complete&&e.naturalWidth>0)};
+   });
+   assert.equal(appearance.up,'#0ff796');assert.equal(appearance.down,'#ff858b');assert.equal(appearance.accent,'#7a1f2b');assert(appearance.emblem);assert(appearance.candles.length>0);assert(appearance.candles.every(c=>c==='var(--up)'||c==='var(--down)'));
+   pass(label+' — packaged Guard emblem, deep burgundy UI, green gains and red losses');
    await layout(page,label);await mapAlignment(page,label);
    await page.evaluate(()=>scrollTo(0,0));await capture(page,{path:path.join(output,label+'-playing.png'),fullPage:true});
    // Clicking the actual rendered news marker opens the corresponding news.
@@ -120,7 +126,7 @@ async function mapAlignment(page,label){
     await page.locator('#pauseButton').click();await page.clock.runFor((600-await page.evaluate(()=>__game.ticks))*1000+100);assert.equal(await page.evaluate(()=>__game.ticks),600);assert(await page.locator('#endOverlay').isVisible());
     assert.equal(await page.evaluate(()=>Object.keys(localStorage).join(',')),'asara.best.v1');assert.equal(await page.locator('#resultStocks .result-row').count(),3);assert.match(await page.locator('#endTrading').innerText(),/哈夫币/);await capture(page,{path:path.join(output,'result.png'),fullPage:true});
     await page.locator('#restartButton').click();assert.equal(await page.evaluate(()=>__game.ticks),0);assert.equal(await page.evaluate(()=>__intervals),1);assert.equal(await page.locator('#cashValue').innerText(),'10,000');assert.equal(await page.locator('#mapMarker').getAttribute('visibility'),await page.evaluate(()=>__game.news.location?'visible':'hidden'));assert(await page.locator('#workSummary').isHidden());
-    await page.locator('#workButton').click();await page.locator('#workButton').evaluate(e=>e.click());assert.equal(await page.evaluate(()=>__game.ticks),10);assert.equal(await page.evaluate(()=>__game.wages),100000);
+    const wage=await page.evaluate(()=>__game.workOffer.wage);assert((await page.locator('#workHelp').innerText()).includes((wage/100).toLocaleString('zh-CN')));await page.locator('#workButton').click();await page.locator('#workButton').evaluate(e=>e.click());assert.equal(await page.evaluate(()=>__game.ticks),10);assert.equal(await page.evaluate(()=>__game.wages),wage);
     pass('desktop — full 30-day timer, result, best-score storage, restart and work double-click protection');
     await page.clock.runFor(5000);await page.locator('#workButton').click();assert.match(await page.locator('#workSummary').innerText(),/期间持仓 .*收到 1 条广播/);
     await capture(page,{path:path.join(output,'work-report.png'),fullPage:true});pass('desktop — half-day job report separates wages, holdings and intervening news');
@@ -149,7 +155,7 @@ async function mapAlignment(page,label){
    console.log('LIMITATION file:// navigation blocked by managed browser policy; checking network-off gameplay after local HTTP load.');
    await offline.setOffline(false);await file.goto(base);await file.locator('.coin img').first().waitFor({state:'attached'});await file.evaluate(()=>Promise.all([...document.images].map(img=>img.decode())));await offline.setOffline(true);
   }
-  await file.locator('#startButton').click();await file.locator('#workButton').click();assert.equal(await file.evaluate(()=>__game.cash),1100000);
+  await file.locator('#startButton').click();const offlineWage=await file.evaluate(()=>__game.workOffer.wage);await file.locator('#workButton').click();assert.equal(await file.evaluate(()=>__game.cash),1000000+offlineWage);
   assert(await file.locator('.coin img').first().evaluate(e=>e.complete&&e.naturalWidth===401));
   await file.evaluate(()=>{__game.cash=AsaraGame.TARGET;});await file.clock.runFor(1000);assert(await file.locator('#endOverlay').isVisible());assert.match(await file.locator('#recordNote').innerText(),/禁止本地存储/);await file.locator('#restartButton').click();assert.equal(await file.evaluate(()=>__intervals),1);await offline.close();
   pass('network-off gameplay after asset load — original assets, immediate win and blocked storage');

@@ -3,9 +3,9 @@ PASS half buy uses half cash including fee and full sell conserves accounting
 PASS all-in includes fees; partial cost basis reconciles after final sale
 PASS one share cannot half-sell; invalid and empty orders are rejected
 PASS pause freezes money, time, prices and jobs
-PASS work earns exactly 1000 and simulates exactly 10 ticks
+PASS work pays its quoted wage and simulates exactly 10 ticks
 PASS exactly 600 seconds ends day 30; all actions remain blocked
-PASS 60 half-day jobs finish cleanly with exactly 70000 total assets
+PASS 60 half-day jobs reconcile all variable wages and finish cleanly
 PASS hitting target wins immediately
 PASS news appears, decays, and learning points appear only once
 PASS restart resets all state, tips, effects and histories
@@ -53,5 +53,9 @@ PASS per-stock net contribution reconciles exactly with total capital and wages
 PASS trade previews include cash impact and fees, and tabs expose other holdings
 PASS recent broadcasts preserve three full messages with sources and uncertainty
 PASS UI work report and settlement explain wages and trading returns independently
+PASS job wages vary, remain within the displayed range and avoid the last two completed jobs
+PASS job quotes cannot be rerolled through rendering, stock selection or pause
+PASS conditional jobs expire when their situation clears, but an accepted quote is honored
+PASS job random state and completed work are cleared on restart
 
-52 checks passed. Logic and DOM harness; browser results are reported separately.
+56 checks passed. Logic and DOM harness; browser results are reported separately.

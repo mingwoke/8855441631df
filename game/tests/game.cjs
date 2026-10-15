@@ -9,16 +9,16 @@ new vm.Script(engine);new vm.Script(ui);
 let checks=0;const test=(name,fn)=>{fn();checks++;console.log("PASS "+name);};
 function seeded(n){return ()=>{n=(Math.imul(1664525,n)+1013904223)>>>0;return n/4294967296;};}
 const ctx={};vm.createContext(ctx);vm.runInContext(engine,ctx);
-const {Game,START,TARGET,LIMIT,WORK_TICKS,WAGE,fee}=ctx.AsaraGame;
+const {Game,START,TARGET,LIMIT,WORK_TICKS,JOBS,fee}=ctx.AsaraGame;
 test('fresh game, exact initial cash and empty holdings',()=>{let g=new Game();assert.equal(g.cash,1000000);assert.equal(g.total,START);assert.equal(g.day,1);assert.equal(g.status,'ready');assert(g.stocks.every(s=>s.shares===0));assert.equal(g.trade(0,'buy',1),null);});
 test('half buy uses half cash including fee and full sell conserves accounting',()=>{let g=new Game();g.start();let b=g.trade(0,'buy',.5);assert.equal(b.qty,249);assert.equal(b.fee,498);assert.equal(g.cash,501502);assert.equal(g.stocks[0].cost,498498);let s=g.trade(0,'sell',1);assert.equal(s.qty,249);assert.equal(s.pnl,-996);assert.equal(g.total,START-996);assert.equal(g.fees,996);assert.equal(g.stocks[0].cost,0);});
 test('all-in includes fees; partial cost basis reconciles after final sale',()=>{let g=new Game();g.start();let b=g.trade(1,'buy',1);assert.equal(b.qty,199);assert(g.cash>=0);assert.equal(g.maxBuy(1),0);let a=g.trade(1,'sell',.5),c=g.trade(1,'sell',1);assert.equal(a.qty,99);assert.equal(c.qty,100);assert.equal(g.stocks[1].shares,0);assert.equal(g.stocks[1].cost,0);assert.equal(g.total,START-g.fees);assert.equal(g.realized,-g.fees);});
 test('one share cannot half-sell; invalid and empty orders are rejected',()=>{let g=new Game();g.start();g.cash=2002;assert.equal(g.trade(0,'buy',1).qty,1);assert.equal(g.trade(0,'sell',.5),null);assert.equal(g.trade(0,'sell',1).qty,1);assert.equal(g.trade(0,'sell',1),null);assert.equal(g.trade(-1,'buy',1),null);assert.equal(g.trade(0,'garbage',1),null);});
 test('pause freezes money, time, prices and jobs',()=>{let g=new Game(seeded(5));g.start();g.tick();g.pause();const before=JSON.stringify({cash:g.cash,t:g.ticks,s:g.stocks});assert.equal(g.tick(),false);assert.equal(g.work(),null);assert.equal(g.trade(0,'buy',1),null);assert.equal(JSON.stringify({cash:g.cash,t:g.ticks,s:g.stocks}),before);assert(g.resume());assert(g.tick());});
-test('work earns exactly 1000 and simulates exactly 10 ticks',()=>{let g=new Game(seeded(8));g.start();let p=g.stocks.map(s=>s.price);const r=g.work();assert.equal(g.cash,1100000);assert.equal(g.ticks,10);assert.equal(g.day,1);assert.equal(r.elapsed,10);assert.equal(g.wages,WAGE);assert(g.stocks.some((s,i)=>s.price!==p[i]));});
+test('work pays its quoted wage and simulates exactly 10 ticks',()=>{let g=new Game(seeded(8));g.start();let p=g.stocks.map(s=>s.price);const quoted=g.workOffer.wage,r=g.work();assert.equal(g.cash,START+quoted);assert.equal(g.ticks,10);assert.equal(g.day,1);assert.equal(r.elapsed,10);assert.equal(g.wages,r.wage);assert(g.stocks.some((s,i)=>s.price!==p[i]));});
 test('exactly 600 seconds ends day 30; all actions remain blocked',()=>{let g=new Game(seeded(9));g.start();for(let i=0;i<599;i++)g.tick();assert.equal(g.status,'running');assert.equal(g.day,30);assert.equal(g.work(),null);g.tick();assert.equal(g.status,'ended');assert.equal(g.ticks,LIMIT);assert.equal(g.day,30);assert.equal(g.won,false);let n=g.total;assert.equal(g.tick(),false);assert.equal(g.trade(0,'buy',1),null);assert.equal(g.work(),null);assert.equal(g.total,n);});
-test('60 half-day jobs finish cleanly with exactly 70000 total assets',()=>{let g=new Game(seeded(11));g.start();for(let i=0;i<60;i++)assert(g.work());assert.equal(g.cash,7000000);assert.equal(g.wages,6000000);assert.equal(g.ticks,600);assert.equal(g.status,'ended');});
-test('hitting target wins immediately',()=>{let g=new Game(seeded(4));g.start();g.cash=TARGET-WAGE;let r=g.work();assert.equal(g.status,'ended');assert(g.won);assert.equal(g.total,TARGET);assert.equal(r.elapsed,0);});
+test('60 half-day jobs reconcile all variable wages and finish cleanly',()=>{let g=new Game(seeded(11));g.start();let wages=0;for(let i=0;i<60;i++){const offer=g.workOffer.wage,r=g.work();assert.equal(r.wage,offer);wages+=offer;}assert.equal(g.cash,START+wages);assert.equal(g.wages,wages);assert.equal(g.ticks,600);assert.equal(g.status,'ended');});
+test('hitting target wins immediately',()=>{let g=new Game(seeded(4));g.start();g.cash=TARGET-g.workOffer.wage;let r=g.work();assert.equal(g.status,'ended');assert(g.won);assert.equal(g.total,TARGET);assert.equal(r.elapsed,0);});
 test('news appears, decays, and learning points appear only once',()=>{let g=new Game(()=>.01);g.start();g.chain={id:'blockade',step:0};for(let i=0;i<61;i++)g.tick();assert.equal(g.news.day,4);assert.equal(g.news.id,'gti-action');assert(g.stocks[2].effect>0);assert(g.stocks[0].effect<0);assert(g.seen.has('news'));g.learn('buy');g.learn('buy');assert.equal(g.tips.filter(x=>x.key==='buy').length,1);});
 test('restart resets all state, tips, effects and histories',()=>{let g=new Game(seeded(91));g.start();g.trade(0,'buy',1);g.work();g.pause();g.reset();assert.equal(g.status,'ready');assert.equal(g.cash,START);assert.equal(g.ticks,0);assert.equal(g.fees,0);assert.equal(g.wages,0);assert.equal(g.seen.size,0);assert.equal(g.tips.length,0);assert(g.stocks.every(s=>s.shares===0&&s.cost===0&&s.history.length===1&&s.effect===0));});
 test('100 randomized complete games preserve monetary and stock invariants',()=>{for(let seed=1;seed<=100;seed++){const rng=seeded(seed);let g=new Game(rng);g.start();while(g.status==='running'){let index=Math.floor(rng()*3),kind=rng();if(kind<.28)g.trade(index,'buy',rng()<.5?.5:1);else if(kind<.56)g.trade(index,'sell',rng()<.5?.5:1);else if(kind<.58)g.work();g.tick();assert(Number.isSafeInteger(g.cash)&&g.cash>=0);assert(Number.isSafeInteger(g.total)&&g.total>=0);for(const s of g.stocks){assert(Number.isInteger(s.price)&&s.price>0);assert(Number.isSafeInteger(s.shares)&&s.shares>=0);assert(Number.isSafeInteger(s.cost)&&s.cost>=0);if(s.shares===0)assert.equal(s.cost,0);assert(s.history.length<=100);}}}});
@@ -47,7 +47,7 @@ test('switching stock updates single chart and selected-position summary',()=>{c
 test('keyboard tabs change selection and focus',()=>{const u=setupUI();u.el('stock0').handlers.keydown({key:'ArrowRight',preventDefault(){}});assert.equal(u.el('stock1').attrs['aria-selected'],'true');assert.equal(u.document.activeElement.id,'stock1');u.el('stock1').handlers.keydown({key:'End',preventDefault(){}});assert.equal(u.document.activeElement.id,'stock2');});
 test('paused state freezes gameplay and automatic background pause never auto-resumes',()=>{const u=setupUI();u.el('startButton').click();u.advance(1000);u.visibility(true);assert.equal(u.game.status,'paused');assert(u.el('chartCover').hidden);assert(!u.el('app').inert);assert.equal(u.el('connectionState').textContent,'已暂停 · 可回看');assert(u.el('buyButton').disabled);assert(u.el('halfButton').disabled);const t=u.game.ticks;u.advance(10000);assert.equal(u.game.ticks,t);u.visibility(false);assert.equal(u.game.status,'paused');u.el('pauseButton').click();assert.equal(u.game.status,'running');assert(u.el('chartCover').hidden);});
 test('single-share half sell is disabled and all selection allows sale',()=>{const u=setupUI();u.el('startButton').click();u.game.cash=2002;u.el('allButton').click();u.el('buyButton').click();assert.equal(u.game.stocks[0].shares,1);u.el('halfButton').click();assert(u.el('sellButton').disabled);u.el('allButton').click();assert(!u.el('sellButton').disabled);});
-test('work feedback, half-day advance, and click cooldown',()=>{const u=setupUI();u.el('startButton').click();u.el('workButton').click();assert.equal(u.game.ticks,10);assert.equal(u.game.cash,1100000);assert.equal(u.el('workTitle').textContent,'收工 +1,000');u.el('workButton').click();assert.equal(u.game.ticks,10);u.advance(700);assert(!u.el('workButton').disabled);assert.equal(u.el('workTitle').textContent,'打工');});
+test('work feedback, half-day advance, and click cooldown',()=>{const u=setupUI();u.el('startButton').click();const quoted=u.game.workOffer.wage;u.el('workButton').click();assert.equal(u.game.ticks,10);assert.equal(u.game.cash,START+quoted);assert.equal(u.el('workTitle').textContent,'收工 +'+(quoted/100).toLocaleString('zh-CN'));u.el('workButton').click();assert.equal(u.game.ticks,10);u.advance(700);assert(!u.el('workButton').disabled);assert.equal(u.el('workTitle').textContent,'打工');});
 test('educational hint is temporary and each event appears once',()=>{const u=setupUI();u.el('startButton').click();u.el('buyButton').click();assert(!u.el('tip').hidden);assert.equal(u.el('tip').textContent,'股票代表公司的一部分所有权。');for(let i=0;i<6;i++)u.advance(1000);assert(u.el('tip').hidden);assert.equal(u.game.tips.filter(x=>x.key==='buy').length,1);});
 test('30-day result and restart clear UI state without a second timer',()=>{const u=setupUI();u.el('startButton').click();for(let i=0;i<600;i++)u.advance(1000);assert(!u.el('endOverlay').hidden);assert.equal(u.saved.size,1);assert(u.el('app').inert);u.el('restartButton').click();assert(u.el('endOverlay').hidden);assert(!u.el('app').inert);assert.equal(u.game.ticks,0);assert.equal(u.el('cashValue').textContent,'10,000');assert.equal(u.el('halfButton').attrs['aria-pressed'],'true');assert(u.el('tip').hidden);assert.equal(u.intervals.length,1);u.advance(1000);assert.equal(u.game.ticks,1);});
 test('blocked local storage does not stop game or results',()=>{const u=setupUI(true);u.el('startButton').click();for(let i=0;i<600;i++)u.advance(1000);assert(!u.el('endOverlay').hidden);assert.match(u.el('recordNote').textContent,/禁止本地存储/);});
@@ -89,7 +89,7 @@ test('jobs run the same news, region and candle path as elapsed market time',()=
  const a=new Game(seeded(45)),b=new Game(seeded(45));a.start();b.start();
  for(let i=0;i<12;i++)a.work();for(let i=0;i<120;i++)b.tick();
  assert.equal(a.ticks,b.ticks);assert.equal(JSON.stringify(a.events),JSON.stringify(b.events));
- assert.equal(JSON.stringify(a.stocks),JSON.stringify(b.stocks));assert.equal(a.cash-b.cash,1200000);assert.equal(JSON.stringify(a.regions),JSON.stringify(b.regions));
+ assert.equal(JSON.stringify(a.stocks),JSON.stringify(b.stocks));assert.equal(a.cash-b.cash,a.wages);assert.equal(JSON.stringify(a.regions),JSON.stringify(b.regions));
 });
 test('reset clears chain, history and view state and generates a fresh opening',()=>{
  const u=setupUI();u.el('startButton').click();for(let i=0;i<61;i++)u.advance(1000);
@@ -118,8 +118,8 @@ test('same-candle transaction inspection retains quantities, prices and every fe
  assert.match(u.el('chart').innerHTML,/>↕<\/text>/);
 });
 test('work stops mid-day as soon as market value crosses target',()=>{
- const g=new Game(()=>.99);g.start();g.stocks[0].shares=100;g.cash=TARGET-100*g.stocks[0].price-WAGE-100;
- const r=g.work();assert.equal(g.status,'ended');assert(g.won);assert(r.elapsed>0&&r.elapsed<WORK_TICKS);assert.equal(g.ticks,r.elapsed);assert.equal(g.wages,WAGE);
+ const g=new Game(()=>.99);g.start();g.stocks[0].shares=100;g.cash=TARGET-100*g.stocks[0].price-g.workOffer.wage-100;
+ const r=g.work();assert.equal(g.status,'ended');assert(g.won);assert(r.elapsed>0&&r.elapsed<WORK_TICKS);assert.equal(g.ticks,r.elapsed);assert.equal(g.wages,r.wage);
 });
 test('pausing after multiple days preserves actual day and permits chart and map inspection',()=>{
  const u=setupUI();u.el('startButton').click();for(let i=0;i<241;i++)u.advance(1000);u.el('pauseButton').click();
@@ -160,12 +160,12 @@ test('event selection respects existing restrictions, avoids immediate repeats a
  }assert(first.size>4);
 });
 test('work summary accounts for wages, market movement and only news during the job',()=>{
- const g=new Game(seeded(73));g.start();g.trade(1,'buy',1);for(let i=0;i<15;i++)g.tick();const before=g.total,job=g.job;const r=g.work();
- assert.equal(r.job,job);assert.equal(r.elapsed,10);assert.equal(r.wage,WAGE);assert.equal(r.holdingChange,g.total-before-WAGE);assert.equal(r.news.length,1);assert.equal(r.news[0].tick,20);
+ const g=new Game(seeded(73));g.start();g.trade(1,'buy',1);for(let i=0;i<15;i++)g.tick();const before=g.total,job=g.job,quoted=g.workOffer.wage;const r=g.work();
+ assert.equal(r.job,job);assert.equal(r.elapsed,10);assert.equal(r.wage,quoted);assert.equal(r.holdingChange,g.total-before-quoted);assert.equal(r.news.length,1);assert.equal(r.news[0].tick,20);
  const next=g.work();assert.equal(next.news.length,0);assert.equal(next.elapsed,10);
 });
 test('last half-day is usable, insufficient time blocks work without charging or crediting',()=>{
- for(const remaining of [10,9]){const g=new Game(seeded(11));g.start();while(g.remaining>remaining)g.tick();const cash=g.cash,r=g.work();if(remaining===10){assert.equal(r.elapsed,10);assert.equal(g.status,'ended');assert.equal(g.cash,cash+WAGE);}else{assert.equal(r,null);assert.equal(g.cash,cash);assert.equal(g.remaining,9);}}
+ for(const remaining of [10,9]){const g=new Game(seeded(11));g.start();while(g.remaining>remaining)g.tick();const cash=g.cash,r=g.work();if(remaining===10){assert.equal(r.elapsed,10);assert.equal(g.status,'ended');assert.equal(g.cash,cash+r.wage);}else{assert.equal(r,null);assert.equal(g.cash,cash);assert.equal(g.remaining,9);}}
 });
 test('milestones grant no money, are remembered once and reset completely',()=>{
  const g=new Game();g.start();g.cash=3000000;g.checkEnd();assert.equal(g.cash,3000000);assert.equal(g.reached.length,1);g.cash=START;g.checkEnd();g.cash=3000000;g.checkEnd();assert.equal(g.reached.length,1);
@@ -191,6 +191,28 @@ test('recent broadcasts preserve three full messages with sources and uncertaint
 test('UI work report and settlement explain wages and trading returns independently',()=>{
  const u=setupUI();u.el('startButton').click();u.el('buyButton').click();for(let i=0;i<15;i++)u.advance(1000);u.el('workButton').click();assert.match(u.el('workSummary').textContent,/期间持仓 .*收到 1 条广播/);assert(!u.el('workSummary').hidden);
  while(u.game.status==='running')u.advance(1000);
- assert.equal(u.el('endWages').textContent,'1,000');assert.match(u.el('endTrading').textContent,/哈夫币/);for(const s of u.game.stocks)assert(u.el('resultStocks').innerHTML.includes(s.name));
+ assert.equal(u.el('endWages').textContent,(u.game.wages/100).toLocaleString('zh-CN'));assert.match(u.el('endTrading').textContent,/哈夫币/);for(const s of u.game.stocks)assert(u.el('resultStocks').innerHTML.includes(s.name));
+});
+test('job wages vary, remain within the displayed range and avoid the last two completed jobs',()=>{
+ const jobs=new Set(),wages=new Set();for(let seed=1;seed<=40;seed++){
+  const g=new Game(seeded(seed));g.start();const recent=[];
+  while(g.status==='running'){
+   const offer={...g.workOffer};assert(!recent.includes(offer.id));assert(offer.wage>=50000&&offer.wage<=200000);assert(Number.isInteger(offer.wage));
+   const r=g.work();assert.equal(r.wage,offer.wage);assert.equal(r.result,offer.result);jobs.add(r.id);wages.add(r.wage);recent.push(r.id);if(recent.length>2)recent.shift();
+  }
+ }assert.equal(jobs.size,12);assert(wages.size>=10);assert.equal(Math.min(...wages),50000);assert.equal(Math.max(...wages),200000);
+});
+test('job quotes cannot be rerolled through rendering, stock selection or pause',()=>{
+ const u=setupUI();u.el('startButton').click();const offer=JSON.stringify(u.game.workOffer),seed=u.game.jobSeed;
+ for(let i=0;i<3;i++)u.el('stock'+i).click();u.el('pauseButton').click();u.el('zoomIn').click();u.el('allButton').click();u.el('pauseButton').click();
+ assert.equal(JSON.stringify(u.game.workOffer),offer);assert.equal(u.game.jobSeed,seed);assert(u.el('workHelp').textContent.includes((u.game.workOffer.wage/100).toLocaleString('zh-CN')));
+});
+test('conditional jobs expire when their situation clears, but an accepted quote is honored',()=>{
+ const g=new Game(seeded(42));g.start();g.regions.power='limited';const job=JOBS.find(j=>j.id==='powerwork');
+ const offer={...job,wage:180000,ticks:WORK_TICKS};g.workOffer=offer;g.chain={id:'power-repair',step:1};g.makeNews();assert.equal(g.regions.power,'stable');assert.notEqual(g.workOffer.id,'powerwork');
+ g.regions.power='limited';g.workOffer=offer;g.chain={id:'power-repair',step:1};g.ticks=15;const r=g.work();assert.equal(g.regions.power,'stable');assert.equal(r.id,'powerwork');assert.equal(r.wage,180000);assert.notEqual(g.workOffer.id,'powerwork');
+});
+test('job random state and completed work are cleared on restart',()=>{
+ const g=new Game(seeded(66));g.start();g.work();assert(g.recentJobs.length);g.reset();assert.equal(g.jobSeed,0);assert.equal(g.workOffer,null);assert.equal(g.lastWork,null);assert.equal(g.recentJobs.length,0);assert.equal(g.inJob,false);g.start();assert(g.workOffer);assert.equal(g.wages,0);
 });
 console.log('\n'+checks+' checks passed. Logic and DOM harness; browser results are reported separately.');
