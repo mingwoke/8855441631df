@@ -98,8 +98,8 @@ async function mapAlignment(page,label){
     const style=getComputedStyle(document.documentElement),up=style.getPropertyValue('--up').trim(),down=style.getPropertyValue('--down').trim();
     return {up,down,accent:style.getPropertyValue('--accent').trim(),candles:[...document.querySelectorAll('#chart g[data-index]>rect[fill^="var(--"]')].map(e=>e.getAttribute('fill')),emblem:[...document.querySelectorAll('.faction-emblem')].every(e=>e.complete&&e.naturalWidth>0)};
    });
-   assert.equal(appearance.up,'#0ff796');assert.equal(appearance.down,'#ff858b');assert.equal(appearance.accent,'#7a1f2b');assert(appearance.emblem);assert(appearance.candles.length>0);assert(appearance.candles.every(c=>c==='var(--up)'||c==='var(--down)'));
-   pass(label+' — packaged Guard emblem, deep burgundy UI, green gains and red losses');
+   assert.equal(appearance.up,'#0ff796');assert.equal(appearance.down,'#ff858b');assert.equal(appearance.accent,'#941c32');assert(appearance.emblem);assert(appearance.candles.length>0);assert(appearance.candles.every(c=>c==='var(--up)'||c==='var(--down)'));
+   pass(label+' — packaged Guard emblem, charcoal background and crimson UI, green gains and red losses');
    await layout(page,label);await mapAlignment(page,label);
    await page.evaluate(()=>scrollTo(0,0));await capture(page,{path:path.join(output,label+'-playing.png'),fullPage:true});
    // Clicking the actual rendered news marker opens the corresponding news.

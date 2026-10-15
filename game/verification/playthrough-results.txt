@@ -1,0 +1,13 @@
+PASS desktop — keyboard reaches archive and wraps focus; entering starts at page top
+PASS desktop — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history
+PASS desktop — restart resets scroll, expanded details, chart, trades, wages and time without new timers
+PASS mobile — keyboard reaches archive and wraps focus; entering starts at page top
+PASS mobile — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history
+PASS mobile — restart resets scroll, expanded details, chart, trades, wages and time without new timers
+PASS low funds — fees block unaffordable buys, empty holdings block sells and quoted work restores cash
+PASS 320px near-target balance — full asset figures, cash and pause stay separate and unclipped
+PASS 375px near-target balance — full asset figures, cash and pause stay separate and unclipped
+PASS 390px near-target balance — full asset figures, cash and pause stay separate and unclipped
+PASS all complete-session scenarios — no uncaught JavaScript errors
+
+11 complete-session browser checks passed.
