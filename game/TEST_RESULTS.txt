@@ -1,5 +1,5 @@
 阿萨拉小兵的炒股梦 · 阿萨拉值守版验证记录
-日期：2026-10-15（Asia/Shanghai）
+日期：2026-10-16（Asia/Shanghai）
 
 代码与规则
 - 目标 100 万；初始 1 万；30 天，每天 20 秒；12 种打工、每次 500～2,000 / 10 ticks，接受前显示确切报价。
@@ -10,7 +10,10 @@
 自动化检查
 - node tests/game.cjs：56 项通过，退出码 0。涵盖金额、手续费、平均成本、整数股、OHLC、新闻标记、状态延续、条件分支、工作报价/条件/独立随机序列/防重复、工作摘要、收益守恒、里程碑、暂停与重开。
 - node tests/browser.cjs：32 项真实 Chromium 检查通过，退出码 0。浏览器 154.0.8037.57。
-- node tests/playthrough.cjs：11 项真实 Chromium 检查通过，退出码 0；浏览器检查合计 43 项。
+- node tests/playthrough.cjs：11 项真实 Chromium 检查通过，退出码 0。
+- node tests/extended.cjs：9 项真实 Chromium 检查通过，退出码 0；浏览器检查合计 52 项。
+- 追加两轮：种子 735（18 次交易 / 10 次打工 / 15 条广播，资产 21,168.74）及 9481（29 次交易 / 12 次打工 / 15 条广播，资产 17,152.77），均完整 30 天并精确对账。
+- 新修复回归：长按 Esc 仅切换一次、新广播保留旧消息展开与焦点、105 组日期刻度不重叠；另有禁用存储、最后一股、最后一秒及连续重开。
 - 完整流程：电脑与手机各 600 ticks / 30 天，22 次交易、9 次打工、15 条广播；同种子最终资产均 16,953.78，工资 10,700，交易/持仓净收益 −3,746.22，逐步精确对账。
 - 新回归覆盖：Tab 访问档案、重开回到页首并收起地点状态、320/375/390px 接近目标资产时顶部数字不溢出。
 - 桌面 1366×768、大屏 1920×1080、手机触屏模拟 390×844 / 320×568、小窗口 800×600。
@@ -20,7 +23,7 @@
 - 补充实测 320px 手机视口：展开卫队档案后自然滚动，进入按钮仍可点击；截图 small-phone-lore.png。
 - 检查无横向溢出、图表/提示/标签重叠、底部遮挡；命中检测确认滑块和交易按钮可点；无未捕获 JS 错误。
 
-数值样本
+数值样本（保留 2026-10-15 报告；本轮行情引擎未变，未重复模拟）
 - node tests/balance.cjs：1,000 局完整市场路径；三股持有各 300 局、只打工 300 局、持仓配合打工 300 局、按新闻参数换仓 300 局，共 1,800 局策略。
 - 使用固定种子的 Mulberry32；同种子旧版行情对照通过 ASARA_BASELINE 参数读取提交 9c6099f 的 game/dist/index.html。
 - 日涨跌幅绝对值中位数：旧版 16.22% → 新版 3.57%。
@@ -46,4 +49,4 @@
 - 当前云环境的代理拦截 mingwoke.github.io，无法直接核验公网网页响应；GitHub Actions 网页可读取并用于核查部署结果。
 - Codex 云环境设置界面的本地“网页预览”入口不作为可用试玩渠道，使用独立 GitHub Pages 地址。
 
-证据：verification/logic-results.txt、browser-results.json/txt、playthrough-results.json/txt、balance-results.json/txt，以及对应 PNG 截图。复现与修复说明：docs/QUALITY_REVIEW.md。
+证据：verification/logic-results.txt、browser-results.json/txt、playthrough-results.json/txt、extended-results.json/txt、balance-results.json/txt，以及对应 PNG 截图。复现与修复说明：docs/QUALITY_REVIEW.md。

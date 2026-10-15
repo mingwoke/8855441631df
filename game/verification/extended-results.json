@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-15T16:15:20.929Z",
+  "browser": "154.0.8037.57",
+  "checks": 9,
+  "results": [
+    "round 1 — holding Escape pauses once; only a fresh key press resumes",
+    "round 1 — new broadcasts preserve expanded reading and focus; expired entries return focus to archive",
+    "round 1 — 30 days of frequent trading, click protection, jobs, history and changing zoom reconcile",
+    "round 2 — simulated pagehide freezes balances/time and pageshow requires manual resume",
+    "round 2 — full-cash purchase leaves insufficient funds; work recovers cash and last share requires full sale",
+    "round 2 — portrait/landscape and rolling maximum-range chart dates remain legible",
+    "round 2 — final second blocks work, ends exactly on day 30 and settles with storage disabled",
+    "round 2 — two consecutive restarts retain only in-memory best score and a single timer",
+    "both rounds — no uncaught JavaScript errors"
+  ],
+  "rounds": [
+    {
+      "label": "extended-round1",
+      "seed": 735,
+      "ticks": 600,
+      "assets": 21168.74,
+      "wages": 11200,
+      "fees": 21.16,
+      "tradingPnl": -31.26,
+      "trades": 18,
+      "jobs": 10,
+      "news": 15
+    },
+    {
+      "label": "extended-round2",
+      "seed": 9481,
+      "ticks": 600,
+      "assets": 17152.77,
+      "wages": 14000,
+      "fees": 43.4,
+      "tradingPnl": -6847.23,
+      "trades": 29,
+      "jobs": 12,
+      "news": 15
+    }
+  ],
+  "axisSamples": 105,
+  "errors": [],
+  "note": "Accelerated browser clock; mobile viewport/touch emulation. pagehide/pageshow are dispatched browser events, not physical-device background tests. An additional idle 30-day session verifies consecutive restart."
+}

@@ -319,8 +319,13 @@
   const showCost=s.shares>0&&avg>=lo-spread*.15&&avg<=hi+spread*.15;
   spread=Math.max(hi-lo,bars.at(-1).c*.025,1);lo=Math.max(0,lo-spread*.15);hi+=spread*.15;
   const y=v=>bottom-(v-lo)/(hi-lo)*(bottom-top),font='font-family="ui-monospace,Consolas,monospace" font-size="10"';
-  let svg='';
-  for(let i=start;i<end;i++){if(i===start||i%Math.max(4,Math.ceil(count/20)*4)===0){const label='第'+(Math.floor(all[i].t/20)+1)+'天';svg+=`<path d="M${x(i)} ${top}V${bottom}" stroke="#303a42" stroke-dasharray="2 5"/><text x="${x(i)}" y="${H-6}" text-anchor="${i===start?'start':'middle'}" fill="#b3bdc5" ${font}>${label}</text>`;}}
+  let svg='',dateRight=-Infinity;
+  for(let i=start;i<end;i++){if(i===start||i%Math.max(4,Math.ceil(count/20)*4)===0){
+   const label='第'+(Math.floor(all[i].t/20)+1)+'天',width=label.length*10,labelLeft=x(i)-(i===start?0:width/2);
+   svg+=`<path d="M${x(i)} ${top}V${bottom}" stroke="#303a42" stroke-dasharray="2 5"/>`;
+   // Reserve enough text space, including the left-aligned first date.
+   if(labelLeft>=dateRight+8&&labelLeft+width<=right){svg+=`<text x="${x(i)}" y="${H-6}" text-anchor="${i===start?'start':'middle'}" fill="#b3bdc5" ${font}>${label}</text>`;dateRight=labelLeft+width;}
+  }}
   $('zoomLabel').textContent='近'+(count/4)+'天';$('zoomIn').disabled=zoom<=.5;$('zoomOut').disabled=zoom>=3;
   for(let k=0;k<4;k++){const yy=top+(bottom-top)*k/3,v=hi-(hi-lo)*k/3;svg+=`<path d="M${left} ${yy}H${right}" stroke="#344049" stroke-dasharray="2 5"/><text x="${right+7}" y="${yy+3}" fill="#b3bdc5" ${font}>${esc(compact(v))}</text>`;}
   if(showCost)svg+=`<path id="costLine" d="M${left} ${y(avg)}H${right}" stroke="#cdbd9f" stroke-dasharray="5 4"/><text x="${left+3}" y="${Math.max(12,y(avg)-5)}" fill="#cdbd9f" ${font}>成本</text>`;
@@ -360,7 +365,10 @@
   $('roadStatus').textContent='道路 · '+SITE_LABELS.road[game.regions.road];$('powerStatus').textContent='电力 · '+SITE_LABELS.power[game.regions.power];
   $('siteStatus').innerHTML=Object.entries(game.regions).map(([key,value])=>'<span>'+LOCATIONS[key].name+' · '+SITE_LABELS[key][value]+'</span>').join('');
   const recent=game.events.filter(e=>e.type==='news').slice(-3).reverse();$('archiveCount').textContent=recent.length;
-  $('newsHistory').innerHTML=recent.length?recent.map(e=>'<details><summary>第'+e.day+'天 · '+esc(e.heading)+'</summary><p>'+esc(e.source)+(e.rumor?' · 未核实':'')+' / '+LOCATIONS[e.location].name+'</p><p>'+esc(e.title)+'</p></details>').join(''):'新广播会保留在这里。';
+  const oldDetails=Array.from($('newsHistory').children),opened=new Set(oldDetails.filter(e=>e.open).map(e=>e.getAttribute('data-news-tick')));
+  const focused=oldDetails.find(e=>e.firstElementChild===document.activeElement),focusedTick=focused?focused.getAttribute('data-news-tick'):null;
+  $('newsHistory').innerHTML=recent.length?recent.map(e=>'<details data-news-tick="'+e.tick+'"'+(opened.has(String(e.tick))?' open':'')+'><summary>第'+e.day+'天 · '+esc(e.heading)+'</summary><p>'+esc(e.source)+(e.rumor?' · 未核实':'')+' / '+LOCATIONS[e.location].name+'</p><p>'+esc(e.title)+'</p></details>').join(''):'新广播会保留在这里。';
+  if(focusedTick!==null){const kept=Array.from($('newsHistory').children).find(e=>e.getAttribute('data-news-tick')===focusedTick);(kept?kept.firstElementChild:$('newsArchive').firstElementChild).focus({preventScroll:true});}
  }
  function setMapOpen(open){mapOpen=open;$('mapBody').classList.toggle('is-open',mapOpen);$('mapToggle').setAttribute('aria-expanded',String(mapOpen));$('mapToggle').textContent=mapOpen?'收起地图':'地图';}
  function renderClock(){const ended=game.status==='ended';$('dayValue').textContent=String(game.day).padStart(2,'0');$('dayCountdown').textContent=ended?'已收盘':game.status==='paused'?'时间已暂停':(DAY-game.ticks%DAY)+'秒后'+(game.day===30?'收盘':'换班');$('dayBar').style.width=(ended?100:(game.ticks%DAY+accumulator/1000)/DAY*100)+'%';}
@@ -415,7 +423,7 @@
  $('mapToggle').addEventListener('click',()=>setMapOpen(!mapOpen));
  $('chart').addEventListener('click',e=>{const target=e.target.closest('[data-index]');if(target){inspect=Number(target.getAttribute('data-index'));drawChart();return;}if(!chartLayout)return;const r=$('chart').getBoundingClientRect(),i=chartLayout.start+Math.floor(((e.clientX-r.left)*(Math.max(280,Math.round(r.width))/r.width)-chartLayout.left)/chartLayout.space);if(i>=chartLayout.start&&i<chartLayout.end){inspect=i;drawChart();}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&game.status==='running')togglePause(true);});window.addEventListener('pagehide',()=>{if(game.status==='running')togglePause(true);});window.addEventListener('resize',drawChart);if(typeof ResizeObserver!=='undefined')new ResizeObserver(drawChart).observe($('plot'));
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&['running','paused'].includes(game.status))togglePause();if(e.key==='Tab'&&!$('chartCover').hidden){const first=$('startButton'),last=$('loreSummary');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}if(e.key==='Tab'&&!$('endOverlay').hidden){e.preventDefault();$('restartButton').focus();}});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!e.repeat&&['running','paused'].includes(game.status))togglePause();if(e.key==='Tab'&&!$('chartCover').hidden){const first=$('startButton'),last=$('loreSummary');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}if(e.key==='Tab'&&!$('endOverlay').hidden){e.preventDefault();$('restartButton').focus();}});
  // One timer for the entire page lifetime. Restarts only reset state.
  setInterval(()=>{const now=performance.now(),elapsed=now-lastTime;lastTime=now;if(game.status==='running'){if(elapsed>2500)togglePause(true);else{accumulator+=elapsed;while(accumulator>=1000&&game.status==='running'){accumulator-=1000;game.tick();render();}renderClock();if(workUnlock&&now>=workUnlock){workUnlock=0;renderActions();}if(!$('tip').hidden&&now>=tipUntil){$('tip').hidden=true;$('learningDefault').hidden=false;}updateKnowledge(now);}}},100);
  render();$('startButton').focus({preventScroll:true});

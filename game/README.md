@@ -38,6 +38,7 @@ node tests/game.cjs
 node tests/balance.cjs
 node tests/browser.cjs
 node tests/playthrough.cjs
+node tests/extended.cjs
 ```
 
 前两项只需 Node.js。本次使用 Node 24.19.0；浏览器测试使用 Playwright 1.62.1 与 `/usr/bin/chromium`。可通过 `CHROMIUM_PATH` 指定 Chromium。需要安装 Playwright 时：
@@ -48,7 +49,7 @@ npm install --no-save --package-lock=false playwright@1.62.1
 
 浏览器测试自行启动临时 HTTP 服务并关闭，使用独立浏览器环境，不读取个人浏览器资料。
 
-本轮 **56 项逻辑/DOM 检查、43 项真实 Chromium 检查通过**（常规 32 项 + 完整流程 11 项）。电脑与手机各完成一个 30 天混合操作流程，使用加速浏览器时钟。另有 1,000 局市场路径与 1,800 局策略样本；300 局纯打工最终资产为 69,500～86,900，中位数 78,300。结果及截图在 `verification/`，本轮问题与修复见 [完整检查记录](docs/QUALITY_REVIEW.md)。覆盖桌面、手机触屏模拟、小窗口及原生浏览器 200% 缩放；不是实体手机或 Safari 测试。
+本轮 **56 项逻辑/DOM 检查、52 项真实 Chromium 检查通过**（常规 32 项 + 完整流程 11 项 + 追加两轮 9 项）。新增两轮采用不同随机种子和操作顺序，各完成 30 天，并扫描 105 组日期刻度；修复长按 Esc 反复切换暂停、广播刷新打断阅读、缩小 K 线时日期重叠。全部整局使用加速浏览器时钟。上一轮保留的 1,000 局市场路径与 1,800 局策略样本仍适用于未改动的行情引擎；300 局纯打工最终资产为 69,500～86,900，中位数 78,300。结果及截图在 `verification/`，问题与修复见 [完整检查记录](docs/QUALITY_REVIEW.md)。覆盖桌面、手机触屏模拟、小窗口及原生浏览器 200% 缩放；不是实体手机或 Safari 测试。
 
 ## 保留规则
 

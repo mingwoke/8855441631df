@@ -1,0 +1,11 @@
+PASS round 1 — holding Escape pauses once; only a fresh key press resumes
+PASS round 1 — new broadcasts preserve expanded reading and focus; expired entries return focus to archive
+PASS round 1 — 30 days of frequent trading, click protection, jobs, history and changing zoom reconcile
+PASS round 2 — simulated pagehide freezes balances/time and pageshow requires manual resume
+PASS round 2 — full-cash purchase leaves insufficient funds; work recovers cash and last share requires full sale
+PASS round 2 — portrait/landscape and rolling maximum-range chart dates remain legible
+PASS round 2 — final second blocks work, ends exactly on day 30 and settles with storage disabled
+PASS round 2 — two consecutive restarts retain only in-memory best score and a single timer
+PASS both rounds — no uncaught JavaScript errors
+
+9 extended browser checks passed; 105 date-axis samples.
