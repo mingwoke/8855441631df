@@ -3,9 +3,9 @@ PASS half buy uses half cash including fee and full sell conserves accounting
 PASS all-in includes fees; partial cost basis reconciles after final sale
 PASS one share cannot half-sell; invalid and empty orders are rejected
 PASS pause freezes money, time, prices and jobs
-PASS work earns exactly 500 and simulates exactly 20 ticks
+PASS work earns exactly 1000 and simulates exactly 10 ticks
 PASS exactly 600 seconds ends day 30; all actions remain blocked
-PASS 30 full work days finish cleanly, wages not skipped
+PASS 60 half-day jobs finish cleanly with exactly 70000 total assets
 PASS hitting target wins immediately
 PASS news appears, decays, and learning points appear only once
 PASS restart resets all state, tips, effects and histories
@@ -16,7 +16,7 @@ PASS switching stock updates single chart and selected-position summary
 PASS keyboard tabs change selection and focus
 PASS paused state freezes gameplay and automatic background pause never auto-resumes
 PASS single-share half sell is disabled and all selection allows sale
-PASS work feedback, one-day advance, and click cooldown
+PASS work feedback, half-day advance, and click cooldown
 PASS educational hint is temporary and each event appears once
 PASS 30-day result and restart clear UI state without a second timer
 PASS blocked local storage does not stop game or results
@@ -26,21 +26,32 @@ PASS current candle grows live; trade and news markers have correct boundary ind
 PASS history scrubber and live view show actual events and reset per stock and game
 PASS candle geometry remains finite for flat, extreme and out-of-range cost cases
 PASS positive news is not a guarantee; stocks have independent directions
-  stock 0: 71 losing runs, 0 target wins / 100
-  stock 1: 46 losing runs, 3 target wins / 100
-  stock 2: 62 losing runs, 0 target wins / 100
+  stock 0: 77 losing runs, 0 target wins / 100
+  stock 1: 56 losing runs, 0 target wins / 100
+  stock 2: 67 losing runs, 0 target wins / 100
 PASS no guaranteed rising stock across seeded buy-and-hold runs
 PASS zoom shows fewer recent bars, preserves historical selection and resets
 PASS knowledge tips occupy their own row and restore the legend after expiration
 PASS blockade progresses through GTI action and both possible outcomes without alliances
 PASS all authored event branches update one map site and independent stock effects
-PASS one-minute jobs run the same news chain and candle path as elapsed market time
-PASS reset clears active chain, location, markers, expanded map and news
+PASS jobs run the same news, region and candle path as elapsed market time
+PASS reset clears chain, history and view state and generates a fresh opening
 PASS news appears on every affected stock and history reveals source and location
 PASS historical range ignores current extreme prices and offscreen average cost
 PASS same-candle transaction inspection retains quantities, prices and every fee
 PASS work stops mid-day as soon as market value crosses target
 PASS pausing after multiple days preserves actual day and permits chart and map inspection
 PASS only best score is persisted, and no RMB symbols or external asset requests remain
+PASS three openings initialize distinct playable conditions without changing initial capital
+PASS regional conditions persist across unrelated news and change only with a relevant update
+PASS roads and power affect actual prices and delivery outcome probabilities
+PASS event selection respects existing restrictions, avoids immediate repeats and finishes chains before close
+PASS work summary accounts for wages, market movement and only news during the job
+PASS last half-day is usable, insufficient time blocks work without charging or crediting
+PASS milestones grant no money, are remembered once and reset completely
+PASS per-stock net contribution reconciles exactly with total capital and wages
+PASS trade previews include cash impact and fees, and tabs expose other holdings
+PASS recent broadcasts preserve three full messages with sources and uncertainty
+PASS UI work report and settlement explain wages and trading returns independently
 
-41 checks passed. DOM simulation only; real browser rendering unverified.
+52 checks passed. Logic and DOM harness; browser results are reported separately.

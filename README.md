@@ -1,13 +1,11 @@
-# 8855441631df
+# 阿萨拉小兵的炒股梦
 
-## 阿萨拉小兵的炒股梦
+中文纯前端浏览器小游戏。开局 10,000 哈夫币，驻守零号大坝 30 天，看消息、买卖股票、打工，挑战攒到 100 万。
 
-完整游戏位于 [game](game/README.md)，包含页面、素材、测试和验证截图。
+- [在线试玩](https://mingwoke.github.io/8855441631df/)
+- [游戏说明与本地运行](game/README.md)
+- [本轮开发方案](game/docs/REVISION_PLAN.md)
+- [验证结果](game/TEST_RESULTS.txt)
+- [发布说明](DEPLOYMENT.md)
 
-解压仓库后，按 game/README.md 启动，或将整个 game/dist 目录上传到静态网站托管平台。无需账号、后端或 API Key。
-
-本次版本尚未发布到原站。验证结果见 [测试记录](game/TEST_RESULTS.txt)。
-
-## 在线试玩部署
-
-已准备 `gh-pages` 发布分支。首次启用步骤和部署状态见 [DEPLOYMENT.md](DEPLOYMENT.md)。
+本版采用红黑阿萨拉界面，降低随机波动，打工改为 1,000/半天，加入持续地图状态、12 组原创事件和收支复盘。代码在 `game/`，网站发布文件在 `gh-pages` 分支。

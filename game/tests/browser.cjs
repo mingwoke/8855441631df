@@ -30,7 +30,8 @@ async function capture(page,options){
  }finally{await cdp.detach();}
 }
 async function instrument(page,denyStorage=false){
- await page.clock.install();
+ await page.clock.install({time:new Date('2026-10-15T12:00:00Z')});
+ await page.clock.pauseAt(new Date('2026-10-15T12:00:01Z'));
  await page.addInitScript(deny=>{
   let seed=315;const random=()=>{seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/4294967296;};
   let api;
@@ -58,6 +59,7 @@ async function layout(page,label){
   return errors;
  });
  assert.deepEqual(faults,[],label);
+ if(label==='desktop'||label==='wide')assert(await page.locator('.actions').evaluate(e=>e.getBoundingClientRect().bottom<=innerHeight),label+' main actions below initial viewport');
  for(const id of ['historyRange','zoomIn','zoomOut','liveButton','buyButton','sellButton','workButton','halfButton']){
   const element=page.locator('#'+id);await element.scrollIntoViewIfNeeded();
   const hit=await element.evaluate(e=>{const r=e.getBoundingClientRect(),t=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return t===e||e.contains(t);});
@@ -73,12 +75,10 @@ async function mapAlignment(page,label){
   return {dx:actual.x-expected.x,dy:actual.y-expected.y,visible:pin.getAttribute('visibility'),count:document.querySelectorAll('#fieldMap .map-active').length};
  });
  assert(Math.abs(geometry.dx)<.01&&Math.abs(geometry.dy)<.01);assert.equal(geometry.visible,'visible');assert.equal(geometry.count,1);
- await page.locator('#expandMap').click();assert(await page.locator('#mapOverlay').isVisible());
- assert(await page.locator('#app').evaluate(e=>e.inert));
+ assert.equal(await page.locator('#expandMap, #mapOverlay').count(),0);
  await capture(page,{path:path.join(output,label+'-map.png'),fullPage:true});
- await page.keyboard.press('Escape');assert(await page.locator('#mapOverlay').isHidden());
  if(await page.locator('#mapToggle').isVisible())await page.locator('#mapToggle').click();
- pass(label+' — original-map pin aligned at both sizes; map dialog keyboard close');
+ pass(label+' — original-map pin aligned; mobile map folds without a modal');
 }
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -92,15 +92,17 @@ async function mapAlignment(page,label){
    const page=await context.newPage();page.on('pageerror',e=>errors.push(label+': '+e.message));await instrument(page);await page.goto(base);await page.evaluate(()=>document.fonts.ready);
    assert(await page.locator('#app').isHidden());assert.equal(await page.locator('.chart-cover').evaluate(e=>getComputedStyle(e).overflow),'visible');
    await capture(page,{path:path.join(output,label+'-start.png'),fullPage:true});
-   await page.locator('#startButton').click();await page.locator('#buyButton').click();assert.match(await page.locator('#feeText').innerText(),/4.98 哈夫币/);
-   await page.clock.runFor(61000);assert.equal(await page.evaluate(()=>__game.news.id),'gti-action');
+   await page.locator('#startButton').click();assert.match(await page.locator('#buyPreview').innerText(),/249 股.*4,984.98/);await page.locator('#buyButton').click();assert.match(await page.locator('#feeText').innerText(),/4.98 哈夫币/);
+   await page.clock.runFor(61000);assert(await page.evaluate(()=>__game.events.filter(e=>e.type==='news').length===2),JSON.stringify(await page.evaluate(()=>({ticks:__game.ticks,status:__game.status,events:__game.events,feedback:document.getElementById('feedbackText').textContent})))+' errors: '+errors.join('; '));
    await layout(page,label);await mapAlignment(page,label);
    await page.evaluate(()=>scrollTo(0,0));await capture(page,{path:path.join(output,label+'-playing.png'),fullPage:true});
    // Clicking the actual rendered news marker opens the corresponding news.
-   const marker=page.locator('#chart g[data-index="12"]').filter({has:page.locator('text', {hasText:'!'})});
-   await marker.click();assert.match(await page.locator('#inspectText').innerText(),/截获通讯.*水泥厂外桥头/);
+   const news=await page.evaluate(()=>__game.events.filter(e=>e.type==='news').at(-1));
+   await page.locator('#stock'+news.index).click();
+   const marker=page.locator('#chart g[data-index="'+news.candle+'"]').filter({has:page.locator('text', {hasText:'!'})});
+   await marker.click();assert((await page.locator('#inspectText').innerText()).includes(news.title));
    const ticks=await page.evaluate(()=>__game.ticks);await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>__game.ticks),ticks+1);assert.match(await page.locator('#connectionState').innerText(),/回看/);
-   await page.locator('#historyRange').focus();await page.keyboard.press('Home');assert.equal(await page.locator('#historyRange').inputValue(),'0');assert.match(await page.locator('#inspectText').innerText(),/费用 4.98 哈夫币/);
+   await page.locator('#stock0').click();await page.locator('#historyRange').focus();await page.keyboard.press('Home');assert.equal(await page.locator('#historyRange').inputValue(),'0');assert.match(await page.locator('#inspectText').innerText(),/费用 4.98 哈夫币/);
    await page.locator('#pauseButton').click();const pausedTicks=await page.evaluate(()=>__game.ticks);await page.clock.runFor(2000);assert.equal(await page.evaluate(()=>__game.ticks),pausedTicks);assert(await page.locator('#buyButton').isDisabled());
    await page.locator('#zoomIn').click();await page.locator('#liveButton').click();assert(await page.locator('#chartCover').isHidden());
    await page.evaluate(()=>scrollTo(0,0));await capture(page,{path:path.join(output,label+'-paused.png'),fullPage:true});
@@ -116,11 +118,18 @@ async function mapAlignment(page,label){
     await page.clock.runFor(179000);await page.locator('#pauseButton').click();assert.equal(await page.locator('#dayValue').innerText(),'13');
     await capture(page,{path:path.join(output,'day13-paused.png'),fullPage:true});
     await page.locator('#pauseButton').click();await page.clock.runFor((600-await page.evaluate(()=>__game.ticks))*1000+100);assert.equal(await page.evaluate(()=>__game.ticks),600);assert(await page.locator('#endOverlay').isVisible());
-    assert.equal(await page.evaluate(()=>Object.keys(localStorage).join(',')),'asara.best.v1');await capture(page,{path:path.join(output,'result.png'),fullPage:true});
-    await page.locator('#restartButton').click();assert.equal(await page.evaluate(()=>__game.ticks),0);assert.equal(await page.evaluate(()=>__intervals),1);assert.equal(await page.locator('#cashValue').innerText(),'10,000');assert.equal(await page.locator('#mapMarker').getAttribute('visibility'),'hidden');
-    await page.locator('#workButton').click();await page.locator('#workButton').evaluate(e=>e.click());assert.equal(await page.evaluate(()=>__game.ticks),20);assert.equal(await page.evaluate(()=>__game.wages),50000);
+    assert.equal(await page.evaluate(()=>Object.keys(localStorage).join(',')),'asara.best.v1');assert.equal(await page.locator('#resultStocks .result-row').count(),3);assert.match(await page.locator('#endTrading').innerText(),/哈夫币/);await capture(page,{path:path.join(output,'result.png'),fullPage:true});
+    await page.locator('#restartButton').click();assert.equal(await page.evaluate(()=>__game.ticks),0);assert.equal(await page.evaluate(()=>__intervals),1);assert.equal(await page.locator('#cashValue').innerText(),'10,000');assert.equal(await page.locator('#mapMarker').getAttribute('visibility'),await page.evaluate(()=>__game.news.location?'visible':'hidden'));assert(await page.locator('#workSummary').isHidden());
+    await page.locator('#workButton').click();await page.locator('#workButton').evaluate(e=>e.click());assert.equal(await page.evaluate(()=>__game.ticks),10);assert.equal(await page.evaluate(()=>__game.wages),100000);
     pass('desktop — full 30-day timer, result, best-score storage, restart and work double-click protection');
+    await page.clock.runFor(5000);await page.locator('#workButton').click();assert.match(await page.locator('#workSummary').innerText(),/期间持仓 .*收到 1 条广播/);
+    await capture(page,{path:path.join(output,'work-report.png'),fullPage:true});pass('desktop — half-day job report separates wages, holdings and intervening news');
    }
+   // The same controls stay reachable when users expand long event content.
+   await page.evaluate(()=>{__game.chain={id:'blockade',step:1};__game.makeNews();});await page.locator('#stock1').click();
+   await page.locator('#newsArchive>summary').click();await page.locator('#newsHistory details').first().locator('summary').click();
+   assert.match(await page.locator('#newsHistory').innerText(),/截获通讯.*未核实/);assert.match(await page.locator('#eventImpacts').innerText(),/设施风险上升/);
+   await layout(page,label+' expanded broadcasts');await capture(page,{path:path.join(output,label+'-broadcasts.png'),fullPage:true});
    await context.close();
   }
   // Use Chromium's real browser zoom setting (not CSS zoom or device emulation).
@@ -140,7 +149,7 @@ async function mapAlignment(page,label){
    console.log('LIMITATION file:// navigation blocked by managed browser policy; checking network-off gameplay after local HTTP load.');
    await offline.setOffline(false);await file.goto(base);await file.locator('.coin img').first().waitFor({state:'attached'});await file.evaluate(()=>Promise.all([...document.images].map(img=>img.decode())));await offline.setOffline(true);
   }
-  await file.locator('#startButton').click();await file.locator('#workButton').click();assert.equal(await file.evaluate(()=>__game.cash),1050000);
+  await file.locator('#startButton').click();await file.locator('#workButton').click();assert.equal(await file.evaluate(()=>__game.cash),1100000);
   assert(await file.locator('.coin img').first().evaluate(e=>e.complete&&e.naturalWidth===401));
   await file.evaluate(()=>{__game.cash=AsaraGame.TARGET;});await file.clock.runFor(1000);assert(await file.locator('#endOverlay').isVisible());assert.match(await file.locator('#recordNote').innerText(),/禁止本地存储/);await file.locator('#restartButton').click();assert.equal(await file.evaluate(()=>__intervals),1);await offline.close();
   pass('network-off gameplay after asset load — original assets, immediate win and blocked storage');
