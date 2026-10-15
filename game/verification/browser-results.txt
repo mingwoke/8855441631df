@@ -1,0 +1,24 @@
+PASS desktop — no overlap, clipping or blocked chart/trade controls
+PASS desktop — original-map pin aligned at both sizes; map dialog keyboard close
+PASS desktop — news/trade markers, touch-sized controls, history, zoom and pause
+PASS desktop — full 30-day timer, result, best-score storage, restart and work double-click protection
+PASS wide — no overlap, clipping or blocked chart/trade controls
+PASS wide — original-map pin aligned at both sizes; map dialog keyboard close
+PASS wide — news/trade markers, touch-sized controls, history, zoom and pause
+PASS mobile — no overlap, clipping or blocked chart/trade controls
+PASS mobile — original-map pin aligned at both sizes; map dialog keyboard close
+PASS mobile — news/trade markers, touch-sized controls, history, zoom and pause
+PASS small-phone — no overlap, clipping or blocked chart/trade controls
+PASS small-phone — original-map pin aligned at both sizes; map dialog keyboard close
+PASS small-phone — news/trade markers, touch-sized controls, history, zoom and pause
+PASS small-window — no overlap, clipping or blocked chart/trade controls
+PASS small-window — original-map pin aligned at both sizes; map dialog keyboard close
+PASS small-window — news/trade markers, touch-sized controls, history, zoom and pause
+PASS native browser 200% — no overlap, clipping or blocked chart/trade controls
+PASS native-200-percent — original-map pin aligned at both sizes; map dialog keyboard close
+PASS native browser 200% — confirmed 1366×768 screen / 683×384 CSS viewport / DPR 2
+LIMITATION file:// navigation blocked by managed browser policy; checking network-off gameplay after local HTTP load.
+PASS network-off gameplay after asset load — original assets, immediate win and blocked storage
+PASS all browser scenarios — no uncaught JavaScript errors
+
+21 real-browser checks passed.
