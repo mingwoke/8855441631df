@@ -13,15 +13,15 @@
 
 ## 验证状态
 
-2026-10-15 已核实本轮红黑阿萨拉版本部署成功：
-https://github.com/mingwoke/8855441631df/actions/runs/38713743134
+2026-10-15 已核实深酒红卫队徽记与浮动工资版本部署成功：
+https://github.com/mingwoke/8855441631df/actions/runs/38718807516
 
-- 验证后的源码提交：`1fc09463f0faae3706905443cff2cd92409d3ab2`
-- 发布提交：`00f073e061739b068521633dd192c0d37de8364a`
+- 验证后的源码提交：`e946f6da1d0cd1ed18adbd7992e7c582f7cbb681`
+- 发布提交：`694b914c1205f6258149c739812053c25a1d3664`
 - Actions 状态：Completed / Success。
-- 发布分支四个运行文件与源码 game/dist 的 Git blob ID 完全一致，另有空 .nojekyll。
+- 发布分支五个运行文件（含本地卫队徽记 PNG）与源码 game/dist 的 Git blob ID 完全一致，另有空 .nojekyll。
 
-该部署记录给出的实际网址即本页顶部地址。当前云环境代理限制 mingwoke.github.io 和 api.github.com，但可以读取 github.com 的公开 Actions 页面。构建成功与公网浏览器访问是不同验证项；不能把代理 CONNECT 403 当作用户端网站返回 403，也不能仅因本地测试通过声称线上已经通过访问检查。
+沿用已配置的项目 Pages 地址，即本页顶部网址。最新 Actions 页面已确认对应发布提交且 Completed / Success。当前云环境代理限制 mingwoke.github.io 和 api.github.com，但可以读取 github.com 的公开 Actions 页面。构建成功与公网浏览器访问是不同验证项；不能把代理 CONNECT 403 当作用户端网站返回 403，也不能仅因本地测试通过声称线上已经通过访问检查。
 
 查看最新发布：
 https://github.com/mingwoke/8855441631df/actions
