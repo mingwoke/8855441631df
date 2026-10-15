@@ -13,8 +13,13 @@
 
 ## 验证状态
 
-2026-10-15 已从 GitHub Actions 网页核实上一版部署成功：
-https://github.com/mingwoke/8855441631df/actions/runs/38679884136
+2026-10-15 已核实本轮红黑阿萨拉版本部署成功：
+https://github.com/mingwoke/8855441631df/actions/runs/38713743134
+
+- 验证后的源码提交：`1fc09463f0faae3706905443cff2cd92409d3ab2`
+- 发布提交：`00f073e061739b068521633dd192c0d37de8364a`
+- Actions 状态：Completed / Success。
+- 发布分支四个运行文件与源码 game/dist 的 Git blob ID 完全一致，另有空 .nojekyll。
 
 该部署记录给出的实际网址即本页顶部地址。当前云环境代理限制 mingwoke.github.io 和 api.github.com，但可以读取 github.com 的公开 Actions 页面。构建成功与公网浏览器访问是不同验证项；不能把代理 CONNECT 403 当作用户端网站返回 403，也不能仅因本地测试通过声称线上已经通过访问检查。
 
