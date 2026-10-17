@@ -44,14 +44,14 @@ async function layout(page,label){
  const faults=await page.evaluate(()=>{
   const errors=[],r=s=>document.querySelector(s).getBoundingClientRect();
   if(document.documentElement.scrollWidth>innerWidth+1)errors.push('horizontal overflow');
-  const sequence=['.tabs','.quote','#ohlc','#plot','.chart-bottom','.chart-meta','#inspectText'];
+  const sequence=['.tabs','.quote','#plot','.chart-bottom','.chart-meta'];
   for(let i=1;i<sequence.length;i++)if(r(sequence[i-1]).bottom>r(sequence[i]).top+1)errors.push(sequence[i]+' overlaps predecessor');
   const chart=r('#plot'),learning=r('.learning'),wallet=r('.wallet'),actions=r('.actions');
   if(chart.height<190)errors.push('chart compressed');
   if(learning.top<chart.bottom)errors.push('knowledge covers chart');
-  if(wallet.top<learning.bottom-1)errors.push('wallet covers knowledge');
+  if(learning.top<actions.bottom-1)errors.push('knowledge covers actions');
   if(!(wallet.right<=actions.left+1||actions.right<=wallet.left+1||wallet.bottom<=actions.top+1||actions.bottom<=wallet.top+1))errors.push('position overlaps actions');
-  for(const sel of ['.tabs','.ohlc','.chart-bottom','#inspectText','.news','.wallet','.actions','.feedback']){
+  for(const sel of ['.tabs','.chart-bottom','.news','.wallet','.actions','.feedback']){
    const e=document.querySelector(sel);if(e.scrollWidth>e.clientWidth+2)errors.push(sel+' clips horizontally');
   }
   if(document.body.innerText.includes('¥'))errors.push('RMB symbol');
@@ -59,8 +59,8 @@ async function layout(page,label){
   return errors;
  });
  assert.deepEqual(faults,[],label);
- if(label==='desktop'||label==='wide')assert(await page.locator('.actions').evaluate(e=>e.getBoundingClientRect().bottom<=innerHeight),label+' main actions below initial viewport');
- for(const id of ['historyRange','zoomIn','zoomOut','liveButton','buyButton','sellButton','workButton','halfButton']){
+ if(label==='desktop'||label==='wide')for(const id of ['buyButton','sellButton','workButton'])assert(await page.locator('#'+id).evaluate(e=>e.getBoundingClientRect().bottom<=innerHeight),label+' main action below initial viewport: '+id);
+ for(const id of ['chart','range3','range7','rangeAll','historyPrev','historyNext','buyButton','sellButton','workButton','halfButton']){
   const element=page.locator('#'+id);await element.scrollIntoViewIfNeeded();
   const hit=await element.evaluate(e=>{const r=e.getBoundingClientRect(),t=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return t===e||e.contains(t);});
   assert(hit,label+' blocked hit target: '+id);
@@ -106,11 +106,11 @@ async function mapAlignment(page,label){
    const news=await page.evaluate(()=>__game.events.filter(e=>e.type==='news').at(-1));
    await page.locator('#stock'+news.index).click();
    const marker=page.locator('#chart g[data-index="'+news.candle+'"]').filter({has:page.locator('text', {hasText:'!'})});
-   await marker.click();assert((await page.locator('#inspectText').innerText()).includes(news.title));
+   await marker.click();assert((await page.locator('#readerContent').innerText()).includes(news.title));assert(await page.locator('#newsReader').isVisible());
    const ticks=await page.evaluate(()=>__game.ticks);await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>__game.ticks),ticks+1);assert.match(await page.locator('#connectionState').innerText(),/回看/);
-   await page.locator('#stock0').click();await page.locator('#historyRange').focus();await page.keyboard.press('Home');assert.equal(await page.locator('#historyRange').inputValue(),'0');assert.match(await page.locator('#inspectText').innerText(),/费用 4.98 哈夫币/);
+   await page.locator('#readerClose').click();await page.locator('#stock0').click();await page.locator('#chart').focus();await page.keyboard.press('Home');assert.match(await page.locator('#candleTime').innerText(),/第1天/);await page.locator('#inspectButton').click();assert.match(await page.locator('#readerContent').innerText(),/手续费 4.98 哈夫币/);await page.locator('#readerClose').click();
    await page.locator('#pauseButton').click();const pausedTicks=await page.evaluate(()=>__game.ticks);await page.clock.runFor(2000);assert.equal(await page.evaluate(()=>__game.ticks),pausedTicks);assert(await page.locator('#buyButton').isDisabled());
-   await page.locator('#zoomIn').click();await page.locator('#liveButton').click();assert(await page.locator('#chartCover').isHidden());
+   await page.locator('#range3').click();await page.locator('#liveButton').click();assert(await page.locator('#chartCover').isHidden());
    await page.evaluate(()=>scrollTo(0,0));await capture(page,{path:path.join(output,label+'-paused.png'),fullPage:true});
    pass(label+' — news/trade markers, touch-sized controls, history, zoom and pause');
    if(label==='desktop'){
@@ -131,11 +131,13 @@ async function mapAlignment(page,label){
     await page.clock.runFor(5000);await page.locator('#workButton').click();assert.match(await page.locator('#workSummary').innerText(),/期间持仓 .*收到 1 条广播/);
     await capture(page,{path:path.join(output,'work-report.png'),fullPage:true});pass('desktop — half-day job report separates wages, holdings and intervening news');
    }
-   // The same controls stay reachable when users expand long event content.
+   // Reading history must not resize the main layout or move trading controls.
    await page.evaluate(()=>{__game.chain={id:'blockade',step:1};__game.makeNews();});await page.locator('#stock1').click();
-   await page.locator('#newsArchive>summary').click();await page.locator('#newsHistory details').first().locator('summary').click();
-   assert.match(await page.locator('#newsHistory').innerText(),/截获通讯.*未核实/);assert.match(await page.locator('#eventImpacts').innerText(),/设施风险上升/);
-   await layout(page,label+' expanded broadcasts');await capture(page,{path:path.join(output,label+'-broadcasts.png'),fullPage:true});
+   const before=await page.locator('.trade-panel').evaluate(e=>({top:e.getBoundingClientRect().top+scrollY,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width}));await page.locator('#newsArchive').click();
+   assert.match(await page.locator('#readerContent').innerText(),/截获通讯.*未核实/);assert.match(await page.locator('#readerContent').innerText(),/设施风险上升/);
+   assert.equal(await page.locator('#readerContent article').count(),1);assert.deepEqual(await page.locator('.trade-panel').evaluate(e=>({top:e.getBoundingClientRect().top+scrollY,height:e.getBoundingClientRect().height,width:e.getBoundingClientRect().width})),before);
+   await capture(page,{path:path.join(output,label+'-broadcasts.png'),fullPage:true});await page.locator('#readerClose').click();
+   await layout(page,label+' after reading broadcasts');
    await context.close();
   }
   // Use Chromium's real browser zoom setting (not CSS zoom or device emulation).

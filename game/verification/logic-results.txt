@@ -23,14 +23,14 @@ PASS blocked local storage does not stop game or results
 PASS normal flow layout has separate learning and start screen outside chart
 PASS every candle exactly aggregates five ticks into true OHLC, continuous opens
 PASS current candle grows live; trade and news markers have correct boundary indices
-PASS history scrubber and live view show actual events and reset per stock and game
+PASS candle selection and live view show actual events and reset per stock and game
 PASS candle geometry remains finite for flat, extreme and out-of-range cost cases
 PASS positive news is not a guarantee; stocks have independent directions
   stock 0: 77 losing runs, 0 target wins / 100
   stock 1: 56 losing runs, 0 target wins / 100
   stock 2: 67 losing runs, 0 target wins / 100
 PASS no guaranteed rising stock across seeded buy-and-hold runs
-PASS zoom shows fewer recent bars, preserves historical selection and resets
+PASS range presets preserve historical selection, work while paused and reset
 PASS knowledge tips occupy their own row and restore the legend after expiration
 PASS blockade progresses through GTI action and both possible outcomes without alliances
 PASS all authored event branches update one map site and independent stock effects
@@ -51,7 +51,7 @@ PASS last half-day is usable, insufficient time blocks work without charging or 
 PASS milestones grant no money, are remembered once and reset completely
 PASS per-stock net contribution reconciles exactly with total capital and wages
 PASS trade previews include cash impact and fees, and tabs expose other holdings
-PASS recent broadcasts preserve three full messages with sources and uncertainty
+PASS broadcast reader preserves all full messages with sources and uncertainty, one at a time
 PASS UI work report and settlement explain wages and trading returns independently
 PASS job wages vary, remain within the displayed range and avoid the last two completed jobs
 PASS job quotes cannot be rerolled through rendering, stock selection or pause

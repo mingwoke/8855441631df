@@ -1,10 +1,10 @@
 {
-  "date": "2026-10-15T16:15:20.929Z",
+  "date": "2026-10-17T17:48:56.887Z",
   "browser": "154.0.8037.57",
   "checks": 9,
   "results": [
     "round 1 — holding Escape pauses once; only a fresh key press resumes",
-    "round 1 — new broadcasts preserve expanded reading and focus; expired entries return focus to archive",
+    "round 1 — new broadcasts preserve the single message being read and focus; Escape closes without pausing",
     "round 1 — 30 days of frequent trading, click protection, jobs, history and changing zoom reconcile",
     "round 2 — simulated pagehide freezes balances/time and pageshow requires manual resume",
     "round 2 — full-cash purchase leaves insufficient funds; work recovers cash and last share requires full sale",

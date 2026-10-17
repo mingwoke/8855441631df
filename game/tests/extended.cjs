@@ -57,18 +57,18 @@ async function settlement(page,label,seed){
   await p.keyboard.down('Escape');assert.equal(await p.evaluate(()=>__game.status),'paused');await p.keyboard.down('Escape');await p.keyboard.down('Escape');await p.keyboard.up('Escape');
   await p.clock.runFor(10000);assert.equal(await p.evaluate(()=>__game.status),'paused');assert.equal(await p.evaluate(()=>__game.ticks),0);await p.keyboard.press('Escape');assert.equal(await p.evaluate(()=>__game.status),'running');
   pass('round 1 — holding Escape pauses once; only a fresh key press resumes');
-  await trade(p,0,'buy',.5);await p.clock.runFor(21000);await p.locator('#newsArchive>summary').click();const old=p.locator('#newsHistory details').first(),tick=await old.getAttribute('data-news-tick');await old.locator('summary').click();
-  await p.clock.runFor(40000);const kept=p.locator('#newsHistory details[data-news-tick="'+tick+'"]');assert(await kept.evaluate(e=>e.open));assert(await kept.locator('summary').evaluate(e=>e===document.activeElement));
-  await p.clock.runFor(40000);assert(await kept.evaluate(e=>e.open));await p.clock.runFor(40000);assert.equal(await kept.count(),0);assert(await p.locator('#newsArchive>summary').evaluate(e=>e===document.activeElement));
-  pass('round 1 — new broadcasts preserve expanded reading and focus; expired entries return focus to archive');
-  let iteration=0,zoomOut=true;
+  await trade(p,0,'buy',.5);await p.clock.runFor(21000);await p.locator('#newsArchive').click();
+  const reading=await p.locator('#readerContent').innerText(),tick=await p.locator('#broadcastSelect').inputValue();await p.locator('#broadcastSelect').focus();
+  await p.clock.runFor(120000);assert.equal(await p.locator('#readerContent').innerText(),reading);assert.equal(await p.locator('#broadcastSelect').inputValue(),tick);assert(await p.locator('#broadcastSelect').evaluate(e=>e===document.activeElement));assert.equal(await p.locator('#readerContent article').count(),1);
+  await p.keyboard.press('Escape');assert(await p.locator('#newsReader').isHidden());assert.equal(await p.evaluate(()=>__game.status),'running');assert(await p.locator('#newsArchive').evaluate(e=>e===document.activeElement));
+  pass('round 1 — new broadcasts preserve the single message being read and focus; Escape closes without pausing');
+  let iteration=0;
   while(await p.evaluate(()=>__game.status==='running')){
    await trade(p,iteration%3,iteration%3===2?'sell':'buy',iteration%2?1:.5,true);
    if(iteration%4===2&&await p.evaluate(()=>__game.remaining>=10))await job(p);
    if(await p.evaluate(()=>__game.status!=='running'))break;
-   if(await p.locator(zoomOut?'#zoomOut':'#zoomIn').isDisabled())zoomOut=!zoomOut;
-   await p.locator(zoomOut?'#zoomOut':'#zoomIn').click();await dates(p);
-   if(iteration%5===0){await p.locator('#historyRange').focus();await p.keyboard.press('Home');const t=await p.evaluate(()=>__game.ticks);await p.clock.runFor(1000);assert.equal(await p.evaluate(()=>__game.ticks),t+1);assert.equal(await p.locator('#historyRange').inputValue(),'0');await dates(p);await p.locator('#liveButton').click();}
+   await p.locator(['#range3','#range7','#rangeAll'][iteration%3]).click();await dates(p);
+   if(iteration%5===0){await p.locator('#chart').focus();await p.keyboard.press('Home');const t=await p.evaluate(()=>__game.ticks);await p.clock.runFor(1000);assert.equal(await p.evaluate(()=>__game.ticks),t+1);assert.match(await p.locator('#candleTime').innerText(),/第1天/);await dates(p);await p.locator('#liveButton').click();}
    if(iteration===12){await p.evaluate(()=>scrollTo(0,0));await p.screenshot({path:path.join(out,'extended-round1-playing.png'),fullPage:true});}
    await p.clock.runFor(8000);await accounting(p);iteration++;assert(iteration<90);
   }
@@ -88,7 +88,7 @@ async function settlement(page,label,seed){
   while(await m.evaluate(()=>__game.remaining>12)){
    await trade(m,iteration%3,iteration%3===2?'sell':'buy',iteration%2?1:.5);
    if(iteration%3===1&&await m.evaluate(()=>__game.remaining>22))await job(m);
-   while(await m.locator('#zoomOut').isEnabled())await m.locator('#zoomOut').click();
+   await m.locator('#rangeAll').click();
    if(iteration===6){await m.setViewportSize({width:740,height:360});await m.locator('#stock1').click();assert(await m.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await dates(m);await m.setViewportSize({width:360,height:740});await m.locator('#stock1').click();}
    if(!scanned&&await m.evaluate(()=>__game.ticks>=240)){
     for(let i=0;i<18;i++){await m.clock.runFor(5000);await dates(m);}scanned=true;await m.evaluate(()=>scrollTo(0,0));await m.screenshot({path:path.join(out,'extended-round2-dates.png'),fullPage:true});

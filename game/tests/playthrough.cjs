@@ -55,14 +55,13 @@ async function moneyInvariant(page){
     if(iteration===4){
      await page.locator('#pauseButton').click();const before=await page.evaluate(()=>JSON.stringify({t:__game.ticks,cash:__game.cash,prices:__game.stocks.map(s=>s.price)}));
      for(const id of ['buyButton','sellButton','workButton'])assert(await page.locator('#'+id).isDisabled());
-     await page.locator('#historyRange').focus();await page.keyboard.press('Home');await page.locator('#zoomOut').click();await page.clock.runFor(5000);
+     await page.locator('#chart').focus();await page.keyboard.press('Home');await page.locator('#range7').click();await page.clock.runFor(5000);
      assert.equal(await page.evaluate(()=>JSON.stringify({t:__game.ticks,cash:__game.cash,prices:__game.stocks.map(s=>s.price)})),before);
      await page.locator('#pauseButton').click();const tick=await page.evaluate(()=>__game.ticks);await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>__game.ticks),tick+1);assert.match(await page.locator('#connectionState').innerText(),/回看/);await page.locator('#liveButton').click();
     }
     if(iteration===5){
      if(await page.locator('#mapToggle').isVisible())await page.locator('#mapToggle').click();
-     await page.locator('#siteDetails summary').click();await page.locator('#newsArchive>summary').click();await page.locator('#newsHistory details summary').first().click();
-     assert((await page.locator('#newsHistory').innerText()).length>30);
+     await page.locator('#siteDetails summary').click();await page.locator('#newsArchive').click();assert((await page.locator('#readerContent').innerText()).length>30);await page.locator('#readerClose').click();
     }
     if(iteration===12){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,label+'-mid-session.png'),fullPage:true});}
     await page.clock.runFor(20000);await moneyInvariant(page);iteration++;assert(iteration<35);
@@ -74,9 +73,9 @@ async function moneyInvariant(page){
    await page.screenshot({path:path.join(out,label+'-mixed-result.png'),fullPage:true});
    pass(label+' — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history');
    await page.locator('#restartButton').click();
-   assert.equal(await page.evaluate(()=>scrollY),0);assert.equal(await page.locator('#siteDetails').evaluate(e=>e.open),false);assert.equal(await page.locator('#newsArchive').evaluate(e=>e.open),false);
+   assert.equal(await page.evaluate(()=>scrollY),0);assert.equal(await page.locator('#siteDetails').evaluate(e=>e.open),false);assert(await page.locator('#newsReader').isHidden());
    assert.equal(await page.locator('#mapToggle').getAttribute('aria-expanded'),'false');assert.equal(await page.evaluate(()=>__intervals),1);assert.equal(await page.locator('#cashValue').innerText(),'10,000');assert.equal(await page.evaluate(()=>__game.events.length),0);
-   assert(await page.locator('#workSummary').isHidden());assert.equal(await page.locator('#historyRange').inputValue(),'0');
+   assert(await page.locator('#workSummary').isHidden());assert(await page.locator('#candleInspector').isHidden());assert.equal(await page.locator('#range3').getAttribute('aria-pressed'),'true');
    assert.equal(await page.evaluate(()=>Object.keys(localStorage).join(',')),'asara.best.v1');
    pass(label+' — restart resets scroll, expanded details, chart, trades, wages and time without new timers');
    await context.close();
