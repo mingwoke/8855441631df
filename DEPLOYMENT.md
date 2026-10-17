@@ -13,14 +13,15 @@
 
 ## 验证状态
 
-2026-10-16 已核实追加测试修复版本（暂停键、广播阅读与日期刻度）部署成功：
-https://github.com/mingwoke/8855441631df/actions/runs/38767943529
+2026-10-18（Asia/Shanghai）已核实界面简化版本部署成功：
+https://github.com/mingwoke/8855441631df/actions/runs/39055568083
 
-- 验证后的源码提交：`fbad65aa87825233cd477280ad09ff249968f1d0`
-- 发布提交：`312934bb7af85abe810b7f38f17cd8e73b236eca`
-- Actions 状态：Completed / Success。
-- 发布分支五个运行文件（含本地卫队徽记 PNG）与源码 game/dist 的 Git blob ID 完全一致，另有空 .nojekyll。
-- 本轮 56 项逻辑/DOM、52 项 Chromium 浏览器检查通过，包含新增两轮不同种子的 30 天操作与 105 组日期刻度检查；复现与修复见 game/docs/QUALITY_REVIEW.md。
+- 验证后的源码提交：`3f0ab7ced73cd712796686357c8155ea23c9ebcd`
+- 发布提交：`eca602048ba48a2eaf8e88036f9315d4fd3b0a11`
+- Actions 状态：Completed / Success；运行页面包含上述完整发布提交 SHA。
+- 发布分支五个运行文件与源码 game/dist 的 Git blob ID 完全一致，另有空 .nojekyll。
+- 56 项逻辑/DOM、85 项 Chromium 检查通过，含 33 项新增界面交互检查；详见 game/docs/QUALITY_REVIEW.md。
+- 本版放大字号、独立排列图表与交易、将广播历史移到单条阅读面板，并提供三档行情范围、拖动回看、清楚区分的历史 OHLC 和可点击的合并标记。
 
 沿用已配置的项目 Pages 地址，即本页顶部网址。最新 Actions 页面已确认对应发布提交且 Completed / Success。当前云环境代理限制 mingwoke.github.io 和 api.github.com，但可以读取 github.com 的公开 Actions 页面。构建成功与公网浏览器访问是不同验证项；不能把代理 CONNECT 403 当作用户端网站返回 403，也不能仅因本地测试通过声称线上已经通过访问检查。
 
