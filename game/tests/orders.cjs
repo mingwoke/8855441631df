@@ -3,7 +3,7 @@
 const {chromium}=require('playwright');
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'verification'),results=[],errors=[];
-const server=http.createServer((req,res)=>{const f=path.resolve(root,'dist','.'+(req.url==='/'?'/index.html':req.url));if(!f.startsWith(path.join(root,'dist')+path.sep)){res.writeHead(403).end();return;}fs.readFile(f,(err,b)=>{if(err){res.writeHead(404).end();return;}res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.css':'text/css','.png':'image/png'})[path.extname(f)]||'application/octet-stream');res.end(b);});});
+const server=http.createServer((req,res)=>{const pathname=new URL(req.url,'http://localhost').pathname,f=path.resolve(root,'dist','.'+(pathname==='/'?'/index.html':pathname));if(!f.startsWith(path.join(root,'dist')+path.sep)){res.writeHead(403).end();return;}fs.readFile(f,(err,b)=>{if(err){res.writeHead(404).end();return;}res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.css':'text/css','.png':'image/png'})[path.extname(f)]||'application/octet-stream');res.end(b);});});
 const pass=n=>{results.push(n);console.log('PASS '+n);};
 async function stock(p,i){if(await p.locator('#stockSelect').isVisible())await p.locator('#stockSelect').selectOption(String(i));else await p.locator('#stock'+i).click();}
 async function fit(p,label){
