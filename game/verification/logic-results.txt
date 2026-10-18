@@ -26,9 +26,12 @@ PASS current candle grows live; trade and news markers have correct boundary ind
 PASS candle selection and live view show actual events and reset per stock and game
 PASS candle geometry remains finite for flat, extreme and out-of-range cost cases
 PASS positive news is not a guarantee; stocks have independent directions
-  stock 0: 77 losing runs, 0 target wins / 100
+  stock 0: 73 losing runs, 0 target wins / 100
   stock 1: 56 losing runs, 0 target wins / 100
-  stock 2: 67 losing runs, 0 target wins / 100
+  stock 2: 73 losing runs, 0 target wins / 100
+  stock 3: 60 losing runs, 0 target wins / 100
+  stock 4: 66 losing runs, 0 target wins / 100
+  stock 5: 75 losing runs, 0 target wins / 100
 PASS no guaranteed rising stock across seeded buy-and-hold runs
 PASS range presets preserve historical selection, work while paused and reset
 PASS knowledge tips occupy their own row and restore the legend after expiration
@@ -57,5 +60,11 @@ PASS job wages vary, remain within the displayed range and avoid the last two co
 PASS job quotes cannot be rerolled through rendering, stock selection or pause
 PASS conditional jobs expire when their situation clears, but an accepted quote is honored
 PASS job random state and completed work are cleared on restart
+PASS six companies have unique names and new sector events affect their real returns
+PASS quarter and three-quarter orders respect cash budgets, integer shares and both fees
+PASS custom integer orders are exact and reject invalid, unaffordable and excess sales atomically
+PASS custom quantity UI only applies an order size, disables insufficient orders and resets
+PASS all six stock positions contribute to portfolio and settlement after mixed fraction and custom trades
+PASS mobile stock selection, work details and map reader remain available without archive text
 
-56 checks passed. Logic and DOM harness; browser results are reported separately.
+62 checks passed. Logic and DOM harness; browser results are reported separately.

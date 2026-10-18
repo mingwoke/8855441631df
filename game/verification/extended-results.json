@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-17T17:48:56.887Z",
+  "date": "2026-10-18T05:39:13.684Z",
   "browser": "154.0.8037.57",
   "checks": 9,
   "results": [
@@ -18,11 +18,11 @@
       "label": "extended-round1",
       "seed": 735,
       "ticks": 600,
-      "assets": 21168.74,
+      "assets": 17967.06,
       "wages": 11200,
       "fees": 21.16,
-      "tradingPnl": -31.26,
-      "trades": 18,
+      "tradingPnl": -3232.94,
+      "trades": 19,
       "jobs": 10,
       "news": 15
     },
@@ -30,10 +30,10 @@
       "label": "extended-round2",
       "seed": 9481,
       "ticks": 600,
-      "assets": 17152.77,
-      "wages": 14000,
-      "fees": 43.4,
-      "tradingPnl": -6847.23,
+      "assets": 22451.15,
+      "wages": 14400,
+      "fees": 44.01,
+      "tradingPnl": -1948.85,
       "trades": 29,
       "jobs": 12,
       "news": 15

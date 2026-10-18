@@ -1,0 +1,26 @@
+PASS desktop — quarter and three-quarter quantities are correct; all core controls remain on screen
+PASS desktop — custom quantities validate without trading; all six stocks trade, and excess orders disable safely
+PASS desktop — all event branches, large balances, work and pause preserve one-screen layout
+PASS desktop — winning closes quantity entry; restart clears all six holdings and custom size
+PASS compact-desktop — quarter and three-quarter quantities are correct; all core controls remain on screen
+PASS compact-desktop — custom quantities validate without trading; all six stocks trade, and excess orders disable safely
+PASS compact-desktop — all event branches, large balances, work and pause preserve one-screen layout
+PASS compact-desktop — winning closes quantity entry; restart clears all six holdings and custom size
+PASS phone — quarter and three-quarter quantities are correct; all core controls remain on screen
+PASS phone — custom quantities validate without trading; all six stocks trade, and excess orders disable safely
+PASS phone — all event branches, large balances, work and pause preserve one-screen layout
+PASS phone — winning closes quantity entry; restart clears all six holdings and custom size
+PASS small-phone — quarter and three-quarter quantities are correct; all core controls remain on screen
+PASS small-phone — custom quantities validate without trading; all six stocks trade, and excess orders disable safely
+PASS small-phone — all event branches, large balances, work and pause preserve one-screen layout
+PASS small-phone — winning closes quantity entry; restart clears all six holdings and custom size
+PASS landscape — quarter and three-quarter quantities are correct; all core controls remain on screen
+PASS landscape — custom quantities validate without trading; all six stocks trade, and excess orders disable safely
+PASS landscape — all event branches, large balances, work and pause preserve one-screen layout
+PASS landscape — winning closes quantity entry; restart clears all six holdings and custom size
+PASS short-window — quarter and three-quarter quantities are correct; all core controls remain on screen
+PASS short-window — custom quantities validate without trading; all six stocks trade, and excess orders disable safely
+PASS short-window — all event branches, large balances, work and pause preserve one-screen layout
+PASS short-window — winning closes quantity entry; restart clears all six holdings and custom size
+
+24 order and viewport checks passed.

@@ -1,12 +1,12 @@
 {
-  "date": "2026-10-17T17:48:17.957Z",
+  "date": "2026-10-18T05:38:35.606Z",
   "browser": "154.0.8037.57",
   "checks": 11,
   "results": [
-    "desktop — keyboard reaches archive and wraps focus; entering starts at page top",
+    "desktop — archive removed, keyboard focus stays on start, intro and game need no scrolling",
     "desktop — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history",
     "desktop — restart resets scroll, expanded details, chart, trades, wages and time without new timers",
-    "mobile — keyboard reaches archive and wraps focus; entering starts at page top",
+    "mobile — archive removed, keyboard focus stays on start, intro and game need no scrolling",
     "mobile — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history",
     "mobile — restart resets scroll, expanded details, chart, trades, wages and time without new timers",
     "low funds — fees block unaffordable buys, empty holdings block sells and quoted work restores cash",
@@ -19,19 +19,19 @@
     {
       "label": "desktop",
       "ticks": 600,
-      "assets": 16953.78,
-      "trades": 22,
+      "assets": 18219.93,
+      "trades": 21,
       "jobs": 9,
-      "wages": 1070000,
+      "wages": 950000,
       "news": 15
     },
     {
       "label": "mobile",
       "ticks": 600,
-      "assets": 16953.78,
-      "trades": 22,
+      "assets": 18219.93,
+      "trades": 21,
       "jobs": 9,
-      "wages": 1070000,
+      "wages": 950000,
       "news": 15
     }
   ],

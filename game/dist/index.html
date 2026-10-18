@@ -7,56 +7,31 @@
 </head>
 <body>
 <main class="app" id="app" hidden>
-<div class="identity"><div class="identity-brand"><img class="faction-emblem" src="assets/asara-emblem.png" alt="阿萨拉卫队徽记" width="70" height="70"><h1>阿萨拉小兵的炒股梦</h1></div><span class="identity-note">阿萨拉卫队 · 值守中</span></div>
-<header class="topbar">
-<div><div class="label">总资产 · 哈夫币</div><div class="assets currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="totalValue">10,000</span></div></div>
-<div><div class="label">可用现金</div><div class="cash currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="cashValue">10,000</span></div></div>
-<div class="day-block"><div class="day">第 <span id="dayValue">01</span><small> / 30 天</small></div><div class="countdown" id="dayCountdown">20秒后换班</div></div>
-<button class="pause" id="pauseButton" disabled>暂停</button></header>
+<header class="identity"><div class="identity-brand"><img class="faction-emblem" src="assets/asara-emblem.png" alt="阿萨拉卫队徽记" width="30" height="30"><h1><span class="title-full">阿萨拉小兵的炒股梦</span><span class="title-short">阿萨拉 · 炒股梦</span></h1></div><div class="day-block"><span class="day">第 <span id="dayValue">01</span><small> / 30 天</small></span><span class="countdown" id="dayCountdown">20秒后换班</span></div><button class="pause" id="pauseButton" disabled>暂停</button></header>
+<div class="topbar"><div class="balance"><span class="label">总资产</span><span class="assets currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="totalValue">10,000</span></span></div><div class="balance"><span class="label">可用现金</span><span class="cash currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="cashValue">10,000</span></span></div><div class="goal-line"><span id="goalText">目标 100 万</span><span id="milestoneText" role="status"></span></div><nav class="utility"><button id="portfolioButton">持仓</button><button id="rulesButton">说明</button></nav></div>
 <div class="dayline" aria-hidden="true"><span id="dayBar"></span></div>
-<div class="goal-line"><span id="goalText">下个积蓄目标 30,000 · 终极目标 100 万</span><span id="milestoneText" role="status">守住本金，再想远一点。</span></div>
-<div class="workspace">
-<div class="trading-column">
+<div class="workspace"><div class="trading-column">
 <section class="market" id="marketPanel" role="tabpanel" aria-labelledby="stock0">
-<div class="tabs" role="tablist" aria-label="选择股票">
-<button class="stock-tab" id="stock0" role="tab" aria-selected="true" aria-controls="marketPanel"><span class="tab-name">哈夫克股份</span><span class="tab-price" id="tabPrice0">20.00 →</span><span class="tab-position" id="tabPosition0">未持仓</span></button>
-<button class="stock-tab" id="stock1" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">哈德逊工业</span><span class="tab-price" id="tabPrice1">50.00 →</span><span class="tab-position" id="tabPosition1">未持仓</span></button>
-<button class="stock-tab" id="stock2" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">阿萨拉基建</span><span class="tab-price" id="tabPrice2">12.00 →</span><span class="tab-position" id="tabPosition2">未持仓</span></button>
-</div>
-<div class="quote"><div class="quote-main"><span class="label">当前价格</span><div class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><b class="quote-price" id="priceValue">20.00</b><span class="quote-change flat" id="changeValue">+0.00%</span></div></div><div class="chart-caption" id="marketStatus">科技 / 大型项目</div></div>
+<div class="tabs" role="tablist" aria-label="选择股票"><button class="stock-tab" id="stock0" role="tab" aria-selected="true" aria-controls="marketPanel" tabindex="0"><span class="tab-name">哈夫克股份</span><span class="tab-price" id="tabPrice0">20.00</span><span class="tab-position" id="tabPosition0">未持仓</span></button><button class="stock-tab" id="stock1" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">哈德逊工业</span><span class="tab-price" id="tabPrice1">50.00</span><span class="tab-position" id="tabPosition1">未持仓</span></button><button class="stock-tab" id="stock2" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">阿萨拉基建</span><span class="tab-price" id="tabPrice2">12.00</span><span class="tab-position" id="tabPosition2">未持仓</span></button><button class="stock-tab" id="stock3" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">大坝运输</span><span class="tab-price" id="tabPrice3">18.00</span><span class="tab-position" id="tabPosition3">未持仓</span></button><button class="stock-tab" id="stock4" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">阿萨拉能源</span><span class="tab-price" id="tabPrice4">32.00</span><span class="tab-position" id="tabPosition4">未持仓</span></button><button class="stock-tab" id="stock5" role="tab" aria-selected="false" aria-controls="marketPanel" tabindex="-1"><span class="tab-name">绿洲通信</span><span class="tab-price" id="tabPrice5">26.00</span><span class="tab-position" id="tabPosition5">未持仓</span></button></div>
+<label class="stock-picker"><span class="sr-only">选择股票</span><select id="stockSelect"><option value="0">哈夫克股份</option><option value="1">哈德逊工业</option><option value="2">阿萨拉基建</option><option value="3">大坝运输</option><option value="4">阿萨拉能源</option><option value="5">绿洲通信</option></select></label>
+<div class="quote"><div class="quote-main"><span class="label">现价</span><b class="quote-price" id="priceValue">20.00</b><span class="quote-change flat" id="changeValue">+0.00%</span></div><span class="chart-caption" id="marketStatus">大型项目 / 调查风险</span></div>
 <div class="plot" id="plot"><svg class="chart" id="chart" viewBox="0 0 800 260" role="img" tabindex="0" aria-label="股票蜡烛K线" aria-describedby="chartHelp"></svg></div>
-<div class="chart-bottom"><div class="ranges" role="group" aria-label="显示行情范围"><button id="range3" aria-pressed="true">近3天</button><button id="range7" aria-pressed="false">近7天</button><button id="rangeAll" aria-pressed="false">全局</button></div><div class="chart-navigation"><button id="historyPrev" aria-label="查看更早行情">←</button><button id="historyNext" aria-label="查看更晚行情">→</button><button class="live" id="liveButton" hidden>回到最新</button></div></div>
-<div class="chart-meta"><span id="connectionState">实时 · 每秒更新</span><span id="costLegend">涨绿跌红</span></div>
-<div class="candle-inspector" id="candleInspector" hidden><b id="candleTime"></b><div class="ohlc" id="ohlc"></div><button id="inspectButton" hidden>查看消息与成交</button><span id="inspectText" hidden></span></div>
-<span class="sr-only" id="chartHelp">每根K线5秒。横向拖动或使用左右按钮回看；点蜡烛查看当时价格，点标记读消息。键盘左右选择K线，Home到最早，End回到最新。</span>
+<div class="chart-bottom"><div class="ranges" role="group" aria-label="显示行情范围"><button id="range3" aria-pressed="true">3天</button><button id="range7" aria-pressed="false">7天</button><button id="rangeAll" aria-pressed="false">全局</button></div><div class="chart-navigation"><button id="historyPrev" aria-label="查看更早行情">←</button><button id="historyNext" aria-label="查看更晚行情">→</button><button class="live" id="liveButton" hidden>回到最新</button></div></div>
+<div class="chart-meta"><span id="costLegend">每根5秒 · 涨绿跌红</span><span id="connectionState">实时</span><button id="inspectButton" hidden>查看K线</button></div><div id="candleInspector" hidden><span id="candleTime"></span><span id="ohlc"></span><span id="inspectText"></span></div>
+<span class="sr-only" id="chartHelp">每根K线5秒。横向拖动或使用左右按钮回看，点蜡烛或标记查看详情。方向键选择，Home到最早，End回到最新。</span>
 </section>
-<div class="trade-panel"><div class="wallet"><div class="wallet-item"><div class="wallet-label" id="positionLabel">哈夫克股份</div><div class="wallet-value" id="shareValue">0 股</div></div><div class="wallet-item"><div class="wallet-label">平均成本</div><div class="wallet-value currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="averageValue">—</span></div><div class="wallet-sub">含买入费</div></div><div class="wallet-item"><div class="wallet-label">持仓盈亏</div><div class="wallet-value currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="positionPnl">—</span></div><div class="wallet-sub">未扣卖出费用</div></div><span class="sr-only" id="positionDetails"></span></div>
-<div class="dock"><div class="dock-top"><div class="size-group"><span class="size-label">仓位</span><div class="fraction" role="group" aria-label="买卖数量"><button id="halfButton" aria-pressed="true">半仓</button><button id="allButton" aria-pressed="false">全部</button></div></div><span class="fee-label">买卖手续费 0.1%</span></div>
-<div class="actions"><div class="order-choice"><button class="action buy" id="buyButton" disabled>买入</button><div class="order-preview" id="buyPreview"></div></div><div class="order-choice"><button class="action sell" id="sellButton" disabled>卖出</button><div class="order-preview" id="sellPreview"></div></div><div class="order-choice"><button class="action work" id="workButton" disabled><span id="workTitle">打工</span><small class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="workHelp">报酬随工作变化 · 半天</span></small></button><div class="order-preview" id="jobPreview"></div></div></div>
-<p class="work-summary" id="workSummary" role="status" hidden></p>
-<div class="feedback" role="status" aria-live="polite"><span class="feedback-main flat" id="feedbackText">只有积蓄，没有内部消息。</span><span class="feedback-fee" id="feeText"></span></div>
-</div></div>
-<div class="learning"><span class="learning-label">随身笔记</span><span id="learningDefault">新闻只影响预期，不保证涨跌。</span><span class="tip" id="tip" role="status" hidden></span></div>
-</div>
-<aside id="fieldPanel" class="field-panel" aria-label="大坝广播与地图">
-<div class="broadcast-heading"><h2>大坝广播</h2><button class="text-button" id="newsArchive">广播记录 <span id="archiveCount">0</span></button></div>
-<div class="news" aria-live="polite" aria-atomic="true"><div class="news-meta"><span class="news-label" id="newsSource">卫队广播</span><span id="newsTime">第1天</span></div><h3 class="news-heading" id="newsHeading">到岗。先看好你的积蓄。</h3><p class="news-content" id="newsText">零号大坝仍由卫队驻守。哈夫克是敌对方，GTI也不是我们的盟友。</p><div class="event-state"><span class="event-location" id="eventLocation">零号大坝</span><span class="event-status" id="eventStatus">日常值守</span></div><div class="impacts" id="eventImpacts"></div></div>
-<div class="news-links"><button class="text-button news-more" id="newsMore">完整消息 →</button><button class="map-toggle" id="mapToggle" aria-expanded="false" aria-controls="mapBody">查看地图</button></div>
-<div class="field-heading"><div><h2>零号大坝</h2><small>卫队控制 · 赛伊德驻守</small></div></div>
-<div class="map-body" id="mapBody"><div class="map-wrap"><svg class="map-surface" id="fieldMap" viewBox="80 0 1650 873" role="img" aria-label="零号大坝局部地图"><image href="assets/zero-dam.png" width="1910" height="873"/><g id="mapMarker" visibility="hidden"><circle class="map-halo" r="60"/><circle class="map-active" r="42"/><circle class="map-core" r="10"/></g></svg></div><div class="map-caption" id="mapCaption">原始地图局部 · 地点随广播标亮</div><details class="site-details" id="siteDetails"><summary>地点状态</summary><div class="site-status" id="siteStatus"></div></details></div>
-<div class="region-status"><span id="roadStatus">道路正常通行</span><span id="powerStatus">供电稳定</span></div>
-</aside>
-</div>
-<div class="fineprint">行情为虚构且波动夸张，100 万是游戏挑战，不代表现实投资回报。<span>股票上市、企业「阿萨拉基建」与新闻事件均为二次创作，并非官方剧情。</span></div>
+<div class="news-ticker"><button id="newsTicker"><span id="tickerSource">广播</span><b id="tickerHeading">到岗，先看好积蓄</b><span aria-hidden="true">›</span></button><button id="mapToggle" aria-expanded="false">局势</button></div>
+<section class="trade-panel" aria-label="交易与打工"><div class="wallet"><div class="wallet-item"><span class="wallet-label" id="positionLabel">哈夫克股份 · 持股</span><b class="wallet-value" id="shareValue">0 股</b></div><div class="wallet-item"><span class="wallet-label">成本<span class="cost-suffix">（含费）</span></span><b class="wallet-value" id="averageValue">—</b></div><div class="wallet-item"><span class="wallet-label" title="浮盈亏尚未扣卖出费用">浮盈亏<span class="cost-suffix">（未扣卖出费）</span></span><b class="wallet-value" id="positionPnl">—</b></div><span class="sr-only" id="positionDetails"></span></div>
+<div class="dock"><div class="dock-top"><span class="size-label">仓位</span><div class="fraction" role="group" aria-label="买卖数量"><button id="quarterButton" aria-pressed="false">¼仓</button><button id="halfButton" aria-pressed="true">半仓</button><button id="threeQuarterButton" aria-pressed="false">¾仓</button><button id="allButton" aria-pressed="false">全部</button><button id="customButton" aria-pressed="false">股数…</button></div><button id="orderDetailsButton" class="text-button">费用 / 工种</button></div>
+<div class="actions"><div class="order-choice"><button class="action buy" id="buyButton" disabled><b id="buyLabel">买入</b><small id="buyBrief">249股</small></button><span id="buyPreview" hidden></span></div><div class="order-choice"><button class="action sell" id="sellButton" disabled><b id="sellLabel">卖出</b><small id="sellBrief">暂无持仓</small></button><span id="sellPreview" hidden></span></div><div class="order-choice"><button class="action work" id="workButton" disabled><b id="workTitle">打工</b><small class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="workHelp">半天</span></small></button><span id="jobPreview" hidden></span></div></div>
+<p id="workSummary" class="sr-only" hidden></p></div></section>
+</div><aside id="fieldPanel" class="field-panel" aria-label="大坝广播与地图"><div class="broadcast-heading"><h2>大坝广播</h2><button class="text-button" id="newsArchive">记录 <span id="archiveCount">0</span></button></div><div class="news"><div class="news-meta"><span id="newsSource">卫队广播</span><span id="newsTime">第1天</span></div><h3 id="newsHeading"></h3><p id="newsText"></p><div class="event-state"><span id="eventLocation">零号大坝</span><span id="eventStatus">日常值守</span></div><div class="impacts" id="eventImpacts"></div></div><button class="text-button" id="newsMore">完整消息 →</button><div class="field-heading"><h2>零号大坝</h2><span>卫队控制 · 赛伊德驻守</span></div><div id="mapBody" class="map-body"><svg class="map-surface" id="fieldMap" viewBox="80 0 1650 873" role="img" aria-label="零号大坝局部地图"><image href="assets/zero-dam.png" width="1910" height="873"/><g id="mapMarker" visibility="hidden"><circle class="map-halo" r="60"/><circle class="map-active" r="42"/><circle class="map-core" r="10"/></g></svg><div id="mapCaption" class="map-caption"></div></div><div class="region-status"><span id="roadStatus"></span><span id="powerStatus"></span></div><button class="text-button" id="siteDetails">全部地点状态 →</button><div id="siteStatus" hidden></div></aside></div>
+<footer class="screen-footer"><div class="feedback" role="status" aria-live="polite"><button id="receiptButton" class="text-button" aria-label="查看成交或打工详情"><span id="feedbackText">值守开始</span><span id="feeText"></span></button></div><div class="learning"><span id="learningDefault">虚构行情 · 目标100万</span><span id="tip" role="status" hidden></span></div></footer>
 </main>
-<div class="reader-overlay" id="newsReader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden>
-<section class="reader-panel" id="readerPanel"><header class="reader-header"><h2 id="readerTitle">广播记录</h2><button id="readerClose" aria-label="关闭阅读面板">关闭</button></header><p class="reader-status" id="readerStatus">阅读时行情继续</p><div id="readerNav"><label for="broadcastSelect">选择广播</label><select id="broadcastSelect"></select></div><div class="reader-content" id="readerContent"></div></section>
-</div>
-<div class="chart-cover" id="chartCover" role="dialog" aria-modal="true" aria-labelledby="coverTitle">
-<div class="cover-map"><div class="map-caption">零号大坝 / 你的值守地点</div><svg class="map-surface" viewBox="250 0 1300 873" role="img" aria-label="用户提供的零号大坝局部地图"><image href="assets/zero-dam.png" width="1910" height="873"/></svg><p>阿萨拉卫队控制 · 赛伊德驻守<br>广播里正在骂哈夫克，你却能买它的股票。</p></div>
-<div class="cover-content"><div class="faction-signature"><img class="faction-emblem" src="assets/asara-emblem.png" alt="阿萨拉卫队徽记" width="70" height="70"><div><span>阿萨拉卫队</span><small>零号大坝 · 值守终端</small></div></div><div class="eyebrow">换班前的十分钟</div><h2 id="coverTitle">阿萨拉小兵的<br><em>炒股梦</em></h2><p id="coverText">一万哈夫币，是你全部的积蓄。<br>三十天值守，偷空看消息、买卖股票、打工。<br>如果赚到一百万，就离开这座哨所。</p><div class="cover-rules"><span class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span>10,000 开局</span><span>20秒 = 1天</span><span>100 万离开哨所</span><span>打工 500～2,000 / 半天</span></div><button class="start" id="startButton">进入哨所 →</button><p class="cover-disclaimer" id="coverDisclaimer">目标极难，股票不会保证上涨。<br>股票上市、企业「阿萨拉基建」与新闻事件均为二次创作。<br>行情为虚构且波动夸张，100 万是游戏挑战，不代表现实投资回报。</p><details class="cover-lore"><summary id="loreSummary">卫队档案</summary><p>卫队由阿萨拉本地多方势力联合组建，反对哈夫克对国家的控制。推翻国王后，尤瑟夫单方面宣布继位，各方随之陷入内讧。</p><p>本局驻守零号大坝。卫队与哈夫克敌对，GTI 也不是卫队盟友。股票、打工安排与具体事件均为游戏二次创作。</p></details></div></div>
+<div class="reader-overlay" id="newsReader" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden><section class="reader-panel" id="readerPanel"><header class="reader-header"><h2 id="readerTitle">广播记录</h2><button id="readerClose">关闭</button></header><p id="readerStatus" class="reader-status">阅读时行情继续</p><div id="readerNav"><label for="broadcastSelect">选择广播</label><select id="broadcastSelect"></select></div><form id="quantityForm" novalidate hidden><label for="quantityInput">每次买卖的股数</label><input id="quantityInput" type="text" inputmode="numeric" pattern="[0-9]+" maxlength="10" autocomplete="off" placeholder="例如 100"><p id="quantityHint"></p><p id="quantityError" role="alert"></p><button id="applyQuantity" type="submit" class="start">应用股数</button></form><div id="readerContent" class="reader-content"></div></section></div>
+<div class="chart-cover" id="chartCover" role="dialog" aria-modal="true" aria-labelledby="coverTitle"><div class="cover-map"><div class="map-caption">零号大坝 · 阿萨拉卫队驻守</div><svg class="map-surface" viewBox="250 0 1300 873" role="img" aria-label="零号大坝局部地图"><image href="assets/zero-dam.png" width="1910" height="873"/></svg></div><div class="cover-content"><div class="faction-signature"><img class="faction-emblem" src="assets/asara-emblem.png" alt="阿萨拉卫队徽记" width="56" height="56"><span>阿萨拉卫队 · 零号大坝</span></div><h2 id="coverTitle">阿萨拉小兵的<br><em>炒股梦</em></h2><p id="coverText">一万积蓄，三十天值守。<br>看消息、买卖股票、打工，挑战攒到100万。</p><div class="cover-rules"><span><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span>10,000 开局</span><span>20秒 = 1天</span><span>6只股票 · 整数股交易</span><span>打工500～2,000 / 半天</span></div><button class="start" id="startButton">进入哨所 →</button><p id="coverDisclaimer" class="cover-disclaimer">股票、企业与事件均为二次创作。<br>行情为虚构且波动夸张，100 万是游戏挑战，不代表现实投资回报。</p></div></div>
 <div class="modal" id="endOverlay" role="dialog" aria-modal="true" aria-labelledby="endTitle" hidden><div class="result"><div class="result-heading"><span>阿萨拉 / 值守结算</span><span id="endDay">30天 · 收盘</span></div><h2 id="endTitle">换班了。</h2><p class="short-help" id="resultTitle"></p><div class="result-assets currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endAssets">10,000</span></div><div class="result-growth"><span id="endReturn">+0.00%</span> <small>较开局，含打工收入</small></div><div class="result-list"><div class="result-row"><span>交易与持仓净收益</span><b id="endTrading">0</b></div><div class="result-row"><span>打工赚了</span><b class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endWages">0</span></b></div><div class="result-row"><span>已付手续费 · 已计入净收益</span><b class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endFees">0.00</span></b></div><div class="result-row"><span>本机最高资产</span><b class="currency"><span class="coin" role="img" aria-label="哈夫币"><img src="assets/havvk-coin.png" alt="" width="401" height="370"></span><span id="endBest">10,000</span></b></div></div><div class="result-stocks" id="resultStocks"></div><p class="result-note">资产 = 本金 + 工资 + 交易与持仓净收益。持仓按收盘价计，尚未扣卖出费。</p><button class="start" id="restartButton">再值守三十天 →</button><p class="result-note" id="recordNote"></p></div></div>
-<noscript><p>请启用浏览器的 JavaScript，然后重新打开游戏。</p></noscript>
+<noscript>请启用 JavaScript 后打开游戏。</noscript>
 <script id="engine">
 'use strict';
 (() => {
@@ -64,7 +39,10 @@
  const SPECS = [
   {id:'haavk',name:'哈夫克股份',trait:'大型项目 / 调查风险',price:2000,vol:.004,trend:.0045},
   {id:'hudson',name:'哈德逊工业',trait:'订单 / 生产与交付',price:5000,vol:.005,trend:.0055},
-  {id:'asara',name:'阿萨拉基建',trait:'施工 / 成本与回款',price:1200,vol:.0035,trend:.0035}
+  {id:'asara',name:'阿萨拉基建',trait:'施工 / 成本与回款',price:1200,vol:.0035,trend:.0035},
+  {id:'transport',name:'大坝运输',trait:'车队通行 / 交付运费',price:1800,vol:.0042,trend:.004},
+  {id:'energy',name:'阿萨拉能源',trait:'供电服务 / 检修成本',price:3200,vol:.0032,trend:.003},
+  {id:'comms',name:'绿洲通信',trait:'通信服务 / 网络维护',price:2600,vol:.0048,trend:.0045}
  ];
  const TIPS={buy:'股票代表公司的一部分所有权。',loss:'股价会下跌，股票投资不保本。',concentration:'资金越集中，单只股票对你的影响越大。',sell:'扣除成本和手续费，才是实际盈亏。',news:'好消息也不保证上涨，价格可能已经反映了预期。'};
  // Coordinates are in the original 1910 × 873 screenshot, never inferred outside it.
@@ -154,6 +132,35 @@
    ]
   ]}
  );
+ // The three added companies and all financial consequences are original fiction.
+ // Each existing event has an explicit transport / energy / communications exposure.
+ const SECTOR_EFFECTS={
+  'blocked':[-.8,0,-.1], 'gti-action':[.35,0,-.2], 'cleared':[.65,0,.1], 'extended':[-.7,0,-.1],
+  'project-writeoff':[-.15,-.2,-.2], 'repair-start':[.3,0,0], 'repair-done':[.5,0,.1], 'repair-delay':[-.5,0,-.1],
+  'gti-infiltration':[-.2,0,-.45], 'gti-withdrawal':[.1,0,-.15], 'power-loss':[-.1,-.7,-.4], 'power-restored':[.15,.6,.4],
+  'orders-rumor':[.2,0,0], 'orders-confirmed':[.15,0,0], 'orders-denied':[-.25,0,0],
+  'delivery-offer':[.4,.1,0], 'delivery-arrived':[.5,0,0], 'delivery-backlog':[-.6,0,0],
+  'cement-restart':[.2,.35,0], 'cement-output':[.3,.3,0], 'cement-cost':[-.3,-.2,0],
+  'payment-check':[0,0,0], 'payment-released':[.1,0,0], 'payment-delayed':[-.1,0,0],
+  'haavk-evidence':[-.15,0,-.4], 'route-check':[-.5,0,0], 'route-open':[.6,0,.1], 'route-detour':[-.4,0,-.1],
+  'power-schedule':[0,-.4,-.25], 'power-ready':[.1,.5,.35], 'power-fault':[-.15,-.65,-.45]
+ };
+ for(const chain of CHAINS)for(const stage of chain.stages)for(const n of Array.isArray(stage)?stage:[stage]){
+  const extra=SECTOR_EFFECTS[n.id];if(!extra)throw new Error('Missing sector effects: '+n.id);
+  n.effects.push(...extra);
+  n.impact.push(...extra.map((v,i)=>v===0?'暂无直接变化':[
+   v>0?'运输交付预期改善':'车队与运费成本承压',
+   v>0?'供电服务需求恢复':'供电服务与检修成本承压',
+   v>0?'通信服务恢复预期':'通信维护与服务连续性承压'
+  ][i]));
+ }
+ CHAINS.push({id:'communications',stages:[
+  {id:'comms-outage',location:'admin',source:'卫队广播',heading:'行政辖区通信线路受损',state:'线路抢修',title:'卫队通报行政辖区部分通信线路受损，组织本方控制区检修。绿洲通信的服务和维护成本承压，大坝运输调度也可能延误。',effects:[-.1,0,-.1,-.25,0,-.65],impact:['项目协调受扰','暂无直接变化','施工联络放慢','调度交接受阻','暂无直接变化','服务中断与抢修成本']},
+  [
+   {id:'comms-restored',location:'admin',source:'卫队广播',heading:'部分通信线路恢复',state:'分段恢复',title:'卫队确认行政辖区部分通信线路恢复，绿洲通信逐步恢复服务，大坝运输调度有所改善。维护支出尚待核算，恢复服务不等于利润立即增加。',effects:[.1,0,.1,.2,0,.5],impact:['项目联络恢复','暂无直接变化','施工协调改善','车队调度改善','暂无直接变化','服务恢复但仍有成本']},
+   {id:'comms-delay',location:'admin',source:'卫队广播',heading:'线路检修仍未完成',state:'抢修延后',title:'卫队通报行政辖区通信检修尚未完成，绿洲通信继续承担维护成本。大坝运输改用人工交接，调度效率仍受影响。',effects:[-.1,0,-.1,-.2,0,-.55],impact:['协调成本承压','暂无直接变化','施工联络放慢','人工调度成本','暂无直接变化','抢修延期与服务承压']}
+  ]
+ ]});
  const CHANGES={blocked:{road:'blocked'},cleared:{road:'limited'},extended:{road:'blocked'},'repair-start':{cement:'repair'},'repair-done':{cement:'normal',road:'limited'},'repair-delay':{cement:'delay'},'gti-infiltration':{admin:'alert'},'gti-withdrawal':{admin:'alert'},'power-loss':{power:'limited'},'power-restored':{power:'stable'},'orders-confirmed':{barracks:'orders'},'orders-denied':{barracks:'routine'}};
  for(const chain of CHAINS)for(const stage of chain.stages)for(const n of Array.isArray(stage)?stage:[stage])if(CHANGES[n.id])n.changes=CHANGES[n.id];
  const SITE_LABELS={road:{clear:'正常通行',limited:'限时 / 绕行',blocked:'外围封锁'},power:{stable:'供电稳定',limited:'限制供电'},cement:{normal:'生产正常',repair:'抢修 / 复工',delay:'施工延误'},admin:{normal:'日常值守',alert:'提高警戒',review:'结算审核'},barracks:{routine:'日常值守',orders:'订单待交付'}};
@@ -187,7 +194,7 @@
    this.seen=new Set();this.tips=[];this.events=[];this.chain=null;this.lastChain=null;this.recentChains=[];this.nextNewsTick=20;this.mapState=null;
    this.regions={road:'clear',power:'stable',cement:'normal',admin:'normal',barracks:'routine'};this.opening=null;this.reached=[];this.lastWork=null;
    this.workOffer=null;this.jobSeed=0;this.recentJobs=[];this.inJob=false;
-   this.news={heading:'到岗。先看好你的积蓄。',title:'零号大坝由阿萨拉卫队控制，赛伊德驻守。哈夫克是敌对方，GTI 也不是我们的盟友。',day:1,source:'卫队广播',sign:0,location:null,state:'日常值守',effects:[0,0,0],impact:[]};
+   this.news={heading:'到岗。先看好你的积蓄。',title:'零号大坝由阿萨拉卫队控制，赛伊德驻守。哈夫克是敌对方，GTI 也不是我们的盟友。',day:1,source:'卫队广播',sign:0,location:null,state:'日常值守',effects:SPECS.map(()=>0),impact:[]};
    this.stocks=SPECS.map(s=>({...s,shares:0,cost:0,realized:0,open:s.price,initial:s.price,history:[s.price],candles:[{t:0,o:s.price,h:s.price,l:s.price,c:s.price,n:0}],drift:0,desired:0,regime:0,effect:0,effectTicks:0,eventDay:false}));
   }
   get day(){return Math.min(30,Math.floor(this.ticks/DAY)+1);}
@@ -203,22 +210,25 @@
   resume(){if(this.status!=='paused')return false;this.status='running';return true;}
   learn(key){if(!this.seen.has(key)){this.seen.add(key);this.tips.push({key,text:TIPS[key]});}}
   maxBuy(index,fraction=1){
-   const s=this.stocks[index];if(!s)return 0;
+   const s=this.stocks[index];if(!s||!Number.isFinite(fraction)||fraction<=0||fraction>1)return 0;
    const budget=Math.floor(this.cash*fraction);let n=Math.floor(budget/(s.price*1.001));
    while(n>0&&n*s.price+fee(n*s.price)>budget)n--;
    if((n+1)*s.price+fee((n+1)*s.price)<=budget)n++;
    return n;
   }
-  trade(index,side,fraction){
-   if(this.status!=='running'||![.5,1].includes(fraction)||!['buy','sell'].includes(side))return null;
+  trade(index,side,fraction,customQty=null){
+   if(this.status!=='running'||!['buy','sell'].includes(side))return null;
+   if(customQty===null&&![.25,.5,.75,1].includes(fraction))return null;
+   if(customQty!==null&&(!Number.isSafeInteger(customQty)||customQty<1))return null;
    const s=this.stocks[index];if(!s)return null;
-   const qty=side==='buy'?this.maxBuy(index,fraction):Math.floor(s.shares*fraction);
+   const qty=customQty===null?(side==='buy'?this.maxBuy(index,fraction):Math.floor(s.shares*fraction)):customQty;
+   if(qty>(side==='buy'?this.maxBuy(index,1):s.shares))return null;
    if(qty<1)return null;
    const amount=qty*s.price,commission=fee(amount);let pnl=null;
    if(side==='buy'){
     this.cash-=amount+commission;s.shares+=qty;s.cost+=amount+commission;
     this.learn('buy');
-    if(fraction===1&&s.price*s.shares>=this.total*.9)this.learn('concentration');
+    if(s.price*s.shares>=this.total*.9)this.learn('concentration');
    }else{
     const basis=qty===s.shares?s.cost:Math.round(s.cost*qty/s.shares);
     this.cash+=amount-commission;s.shares-=qty;s.cost-=basis;pnl=amount-commission-basis;this.realized+=pnl;s.realized+=pnl;this.learn('sell');
@@ -257,7 +267,7 @@
   }
   contextEffects(){
    const road=this.regions.road==='blocked'?1:this.regions.road==='limited'?.35:0,power=this.regions.power==='limited'?1:0;
-   return [-power*.00008-(this.regions.admin==='alert'?.0001:0),-road*.00025-power*.0003,-road*.00035-power*.0003-(this.regions.cement==='delay'?.00015:0)];
+   return [-power*.00008-(this.regions.admin==='alert'?.0001:0),-road*.00025-power*.0003,-road*.00035-power*.0003-(this.regions.cement==='delay'?.00015:0),-road*.00045-power*.00008,-power*.00035,-power*.00025-(this.regions.admin==='alert'?.0002:0)];
   }
   jobRandom(){let t=this.jobSeed+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;}
   pickJob(force=false){
@@ -314,7 +324,7 @@
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const STORAGE_KEY='asara.best.v1';let best=0,storageOK=true;
  try{const v=Number(localStorage.getItem(STORAGE_KEY));if(Number.isSafeInteger(v)&&v>=0)best=v;}catch{storageOK=false;}
- let selected=0,fraction=.5,accumulator=0,lastTime=performance.now(),finished=false,lastTradeTime=-Infinity,workUnlock=0,tipUntil=0,tipIndex=0,tipGap=0,inspect=null,chartLayout=null,rangeDays=3,viewEnd=null,mapOpen=false,lastNewsTick=null,readerItem=null,readerReturn=null,drag=null,suppressClick=false;
+ let selected=0,fraction=.5,customQty=null,accumulator=0,lastTime=performance.now(),finished=false,lastTradeTime=-Infinity,workUnlock=0,tipUntil=0,tipIndex=0,tipGap=0,inspect=null,chartLayout=null,rangeDays=3,viewEnd=null,mapOpen=false,lastNewsTick=null,readerItem=null,readerReturn=null,drag=null,suppressClick=false;
  const relevant=(e,index=selected)=>e.type==='news'?e.effects[index]!==0:e.index===index;
  function selectedEvents(){return game.events.filter(e=>relevant(e)&&e.candle===(inspect===null?game.stocks[selected].candles.length-1:inspect));}
  function candleDetail(index){
@@ -322,7 +332,7 @@
   return `第${Math.floor(c.t/20)+1}天 · ${c.t%20}–${c.t%20+5}秒`+(c.n<5?' · 形成中':'')+events.map(e=>e.type==='trade'?' / '+(e.side==='buy'?'买入':'卖出')+e.qty+'股 @ '+money(e.price)+'，费用 '+money(e.fee):' / '+e.source+(e.rumor?'（未核实）':'')+' · '+LOCATIONS[e.location].name+'：'+e.title).join('');
  }
  function drawChart(){
-  const s=game.stocks[selected],rect=$('plot').getBoundingClientRect(),W=Math.max(280,Math.round(rect.width)||800),H=Math.max(200,Math.round(rect.height)||260),left=14,right=W-76,top=22,bottom=H-30;
+  const s=game.stocks[selected],rect=$('plot').getBoundingClientRect(),W=Math.max(280,Math.round(rect.width)||800),H=Math.max(110,Math.round(rect.height)||260),left=14,right=W-76,top=22,bottom=H-30;
   const all=s.candles,count=rangeDays===0?Math.max(12,viewEnd===null?all.length:viewEnd):rangeDays*4;
   const end=viewEnd===null?all.length:Math.min(all.length,Math.max(Math.min(count,all.length),viewEnd)),start=Math.max(0,end-count);
   const bars=all.slice(start,end),space=(right-left)/Math.max(count,bars.length),x=i=>left+(i-start+.5)*space;
@@ -356,19 +366,19 @@
   if(viewEnd===null)svg+=`<path d="M${left} ${y(all.at(-1).c)}H${right}" stroke="#c5cfd6" stroke-opacity=".35" stroke-dasharray="2 3"/>`;
   $('chart').setAttribute('viewBox',`0 0 ${W} ${H}`);$('chart').innerHTML=svg;chartLayout={left,right,space,start,end,count,W};
   const idx=inspect===null?all.length-1:Math.min(inspect,all.length-1),c=all[idx];
-  $('candleInspector').hidden=inspect===null;
+  $('candleInspector').hidden=true;
   $('candleTime').textContent=`选中：第${Math.floor(c.t/20)+1}天 · ${c.t%20}–${c.t%20+5}秒`+(c.n<5?'（形成中）':'');
   $('ohlc').textContent=`开 ${(c.o/100).toFixed(2)}　高 ${(c.h/100).toFixed(2)}　低 ${(c.l/100).toFixed(2)}　收 ${(c.c/100).toFixed(2)}`;
   $('chart').setAttribute('aria-label',`${s.name}，5秒蜡烛K线。当前价格${money(s.price)}。${s.shares?'平均成本'+money(avg)+'。':''}横向拖动回看，点选蜡烛查看价格。键盘左右选择，Home到最早，End回到最新。`);
   $('costLegend').textContent=s.shares?(showCost?'成本 '+compact(avg):'成本在图外 · '+compact(avg)):'每根5秒 · 涨绿跌红';
   $('inspectText').textContent=candleDetail(idx);
   const events=selectedEvents(),trades=events.filter(e=>e.type==='trade').length,news=events.length-trades;
-  $('inspectButton').hidden=!events.length;$('inspectButton').textContent=[trades?trades+'笔成交':'',news?news+'条广播':''].filter(Boolean).join(' · ')+' →';
+  $('inspectButton').hidden=inspect===null;$('inspectButton').textContent='第'+(Math.floor(c.t/20)+1)+'天详情 →';
   $('liveButton').hidden=viewEnd===null&&inspect===null;
   $('historyPrev').disabled=start===0;$('historyNext').disabled=end===all.length;
   for(const [id,days] of [['range3',3],['range7',7],['rangeAll',0]])$(id).setAttribute('aria-pressed',String(rangeDays===days));
   const historical=viewEnd!==null||inspect!==null;
-  $('connectionState').textContent=historical?`回看第${Math.floor(all[start].t/20)+1}–${Math.floor(all[end-1].t/20)+1}天 · `+(game.status==='paused'?'已暂停':'行情继续'):game.status==='paused'?'已暂停 · 可回看':game.status==='ended'?'已收盘':'实时 · 可横向拖动回看';
+  $('connectionState').textContent=historical?(game.status==='paused'?'回看·暂停':'回看·行情继续'):game.status==='paused'?'已暂停':game.status==='ended'?'已收盘':'实时';$('connectionState').title=historical?`回看第${Math.floor(all[start].t/20)+1}–${Math.floor(all[end-1].t/20)+1}天，回看不暂停行情`:'行情每秒更新，可横向拖动回看';
  }
  function selectCandle(index){
   const all=game.stocks[selected].candles;inspect=Math.max(0,Math.min(all.length-1,index));
@@ -390,25 +400,41 @@
  function renderReader(){
   if(!readerItem)return;
   $('readerStatus').textContent=game.status==='paused'?'游戏已暂停，仍可阅读':'阅读时行情继续';
+  $('quantityForm').hidden=readerItem.kind!=='quantity';$('readerContent').hidden=readerItem.kind==='quantity';
   const isNews=readerItem.kind==='news';$('readerNav').hidden=!isNews||!game.events.some(e=>e.type==='news'&&e.tick===readerItem.news.tick);
   $('readerTitle').textContent=isNews?'广播记录':'K线详情 · '+SPECS[selected].name;
   if(isNews){$('readerContent').innerHTML=newsArticle(readerItem.news);$('broadcastSelect').value=readerItem.news.tick;}
-  else{
+  else if(readerItem.kind==='candle'){
    const idx=readerItem.index,last=readerItem.last??idx,c=game.stocks[selected].candles[idx],events=game.events.filter(e=>relevant(e)&&e.candle>=idx&&e.candle<=last);
    $('readerContent').innerHTML=(last!==idx?'<p class="reader-caution">相邻标记已合并 · '+events.length+'条记录。以下开高低收为选中的第一根K线。</p>':'')+'<p class="reader-source">第'+(Math.floor(c.t/20)+1)+'天 · '+c.t%20+'–'+(c.t%20+5)+'秒</p><p>开 '+money(c.o)+' · 高 '+money(c.h)+'<br>低 '+money(c.l)+' · 收 '+money(c.c)+'</p>'+events.map(e=>e.type==='news'?newsArticle(e):'<article><p class="reader-source">第'+Math.min(30,Math.floor(e.tick/20)+1)+'天 · '+e.tick%20+'秒</p><h3>'+(e.side==='buy'?'买入':'卖出')+e.qty+'股</h3><p>成交价 '+money(e.price)+'<br>手续费 '+money(e.fee)+'</p></article>').join('');
   }
+  else if(readerItem.kind==='quantity'){
+   $('readerTitle').textContent='自定义股数';$('quantityHint').textContent='可买至多 '+game.maxBuy(selected,1).toLocaleString('zh-CN')+' 股，可卖 '+game.stocks[selected].shares.toLocaleString('zh-CN')+' 股。输入股数只设置数量，不会直接成交。';
+  }else if(readerItem.kind==='portfolio'){
+   $('readerTitle').textContent='全部持仓';$('readerContent').innerHTML=game.stocks.map(s=>'<article class="holding-row"><h3>'+s.name+'</h3><p>'+s.shares.toLocaleString('zh-CN')+' 股 · 市值 '+money(s.price*s.shares)+'<br>平均成本 '+(s.shares?money(s.cost/s.shares):'—')+'<br>浮盈亏 <b class="'+color(s.shares*s.price-s.cost)+'">'+signed(s.shares*s.price-s.cost)+' 哈夫币</b></p></article>').join('')+'<p class="reader-caution">平均成本含买入手续费；浮盈亏尚未扣卖出费用。以上为打开时的持仓快照。</p>';
+  }else if(readerItem.kind==='map'){
+   $('readerTitle').textContent='零号大坝局势';const loc=LOCATIONS[game.news.location];
+   $('readerContent').innerHTML='<svg class="reader-map map-surface" id="readerMap" viewBox="80 0 1650 873" role="img" aria-label="零号大坝当前事件地点"><image href="assets/zero-dam.png" width="1910" height="873"/>'+(loc?'<g id="readerMapMarker" transform="translate('+loc.x+' '+loc.y+')"><circle class="map-halo" r="60"/><circle class="map-active" r="42"/><circle class="map-core" r="10"/></g>':'')+'</svg><p>阿萨拉卫队控制 · 赛伊德驻守</p><p>'+esc($('mapCaption').textContent)+'</p><ul>'+Object.entries(game.regions).map(([key,value])=>'<li>'+LOCATIONS[key].name+' · '+SITE_LABELS[key][value]+'</li>').join('')+'</ul><p class="reader-caution">以上为打开时的局势。阅读时行情继续。</p>';
+  }else if(readerItem.kind==='orders'){
+   $('readerTitle').textContent='成交预览与工种';$('readerContent').innerHTML='<h3>'+SPECS[selected].name+'</h3><p>'+esc($('buyPreview').textContent).replaceAll('\n','<br>')+'</p><p>'+esc($('sellPreview').textContent).replaceAll('\n','<br>')+'</p><article><h3>打工：'+esc(game.job)+'</h3><p>报酬 '+money(game.workOffer.wage)+' · 消耗半天（10秒）<br>'+esc(game.workOffer.description)+'</p><p>打工期间行情继续。成交价和预览按实际点击时的行情计算。</p></article>';
+  }else if(readerItem.kind==='receipt'){
+   $('readerTitle').textContent='操作记录';$('readerContent').innerHTML='<p>'+esc($('feedbackText').textContent)+'</p><p>'+esc($('feeText').textContent)+'</p>'+(!$('workSummary').hidden?'<p>'+esc($('workSummary').textContent)+'</p>':'');
+  }else{
+   $('readerTitle').textContent='玩法说明';$('readerContent').innerHTML='<p>开局10,000哈夫币，30天，每20秒一天；总资产达到100万即获胜。</p><p>¼、半仓、¾、全部：买入使用相应比例的现金，卖出使用相应比例的持股，向下取整数。自定义股数按输入数量买卖，不自动缩减。买卖各收0.1%手续费，费用已包含在预览中。</p><p>平均成本含买入手续费；浮盈亏尚未扣卖出费。打工500～2,000哈夫币，消耗半天，期间行情继续。</p><p>六只股票分别涉及项目、工业、基建、运输、供电、通信。股票上市和具体事件均为二次创作；阿萨拉基建、大坝运输、阿萨拉能源、绿洲通信为原创企业。GTI与卫队不是盟友。</p><p>每根K线5秒，涨绿跌红。拖动或左右按钮回看，点标记/蜡烛查看记录。回看不暂停；切后台自动暂停，回来手动继续。</p><p>'+esc($('goalText').textContent)+'<br>'+esc($('milestoneText').textContent)+'</p><p class="reader-caution">行情为虚构且波动夸张，100 万是游戏挑战，不代表现实投资回报。</p>';
+  }
  }
  function openReader(item,origin){readerItem=item;readerReturn=origin||document.activeElement;$('newsReader').hidden=false;$('app').inert=true;document.body.classList.toggle('reading',true);refreshReaderList();renderReader();$('readerPanel').scrollTop=0;$('readerClose').focus({preventScroll:true});}
- function closeReader(restore=true){if(!readerItem)return;readerItem=null;$('newsReader').hidden=true;document.body.classList.toggle('reading',false);$('app').inert=game.status==='ended';if(restore)readerReturn?.focus({preventScroll:true});readerReturn=null;}
+ function closeReader(restore=true){if(!readerItem)return;readerItem=null;mapOpen=false;$('mapToggle').setAttribute('aria-expanded','false');$('newsReader').hidden=true;document.body.classList.toggle('reading',false);$('app').inert=game.status==='ended';if(restore)readerReturn?.focus({preventScroll:true});readerReturn=null;}
  function renderField(){
   const n=game.news,loc=n.location?LOCATIONS[n.location]:null;
   if(lastNewsTick===n.tick)return;lastNewsTick=n.tick;
   $('newsSource').textContent=n.source+(n.rumor?' · 未核实':'');$('newsTime').textContent='第'+n.day+'天';
-  $('newsHeading').textContent=n.heading;
+  $('newsHeading').textContent=n.heading;$('tickerHeading').textContent=n.heading;$('tickerSource').textContent=n.rumor?'传闻':n.source;
   // Action first; consequences and uncertain details remain in the complete message.
   $('newsText').textContent=n.title.split('。')[0]+'。';
   $('eventLocation').textContent=loc?loc.name:'零号大坝';$('eventStatus').textContent=n.state;
-  $('eventImpacts').innerHTML=n.impact.map((t,i)=>n.effects?.[i]?'<span'+(Math.abs(n.effects[i])===Math.max(...n.effects.map(Math.abs))?' data-primary="true"':'')+'><b>'+SPECS[i].name+'</b> '+esc(t)+'</span>':'').join('');$('eventImpacts').hidden=!n.impact.some((t,i)=>n.effects?.[i]);
+  const primaryIndex=(n.effects||[]).map(Math.abs).indexOf(Math.max(...(n.effects||[]).map(Math.abs)));
+  $('eventImpacts').innerHTML=n.impact.map((t,i)=>n.effects?.[i]?'<span'+(i===primaryIndex?' data-primary="true"':'')+'><b>'+SPECS[i].name+'</b> '+esc(t)+'</span>':'').join('');$('eventImpacts').hidden=!n.impact.some((t,i)=>n.effects?.[i]);
   const pin=$('mapMarker');pin.setAttribute('visibility',loc?'visible':'hidden');pin.setAttribute('transform',loc?`translate(${loc.x} ${loc.y})`:'translate(0 0)');
   const caption=loc?loc.name+' · '+n.state+(n.location==='road'?'（标记受影响桥头，封锁设施在图外）':''):'原始地图局部 · 地点随广播标亮';
   $('mapCaption').textContent=caption;$('fieldMap').setAttribute('aria-label','零号大坝局部地图。'+caption);
@@ -416,38 +442,43 @@
   $('siteStatus').innerHTML=Object.entries(game.regions).map(([key,value])=>'<span>'+LOCATIONS[key].name+' · '+SITE_LABELS[key][value]+'</span>').join('');
   refreshReaderList();
  }
- function setMapOpen(open){mapOpen=open;$('mapBody').classList.toggle('is-open',mapOpen);$('mapToggle').setAttribute('aria-expanded',String(mapOpen));$('mapToggle').textContent=mapOpen?'收起地图':'查看地图';}
+ function setMapOpen(open){mapOpen=open;$('mapToggle').setAttribute('aria-expanded',String(open));if(open)openReader({kind:'map'},$('mapToggle'));else if(readerItem?.kind==='map')closeReader();}
  function renderClock(){const ended=game.status==='ended';$('dayValue').textContent=String(game.day).padStart(2,'0');$('dayCountdown').textContent=ended?'已收盘':game.status==='paused'?'时间已暂停':(DAY-game.ticks%DAY)+'秒后'+(game.day===30?'收盘':'换班');$('dayBar').style.width=(ended?100:(game.ticks%DAY+accumulator/1000)/DAY*100)+'%';}
+ const fractionControls=[['quarterButton',.25],['halfButton',.5],['threeQuarterButton',.75],['allButton',1]];
+ const amountShort=n=>Math.abs(n)>=1000000?(n/1000000).toFixed(2)+'万':compact(n);
+ const sharesText=n=>n>=10000?(n/10000).toFixed(2)+'万股':n.toLocaleString('zh-CN')+'股';
+ function orderQty(side){const s=game.stocks[selected];return customQty===null?(side==='buy'?game.maxBuy(selected,fraction):Math.floor(s.shares*fraction)):customQty;}
  function renderActions(){const running=game.status==='running',s=game.stocks[selected],working=performance.now()<workUnlock;
-  $('buyButton').disabled=!running||game.maxBuy(selected,fraction)<1;$('sellButton').disabled=!running||Math.floor(s.shares*fraction)<1;
-  $('buyButton').title='使用'+(fraction===.5?'一半':'全部')+'可用现金，含0.1%手续费';$('sellButton').title=s.shares===1&&fraction===.5?'只剩1股，选择「全部」卖出':'按持股数量卖出，扣除0.1%手续费';
-  $('workButton').disabled=!running||game.remaining<WORK_TICKS||working;
-  $('workTitle').textContent=working?'收工 +'+whole(game.lastWork.wage):'打工';
-  $('workHelp').textContent=game.remaining<WORK_TICKS?'剩余不足半天':working?'报酬已到账':game.workOffer?'+'+whole(game.workOffer.wage)+' · 半天（10秒）':'报酬随工作变化';
-  const buy=game.maxBuy(selected,fraction),sell=Math.floor(s.shares*fraction),buyCost=buy*s.price,sellValue=sell*s.price;
-  $('buyPreview').textContent=buy?'买 '+buy.toLocaleString('zh-CN')+' 股 · 支出 '+compact(buyCost+fee(buyCost))+'\n含费 '+compact(fee(buyCost)):'现金不足以买入 1 股';
-  $('sellPreview').textContent=sell?'卖 '+sell.toLocaleString('zh-CN')+' 股 · 到账 '+compact(sellValue-fee(sellValue))+'\n扣费 '+compact(fee(sellValue)):s.shares?'仅 1 股，选全部卖出':'暂无可卖持仓';
-  $('jobPreview').textContent=game.workOffer?game.job+' · '+LOCATIONS[game.workOffer.location].name:'期间行情继续';$('workButton').title=game.workOffer?game.workOffer.description+' 期间行情继续。':'';
-  $('halfButton').disabled=!running;$('allButton').disabled=!running;$('halfButton').setAttribute('aria-pressed',String(fraction===.5));$('allButton').setAttribute('aria-pressed',String(fraction===1));
+  const buy=orderQty('buy'),sell=orderQty('sell'),buyOK=buy>0&&buy<=game.maxBuy(selected,1),sellOK=sell>0&&sell<=s.shares,buyCost=buy*s.price,sellValue=sell*s.price;
+  $('buyButton').disabled=!running||!buyOK;$('sellButton').disabled=!running||!sellOK;
+  $('buyButton').title=buyOK?'买入 '+buy+' 股，手续费 '+money(fee(buyCost)):'现金不足，无法按所选数量买入';$('sellButton').title=sellOK?'卖出 '+sell+' 股，手续费 '+money(fee(sellValue)):'持股不足，请调整数量';
+  $('buyBrief').textContent=buyOK?sharesText(buy):'现金不足';$('sellBrief').textContent=sellOK?sharesText(sell):s.shares?'调整股数':'暂无持仓';
+  $('workButton').disabled=!running||game.remaining<WORK_TICKS||working;$('workTitle').textContent=working?'已收工':'打工';
+  $('workHelp').textContent=game.remaining<WORK_TICKS?'不足半天':working?'+'+whole(game.lastWork.wage):game.workOffer?'+'+whole(game.workOffer.wage)+' / 半天':'等待安排';
+  $('buyPreview').textContent=buyOK?'买 '+buy.toLocaleString('zh-CN')+' 股 · 支出 '+compact(buyCost+fee(buyCost))+'\n含费 '+compact(fee(buyCost)):'现金不足以按所选数量买入';
+  $('sellPreview').textContent=sellOK?'卖 '+sell.toLocaleString('zh-CN')+' 股 · 到账 '+compact(sellValue-fee(sellValue))+'\n扣费 '+compact(fee(sellValue)):s.shares?'持股不足以按所选数量卖出':'暂无可卖持仓';
+  $('jobPreview').textContent=game.workOffer?game.job+' · '+LOCATIONS[game.workOffer.location].name:'';$('workButton').title=game.workOffer?game.job+'：'+game.workOffer.description+' 期间行情继续。':'';
+  for(const [id,value] of fractionControls){$(id).disabled=!running;$(id).setAttribute('aria-pressed',String(customQty===null&&fraction===value));}
+  $('customButton').disabled=!running;$('customButton').setAttribute('aria-pressed',String(customQty!==null));$('customButton').title=customQty===null?'输入整数股数':'当前每次 '+customQty+' 股';
  }
  function updateKnowledge(now){if(game.status==='running'&&now>=tipGap&&$('tip').hidden&&tipIndex<game.tips.length){$('tip').textContent=game.tips[tipIndex++].text;$('tip').hidden=false;$('learningDefault').hidden=true;tipUntil=now+5200;tipGap=now+7000;}}
  function render(){const s=game.stocks[selected],pnl=s.shares*s.price-s.cost,paused=game.status==='paused';
   $('totalValue').textContent=whole(game.total);$('totalValue').title=money(game.total);$('cashValue').textContent=whole(game.cash);$('cashValue').title=money(game.cash);
   $('pauseButton').disabled=!['running','paused'].includes(game.status);$('pauseButton').textContent=paused?'继续':'暂停';
   game.stocks.forEach((stock,i)=>{const delta=stock.price-stock.open;$('stock'+i).setAttribute('aria-selected',String(i===selected));$('stock'+i).setAttribute('tabindex',i===selected?'0':'-1');$('tabPrice'+i).textContent=compact(stock.price)+' '+(delta>0?'↗':delta<0?'↘':'→');$('tabPrice'+i).className='tab-price '+color(delta);$('tabPosition'+i).textContent=stock.shares?stock.shares.toLocaleString('zh-CN')+'股 · '+signed(stock.shares*stock.price-stock.cost):'未持仓';});
-  $('marketPanel').setAttribute('aria-labelledby','stock'+selected);$('priceValue').textContent=compact(s.price);const change=(s.price/s.open-1)*100;$('changeValue').textContent='今日 '+percent(change);$('changeValue').className='quote-change '+color(change);$('changeValue').title='相对本游戏日开盘价';
-  $('marketStatus').textContent=paused?'已暂停 · '+s.trait:s.trait;$('positionLabel').textContent=s.name;$('shareValue').textContent=s.shares.toLocaleString('zh-CN')+' 股';$('averageValue').textContent=s.shares?compact(s.cost/s.shares):'—';$('positionPnl').textContent=s.shares?signed(pnl):'—';$('positionPnl').className=color(pnl);$('positionDetails').textContent=s.shares?'平均成本 '+money(s.cost/s.shares)+'；持仓盈亏 '+signed(pnl)+'；未扣卖出费用。':'';
+  $('stockSelect').value=String(selected);$('marketPanel').setAttribute('aria-labelledby','stock'+selected);$('priceValue').textContent=compact(s.price);const change=(s.price/s.open-1)*100;$('changeValue').textContent=percent(change);$('changeValue').className='quote-change '+color(change);$('changeValue').title='相对本游戏日开盘价';
+  $('marketStatus').textContent=paused?'已暂停 · '+s.trait:s.trait;$('positionLabel').textContent='持股';$('shareValue').textContent=sharesText(s.shares);$('shareValue').title=s.name+'：'+s.shares.toLocaleString('zh-CN')+' 股';$('averageValue').textContent=s.shares?compact(s.cost/s.shares):'—';$('positionPnl').textContent=s.shares?(pnl>0?'+':pnl<0?'−':'')+amountShort(Math.abs(pnl)):'—';$('positionPnl').title=signed(pnl)+' 哈夫币，尚未扣卖出费';$('positionPnl').className=color(pnl);$('positionDetails').textContent=s.shares?'平均成本 '+money(s.cost/s.shares)+'；持仓盈亏 '+signed(pnl)+'；未扣卖出费用。':'';
   renderField();
   const next=MILESTONES.find(m=>m.amount>game.total),reached=MILESTONES.filter(m=>game.reached.includes(m.amount)).at(-1);
   $('goalText').textContent=next?'下个积蓄目标 '+whole(next.amount)+' · 终极目标 100 万':'100 万目标达成';
   const milestone=reached?'曾达 '+whole(reached.amount)+' · '+reached.text:'目标极难 · 每一笔积蓄都算数';if($('milestoneText').textContent!==milestone)$('milestoneText').textContent=milestone;
-  $('chartCover').hidden=game.status!=='ready';$('app').hidden=game.status==='ready';$('app').inert=game.status==='ready'||game.status==='ended'||readerItem!==null;
+  document.body.classList.toggle('playing',game.status!=='ready');$('chartCover').hidden=game.status!=='ready';$('app').hidden=game.status==='ready';$('app').inert=game.status==='ready'||game.status==='ended'||readerItem!==null;
   if(readerItem)$('readerStatus').textContent=game.status==='paused'?'游戏已暂停，仍可阅读':'阅读时行情继续';renderActions();renderClock();drawChart();updateKnowledge(performance.now());if(game.status==='ended'&&!finished)finish();
  }
  function feedback(t,d='',tone='flat'){$('feedbackText').textContent=t;$('feedbackText').className='feedback-main '+tone;$('feeText').textContent=d;}
- function start(){closeReader(false);game.reset();game.start();if(document.hidden)game.pause();selected=0;fraction=.5;accumulator=0;lastTime=performance.now();finished=false;lastTradeTime=-Infinity;workUnlock=0;tipUntil=0;tipIndex=0;tipGap=0;inspect=null;viewEnd=null;rangeDays=3;drag=null;lastNewsTick=null;setMapOpen(false);$('siteDetails').open=false;$('workSummary').hidden=true;$('workSummary').textContent='';$('endOverlay').hidden=true;$('app').inert=false;$('tip').hidden=true;$('learningDefault').hidden=false;feedback('值守开始。钱是自己的，消息未必是真的。');render();window.scrollTo(0,0);$('buyButton').focus({preventScroll:true});}
+ function start(){closeReader(false);game.reset();game.start();if(document.hidden)game.pause();selected=0;fraction=.5;customQty=null;accumulator=0;lastTime=performance.now();finished=false;lastTradeTime=-Infinity;workUnlock=0;tipUntil=0;tipIndex=0;tipGap=0;inspect=null;viewEnd=null;rangeDays=3;drag=null;lastNewsTick=null;setMapOpen(false);$('workSummary').hidden=true;$('workSummary').textContent='';$('endOverlay').hidden=true;$('app').inert=false;$('tip').hidden=true;$('learningDefault').hidden=false;feedback('值守开始。钱是自己的，消息未必是真的。');render();window.scrollTo(0,0);$('buyButton').focus({preventScroll:true});}
  function select(i,focus=false){selected=i;inspect=null;viewEnd=null;render();if(focus)$('stock'+i).focus();}
- function trade(side){const now=performance.now();if(now-lastTradeTime<350)return;const r=game.trade(selected,side,fraction);if(!r)return;lastTradeTime=now;inspect=null;viewEnd=null;$('workSummary').hidden=true;
+ function trade(side){const now=performance.now();if(now-lastTradeTime<350)return;const r=game.trade(selected,side,fraction,customQty);if(!r)return;lastTradeTime=now;inspect=null;viewEnd=null;$('workSummary').hidden=true;
   if(side==='buy')feedback('买入 '+r.qty.toLocaleString('zh-CN')+'股 · '+money(r.price)+'/股','费用 '+money(r.fee));
   else feedback('卖出 '+r.qty.toLocaleString('zh-CN')+'股，'+(r.pnl>0?'净赚 ':r.pnl<0?'净亏 ':'盈亏持平')+(r.pnl?money(r.pnl):''),'费用 '+money(r.fee),color(r.pnl));render();}
  function work(){const now=performance.now();if(now<workUnlock)return;const r=game.work();if(!r)return;workUnlock=now+650;lastTime=now;inspect=null;viewEnd=null;
@@ -462,8 +493,14 @@
   $('resultStocks').innerHTML=game.stocks.map(s=>{const pnl=s.realized+s.shares*s.price-s.cost;return '<div class="result-row"><span>'+s.name+'</span><b class="'+color(pnl)+'">'+signed(pnl)+' 哈夫币</b></div>';}).join('');
   $('recordNote').textContent=(storageOK?(isNew?'本机纪录已更新。':'成绩仅保存在当前浏览器。'):'浏览器禁止本地存储，本次纪录只在页面内保留。')+' 股票与事件均为二次创作，虚构收益不代表现实投资回报。';$('tip').hidden=true;$('app').inert=true;$('endOverlay').hidden=false;$('restartButton').focus({preventScroll:true});
  }
- SPECS.forEach((s,i)=>{$('stock'+i).addEventListener('click',()=>select(i));$('stock'+i).addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();select(e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3,true);}});});
- $('halfButton').addEventListener('click',()=>{fraction=.5;renderActions();});$('allButton').addEventListener('click',()=>{fraction=1;renderActions();});$('startButton').addEventListener('click',()=>game.status==='ready'?start():togglePause());$('restartButton').addEventListener('click',start);$('pauseButton').addEventListener('click',()=>togglePause());$('buyButton').addEventListener('click',()=>trade('buy'));$('sellButton').addEventListener('click',()=>trade('sell'));$('workButton').addEventListener('click',work);
+ SPECS.forEach((s,i)=>{$('stock'+i).addEventListener('click',()=>select(i));$('stock'+i).addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();select(e.key==='Home'?0:e.key==='End'?SPECS.length-1:(i+(e.key==='ArrowRight'?1:SPECS.length-1))%SPECS.length,true);}});});
+ for(const [id,value] of fractionControls)$(id).addEventListener('click',()=>{fraction=value;customQty=null;renderActions();});
+ $('stockSelect').addEventListener('change',()=>select(Number($('stockSelect').value)));
+ $('customButton').addEventListener('click',()=>{$('quantityInput').value=customQty===null?'':String(customQty);$('quantityError').textContent='';openReader({kind:'quantity'},$('customButton'));$('quantityInput').focus({preventScroll:true});});
+ $('quantityForm').addEventListener('submit',e=>{e.preventDefault();const raw=$('quantityInput').value.trim(),value=Number(raw);if(!/^[0-9]+$/.test(raw)||!Number.isSafeInteger(value)||value<1){$('quantityError').textContent='请输入大于0的整数股数。';return;}customQty=value;closeReader();renderActions();});
+ for(const [id,kind] of [['portfolioButton','portfolio'],['rulesButton','rules'],['orderDetailsButton','orders'],['receiptButton','receipt'],['siteDetails','map']])$(id).addEventListener('click',()=>openReader({kind},$(id)));
+ $('newsTicker').addEventListener('click',()=>openReader({kind:'news',news:game.news},$('newsTicker')));
+ $('startButton').addEventListener('click',()=>game.status==='ready'?start():togglePause());$('restartButton').addEventListener('click',start);$('pauseButton').addEventListener('click',()=>togglePause());$('buyButton').addEventListener('click',()=>trade('buy'));$('sellButton').addEventListener('click',()=>trade('sell'));$('workButton').addEventListener('click',work);
  for(const [id,days] of [['range3',3],['range7',7],['rangeAll',0]])$(id).addEventListener('click',()=>{rangeDays=days;if(days===0)viewEnd=inspect===null?null:game.stocks[selected].candles.length;else if(inspect!==null)viewEnd=Math.max(inspect+1,days*4);drawChart();});
  $('historyPrev').addEventListener('click',()=>panHistory(-1));$('historyNext').addEventListener('click',()=>panHistory(1));$('liveButton').addEventListener('click',live);
  $('mapToggle').addEventListener('click',()=>setMapOpen(!mapOpen));
@@ -497,11 +534,11 @@
  document.addEventListener('keydown',e=>{
   if(readerItem){
    if(e.key==='Escape'){e.preventDefault();e.stopPropagation();if(!e.repeat)closeReader();return;}
-   if(e.key==='Tab'){const first=$('readerClose'),last=$('readerNav').hidden?first:$('broadcastSelect');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+   if(e.key==='Tab'){const first=$('readerClose'),last=readerItem.kind==='quantity'?$('applyQuantity'):$('readerNav').hidden?first:$('broadcastSelect');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
    return;
   }
   if(e.key==='Escape'&&!e.repeat&&['running','paused'].includes(game.status))togglePause();
-  if(e.key==='Tab'&&!$('chartCover').hidden){const first=$('startButton'),last=$('loreSummary');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+  if(e.key==='Tab'&&!$('chartCover').hidden){e.preventDefault();$('startButton').focus();}
   if(e.key==='Tab'&&!$('endOverlay').hidden){e.preventDefault();$('restartButton').focus();}
  });
  // One timer for the entire page lifetime. Restarts only reset state.

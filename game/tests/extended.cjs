@@ -32,7 +32,7 @@ async function dates(page){
  assert(labels.length>0);for(let i=1;i<labels.length;i++)assert(labels[i].left>=labels[i-1].right+2,JSON.stringify(labels));axisSamples++;
 }
 async function trade(page,stock,side,fraction,doubleClick=false){
- await page.locator('#stock'+stock).click();await page.locator(fraction===1?'#allButton':'#halfButton').click();const button=page.locator('#'+side+'Button');
+ await selectStock(page,stock);await page.locator(fraction===1?'#allButton':'#halfButton').click();const button=page.locator('#'+side+'Button');
  if(await button.isEnabled()){
   const before=await page.evaluate(()=>__game.trades);await button.click();if(doubleClick)await button.evaluate(e=>e.click());assert.equal(await page.evaluate(()=>__game.trades),before+1);await accounting(page);await page.clock.runFor(400);
  }
@@ -49,6 +49,8 @@ async function settlement(page,label,seed){
  const r=await page.evaluate(()=>({ticks:__game.ticks,assets:__game.total/100,wages:__game.wages/100,fees:__game.fees/100,tradingPnl:__game.tradingPnl/100,trades:__game.trades,jobs:__game.workCount,news:__game.events.filter(e=>e.type==='news').length}));
  rounds.push({label,seed,...r});assert(r.trades>10&&r.jobs>0&&r.news===15);await page.screenshot({path:path.join(out,label+'-result.png'),fullPage:true});
 }
+async function selectStock(page,index){if(await page.locator('#stockSelect').isVisible())await page.locator('#stockSelect').selectOption(String(index));else await page.locator('#stock'+index).click();}
+async function newsControl(page){return await page.locator('#newsArchive').isVisible()?page.locator('#newsArchive'):page.locator('#newsTicker');}
 (async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
@@ -57,14 +59,14 @@ async function settlement(page,label,seed){
   await p.keyboard.down('Escape');assert.equal(await p.evaluate(()=>__game.status),'paused');await p.keyboard.down('Escape');await p.keyboard.down('Escape');await p.keyboard.up('Escape');
   await p.clock.runFor(10000);assert.equal(await p.evaluate(()=>__game.status),'paused');assert.equal(await p.evaluate(()=>__game.ticks),0);await p.keyboard.press('Escape');assert.equal(await p.evaluate(()=>__game.status),'running');
   pass('round 1 — holding Escape pauses once; only a fresh key press resumes');
-  await trade(p,0,'buy',.5);await p.clock.runFor(21000);await p.locator('#newsArchive').click();
+  await trade(p,0,'buy',.5);await p.clock.runFor(21000);await (await newsControl(p)).click();
   const reading=await p.locator('#readerContent').innerText(),tick=await p.locator('#broadcastSelect').inputValue();await p.locator('#broadcastSelect').focus();
   await p.clock.runFor(120000);assert.equal(await p.locator('#readerContent').innerText(),reading);assert.equal(await p.locator('#broadcastSelect').inputValue(),tick);assert(await p.locator('#broadcastSelect').evaluate(e=>e===document.activeElement));assert.equal(await p.locator('#readerContent article').count(),1);
-  await p.keyboard.press('Escape');assert(await p.locator('#newsReader').isHidden());assert.equal(await p.evaluate(()=>__game.status),'running');assert(await p.locator('#newsArchive').evaluate(e=>e===document.activeElement));
+  await p.keyboard.press('Escape');assert(await p.locator('#newsReader').isHidden());assert.equal(await p.evaluate(()=>__game.status),'running');assert(await (await newsControl(p)).evaluate(e=>e===document.activeElement));
   pass('round 1 — new broadcasts preserve the single message being read and focus; Escape closes without pausing');
   let iteration=0;
   while(await p.evaluate(()=>__game.status==='running')){
-   await trade(p,iteration%3,iteration%3===2?'sell':'buy',iteration%2?1:.5,true);
+   await trade(p,iteration%6,iteration%3===2?'sell':'buy',iteration%2?1:.5,true);
    if(iteration%4===2&&await p.evaluate(()=>__game.remaining>=10))await job(p);
    if(await p.evaluate(()=>__game.status!=='running'))break;
    await p.locator(['#range3','#range7','#rangeAll'][iteration%3]).click();await dates(p);
@@ -86,10 +88,10 @@ async function settlement(page,label,seed){
   pass('round 2 — full-cash purchase leaves insufficient funds; work recovers cash and last share requires full sale');
   iteration=0;let scanned=false;
   while(await m.evaluate(()=>__game.remaining>12)){
-   await trade(m,iteration%3,iteration%3===2?'sell':'buy',iteration%2?1:.5);
+   await trade(m,iteration%6,iteration%3===2?'sell':'buy',iteration%2?1:.5);
    if(iteration%3===1&&await m.evaluate(()=>__game.remaining>22))await job(m);
    await m.locator('#rangeAll').click();
-   if(iteration===6){await m.setViewportSize({width:740,height:360});await m.locator('#stock1').click();assert(await m.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await dates(m);await m.setViewportSize({width:360,height:740});await m.locator('#stock1').click();}
+   if(iteration===6){await m.setViewportSize({width:740,height:360});await selectStock(m,1);assert(await m.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await dates(m);await m.setViewportSize({width:360,height:740});await selectStock(m,1);}
    if(!scanned&&await m.evaluate(()=>__game.ticks>=240)){
     for(let i=0;i<18;i++){await m.clock.runFor(5000);await dates(m);}scanned=true;await m.evaluate(()=>scrollTo(0,0));await m.screenshot({path:path.join(out,'extended-round2-dates.png'),fullPage:true});
    }

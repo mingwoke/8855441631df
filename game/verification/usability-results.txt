@@ -1,29 +1,29 @@
-PASS desktop — body 16px, labels at least 14px, no horizontal overflow
-PASS desktop — expanded map state cannot stretch the chart-to-trade gap
+PASS desktop — primary labels at least 14px and main controls fit without scrolling
+PASS desktop — situation reading cannot stretch the main layout
 PASS desktop — one-message reader leaves layout intact, keeps reading/focus on arrival, closes with Escape
 PASS desktop — historical OHLC/date stay fixed; live quote stays labeled; trade detail shows exact fee
 PASS desktop — mouse drag pans history without accidental selection
 PASS desktop — range presets, page arrows and keyboard work in live/paused modes
 PASS desktop — overview event markers are separate click targets and open their records
 PASS desktop — settlement safely closes reader; restart clears reading, history range and scroll
-PASS phone — body 16px, labels at least 14px, no horizontal overflow
-PASS phone — chart, short broadcast and trade follow in order; map folded
+PASS phone — primary labels at least 14px and main controls fit without scrolling
+PASS phone — situation reading cannot stretch the main layout
 PASS phone — one-message reader leaves layout intact, keeps reading/focus on arrival, closes with Escape
 PASS phone — historical OHLC/date stay fixed; live quote stays labeled; trade detail shows exact fee
 PASS phone — touch drag pans history without opening markers; vertical gesture preserves live view
 PASS phone — range presets, page arrows and keyboard work in live/paused modes
 PASS phone — overview event markers are separate click targets and open their records
 PASS phone — settlement safely closes reader; restart clears reading, history range and scroll
-PASS small-phone — body 16px, labels at least 14px, no horizontal overflow
-PASS small-phone — chart, short broadcast and trade follow in order; map folded
+PASS small-phone — primary labels at least 14px and main controls fit without scrolling
+PASS small-phone — situation reading cannot stretch the main layout
 PASS small-phone — one-message reader leaves layout intact, keeps reading/focus on arrival, closes with Escape
 PASS small-phone — historical OHLC/date stay fixed; live quote stays labeled; trade detail shows exact fee
 PASS small-phone — touch drag pans history without opening markers; vertical gesture preserves live view
 PASS small-phone — range presets, page arrows and keyboard work in live/paused modes
 PASS small-phone — overview event markers are separate click targets and open their records
 PASS small-phone — settlement safely closes reader; restart clears reading, history range and scroll
-PASS small-window — body 16px, labels at least 14px, no horizontal overflow
-PASS small-window — chart, short broadcast and trade follow in order; map folded
+PASS small-window — primary labels at least 14px and main controls fit without scrolling
+PASS small-window — situation reading cannot stretch the main layout
 PASS small-window — one-message reader leaves layout intact, keeps reading/focus on arrival, closes with Escape
 PASS small-window — historical OHLC/date stay fixed; live quote stays labeled; trade detail shows exact fee
 PASS small-window — mouse drag pans history without accidental selection

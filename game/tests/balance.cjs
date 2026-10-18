@@ -6,7 +6,7 @@ function engine(file){const html=fs.readFileSync(file,'utf8'),context={};vm.crea
 function seeded(seed){return ()=>{let t=seed+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};}
 const api=engine(path.join(root,'dist/index.html'));
 const quantile=(values,p)=>{const sorted=[...values].sort((a,b)=>a-b);return sorted[Math.floor((sorted.length-1)*p)];};
-function distribution(values){return {min:Math.min(...values),median:quantile(values,.5),p90:quantile(values,.9),p95:quantile(values,.95),max:Math.max(...values)};}
+function distribution(values){const sorted=[...values].sort((a,b)=>a-b),q=p=>sorted[Math.floor((sorted.length-1)*p)];return {min:sorted[0],median:q(.5),p90:q(.9),p95:q(.95),max:sorted.at(-1)};}
 function volatility(api,count,check){
  const normal=[],event=[],absolute=[],daily=[],opening={},chains=new Set();let maximumTick=0;
  for(let seed=1;seed<=count;seed++){
@@ -36,12 +36,12 @@ function strategy(name,count,fn){
 }
 const report={date:new Date().toISOString(),target:api.TARGET/100,market:volatility(api,1000,true),strategies:[]};
 if(process.env.ASARA_BASELINE)report.previousMarket=volatility(engine(process.env.ASARA_BASELINE),1000,false);
-for(let i=0;i<3;i++)report.strategies.push(strategy('开局全仓持有 '+api.SPECS[i].name,300,g=>{g.trade(i,'buy',1);while(g.status==='running')g.tick();}));
+for(let i=0;i<api.SPECS.length;i++)report.strategies.push(strategy('开局全仓持有 '+api.SPECS[i].name,300,g=>{g.trade(i,'buy',1);while(g.status==='running')g.tick();}));
 report.strategies.push(strategy('只打工',300,g=>{while(g.status==='running')g.work();}));
 report.strategies.push(strategy('每半天看过去涨幅，持仓配合打工',300,g=>{
  while(g.status==='running'){
   const scores=g.stocks.map(s=>s.history.length>10?s.price/s.history.at(-11)-1:0),best=scores.indexOf(Math.max(...scores)),selected=scores[best]>.006?best:-1;
-  for(let i=0;i<3;i++)if(i!==selected)g.trade(i,'sell',1);
+  for(let i=0;i<api.SPECS.length;i++)if(i!==selected)g.trade(i,'sell',1);
   if(selected>=0)g.trade(selected,'buy',1);g.work();
  }
 }));
@@ -49,11 +49,11 @@ report.strategies.push(strategy('每次广播按其方向参数换仓，其余�
  let lastNews=null;
  while(g.status==='running'){
   if(g.news.tick>0&&g.news.tick!==lastNews){lastNews=g.news.tick;const best=g.news.effects.indexOf(Math.max(...g.news.effects));
-   for(let i=0;i<3;i++)g.trade(i,'sell',1);if(g.news.effects[best]>0)g.trade(best,'buy',1);
+   for(let i=0;i<api.SPECS.length;i++)g.trade(i,'sell',1);if(g.news.effects[best]>0)g.trade(best,'buy',1);
   }g.tick();
  }
 }));
-assert.equal(report.market.eventGroupsSeen,12);assert.equal(Object.keys(report.market.openingCounts).length,3);const wagesOnly=report.strategies.find(s=>s.name==='只打工');assert(wagesOnly.endingAssets.min>=40000&&wagesOnly.endingAssets.max<=130000);assert(wagesOnly.endingAssets.min<wagesOnly.endingAssets.max);
+assert.equal(report.market.eventGroupsSeen,api.CHAINS.length);assert.equal(Object.keys(report.market.openingCounts).length,3);const wagesOnly=report.strategies.find(s=>s.name==='只打工');assert(wagesOnly.endingAssets.min>=40000&&wagesOnly.endingAssets.max<=130000);assert(wagesOnly.endingAssets.min<wagesOnly.endingAssets.max);
 report.notes=['固定种子样本用于比较与回归，不代表玩家胜率或未来表现。','消息策略直接读取新闻方向参数，是测试用启发式；玩家看到的是业务说明，不是精确数值。','100 万仍是极难目标。样本没有达标不证明不可达，也不能据此宣称一般玩家能够通关。','所有持仓按最后市场价计算，未假设结算强制卖出。'];
 fs.writeFileSync(path.join(root,'verification/balance-results.json'),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));

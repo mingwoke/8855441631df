@@ -1,7 +1,7 @@
-PASS desktop — keyboard reaches archive and wraps focus; entering starts at page top
+PASS desktop — archive removed, keyboard focus stays on start, intro and game need no scrolling
 PASS desktop — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history
 PASS desktop — restart resets scroll, expanded details, chart, trades, wages and time without new timers
-PASS mobile — keyboard reaches archive and wraps focus; entering starts at page top
+PASS mobile — archive removed, keyboard focus stays on start, intro and game need no scrolling
 PASS mobile — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history
 PASS mobile — restart resets scroll, expanded details, chart, trades, wages and time without new timers
 PASS low funds — fees block unaffordable buys, empty holdings block sells and quoted work restores cash

@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-18T05:40:30.804Z",
+  "browser": "154.0.8037.57",
+  "checks": 24,
+  "results": [
+    "desktop — quarter and three-quarter quantities are correct; all core controls remain on screen",
+    "desktop — custom quantities validate without trading; all six stocks trade, and excess orders disable safely",
+    "desktop — all event branches, large balances, work and pause preserve one-screen layout",
+    "desktop — winning closes quantity entry; restart clears all six holdings and custom size",
+    "compact-desktop — quarter and three-quarter quantities are correct; all core controls remain on screen",
+    "compact-desktop — custom quantities validate without trading; all six stocks trade, and excess orders disable safely",
+    "compact-desktop — all event branches, large balances, work and pause preserve one-screen layout",
+    "compact-desktop — winning closes quantity entry; restart clears all six holdings and custom size",
+    "phone — quarter and three-quarter quantities are correct; all core controls remain on screen",
+    "phone — custom quantities validate without trading; all six stocks trade, and excess orders disable safely",
+    "phone — all event branches, large balances, work and pause preserve one-screen layout",
+    "phone — winning closes quantity entry; restart clears all six holdings and custom size",
+    "small-phone — quarter and three-quarter quantities are correct; all core controls remain on screen",
+    "small-phone — custom quantities validate without trading; all six stocks trade, and excess orders disable safely",
+    "small-phone — all event branches, large balances, work and pause preserve one-screen layout",
+    "small-phone — winning closes quantity entry; restart clears all six holdings and custom size",
+    "landscape — quarter and three-quarter quantities are correct; all core controls remain on screen",
+    "landscape — custom quantities validate without trading; all six stocks trade, and excess orders disable safely",
+    "landscape — all event branches, large balances, work and pause preserve one-screen layout",
+    "landscape — winning closes quantity entry; restart clears all six holdings and custom size",
+    "short-window — quarter and three-quarter quantities are correct; all core controls remain on screen",
+    "short-window — custom quantities validate without trading; all six stocks trade, and excess orders disable safely",
+    "short-window — all event branches, large balances, work and pause preserve one-screen layout",
+    "short-window — winning closes quantity entry; restart clears all six holdings and custom size"
+  ],
+  "errors": [],
+  "note": "Actual Chromium, accelerated clock and mobile viewport emulation. Large-balance state injected for layout coverage; not an achieved score or physical-phone test."
+}

@@ -29,21 +29,21 @@ async function moneyInvariant(page){
  assert.equal(s.net,s.positions.reduce((a,p)=>a+p.realized+p.shares*p.price-p.cost,0));
  assert.equal(s.visible,Math.floor(s.total/100).toLocaleString('zh-CN'));assert(s.cash>=0);
 }
+async function selectStock(page,index){if(await page.locator('#stockSelect').isVisible())await page.locator('#stockSelect').selectOption(String(index));else await page.locator('#stock'+index).click();}
+async function newsControl(page){return await page.locator('#newsArchive').isVisible()?page.locator('#newsArchive'):page.locator('#newsTicker');}
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
  try{
   for(const [label,width,height] of [['desktop',1366,768],['mobile',390,844]]){
    const {page,context}=await setup(browser,base,width,height);
-   await page.locator('#startButton').focus();await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'loreSummary');
-   await page.keyboard.press('Enter');assert(await page.locator('.cover-lore').evaluate(e=>e.open));await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'startButton');
-   await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'loreSummary');
-   if(label==='mobile')await page.screenshot({path:path.join(out,'mobile-lore.png'),fullPage:true});
+   await page.locator('#startButton').focus();await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'startButton');await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'startButton');
+   assert.equal(await page.locator('.cover-lore,#loreSummary').count(),0);assert(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight+1));
    await page.locator('#startButton').click();assert.equal(await page.evaluate(()=>scrollY),0);
-   pass(label+' — keyboard reaches archive and wraps focus; entering starts at page top');
+   pass(label+' — archive removed, keyboard focus stays on start, intro and game need no scrolling');
    let iteration=0,quotedTotal=0;
    while(await page.evaluate(()=>__game.status==='running')){
-    const stock=iteration%3;await page.locator('#stock'+stock).click();
+    const stock=iteration%6;await selectStock(page,stock);
     await page.locator(iteration%2?'#allButton':'#halfButton').click();
     const action=iteration%4===3?'sell':'buy';if(await page.locator('#'+action+'Button').isEnabled())await page.locator('#'+action+'Button').click();
     await moneyInvariant(page);
@@ -60,9 +60,10 @@ async function moneyInvariant(page){
      await page.locator('#pauseButton').click();const tick=await page.evaluate(()=>__game.ticks);await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>__game.ticks),tick+1);assert.match(await page.locator('#connectionState').innerText(),/回看/);await page.locator('#liveButton').click();
     }
     if(iteration===5){
-     if(await page.locator('#mapToggle').isVisible())await page.locator('#mapToggle').click();
-     await page.locator('#siteDetails summary').click();await page.locator('#newsArchive').click();assert((await page.locator('#readerContent').innerText()).length>30);await page.locator('#readerClose').click();
+     await page.locator(await page.locator('#mapToggle').isVisible()?'#mapToggle':'#siteDetails').click();assert(await page.locator('#readerMap').isVisible());await page.locator('#readerClose').click();
+     await (await newsControl(page)).click();assert((await page.locator('#readerContent').innerText()).length>30);await page.locator('#readerClose').click();
     }
+    assert(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight+1&&document.documentElement.scrollWidth<=innerWidth+1),'main layout must still fit after trading and work');
     if(iteration===12){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(out,label+'-mid-session.png'),fullPage:true});}
     await page.clock.runFor(20000);await moneyInvariant(page);iteration++;assert(iteration<35);
    }
@@ -73,7 +74,7 @@ async function moneyInvariant(page){
    await page.screenshot({path:path.join(out,label+'-mixed-result.png'),fullPage:true});
    pass(label+' — full 30-day mixed trades/jobs/news session, exact accounting, pause and live history');
    await page.locator('#restartButton').click();
-   assert.equal(await page.evaluate(()=>scrollY),0);assert.equal(await page.locator('#siteDetails').evaluate(e=>e.open),false);assert(await page.locator('#newsReader').isHidden());
+   assert.equal(await page.evaluate(()=>scrollY),0);assert(await page.locator('#newsReader').isHidden());
    assert.equal(await page.locator('#mapToggle').getAttribute('aria-expanded'),'false');assert.equal(await page.evaluate(()=>__intervals),1);assert.equal(await page.locator('#cashValue').innerText(),'10,000');assert.equal(await page.evaluate(()=>__game.events.length),0);
    assert(await page.locator('#workSummary').isHidden());assert(await page.locator('#candleInspector').isHidden());assert.equal(await page.locator('#range3').getAttribute('aria-pressed'),'true');
    assert.equal(await page.evaluate(()=>Object.keys(localStorage).join(',')),'asara.best.v1');

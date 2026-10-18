@@ -1,35 +1,35 @@
 PASS desktop — packaged Guard emblem, charcoal background and crimson UI, green gains and red losses
-PASS desktop — no overlap, clipping or blocked chart/trade controls
-PASS desktop — original-map pin aligned; mobile map folds without a modal
+PASS desktop — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS desktop — original-map pin aligned; narrow layout opens a situation reader
 PASS desktop — news/trade markers, touch-sized controls, history, zoom and pause
 PASS desktop — full 30-day timer, result, best-score storage, restart and work double-click protection
+PASS desktop after work — one viewport, no scrolling, overlapping or blocked chart/trade controls
 PASS desktop — half-day job report separates wages, holdings and intervening news
-PASS desktop after reading broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS desktop after reading broadcasts — one viewport, no scrolling, overlapping or blocked chart/trade controls
 PASS wide — packaged Guard emblem, charcoal background and crimson UI, green gains and red losses
-PASS wide — no overlap, clipping or blocked chart/trade controls
-PASS wide — original-map pin aligned; mobile map folds without a modal
+PASS wide — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS wide — original-map pin aligned; narrow layout opens a situation reader
 PASS wide — news/trade markers, touch-sized controls, history, zoom and pause
-PASS wide after reading broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS wide after reading broadcasts — one viewport, no scrolling, overlapping or blocked chart/trade controls
 PASS mobile — packaged Guard emblem, charcoal background and crimson UI, green gains and red losses
-PASS mobile — no overlap, clipping or blocked chart/trade controls
-PASS mobile — original-map pin aligned; mobile map folds without a modal
+PASS mobile — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS mobile — original-map pin aligned; narrow layout opens a situation reader
 PASS mobile — news/trade markers, touch-sized controls, history, zoom and pause
-PASS mobile after reading broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS mobile after reading broadcasts — one viewport, no scrolling, overlapping or blocked chart/trade controls
 PASS small-phone — packaged Guard emblem, charcoal background and crimson UI, green gains and red losses
-PASS small-phone — no overlap, clipping or blocked chart/trade controls
-PASS small-phone — original-map pin aligned; mobile map folds without a modal
+PASS small-phone — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS small-phone — original-map pin aligned; narrow layout opens a situation reader
 PASS small-phone — news/trade markers, touch-sized controls, history, zoom and pause
-PASS small-phone after reading broadcasts — no overlap, clipping or blocked chart/trade controls
+PASS small-phone after reading broadcasts — one viewport, no scrolling, overlapping or blocked chart/trade controls
 PASS small-window — packaged Guard emblem, charcoal background and crimson UI, green gains and red losses
-PASS small-window — no overlap, clipping or blocked chart/trade controls
-PASS small-window — original-map pin aligned; mobile map folds without a modal
+PASS small-window — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS small-window — original-map pin aligned; narrow layout opens a situation reader
 PASS small-window — news/trade markers, touch-sized controls, history, zoom and pause
-PASS small-window after reading broadcasts — no overlap, clipping or blocked chart/trade controls
-PASS native browser 200% — no overlap, clipping or blocked chart/trade controls
-PASS native-200-percent — original-map pin aligned; mobile map folds without a modal
+PASS small-window after reading broadcasts — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS native browser 200% — one viewport, no scrolling, overlapping or blocked chart/trade controls
+PASS native-200-percent — original-map pin aligned; narrow layout opens a situation reader
 PASS native browser 200% — confirmed 1366×768 screen / 683×384 CSS viewport / DPR 2
-LIMITATION file:// navigation blocked by managed browser policy; checking network-off gameplay after local HTTP load.
 PASS network-off gameplay after asset load — original assets, immediate win and blocked storage
 PASS all browser scenarios — no uncaught JavaScript errors
 
-32 real-browser checks passed.
+33 real-browser checks passed.
